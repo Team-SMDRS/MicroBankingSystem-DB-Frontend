@@ -26,11 +26,16 @@ const Login = () => {
       const user = {
         id: data.user.user_id,
         username: data.user.username,
+        permissions: data.permissions,
       };
       const accessToken = data.access_token;
 
       // store in React context; refresh token is handled by cookie
       login(user, accessToken);
+
+      // Debug: Check if cookies are set
+      console.log("Cookies after login:", document.cookie);
+      console.log("Login response headers:", response.headers);
 
       navigate("/"); // redirect to dashboard
     } catch (err: any) {

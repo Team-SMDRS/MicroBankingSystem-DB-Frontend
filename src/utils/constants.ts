@@ -1,9 +1,9 @@
 export const API_BASE_URLS = [
+    "http://localhost:8000",  // Use localhost to match frontend
     "http://127.0.0.1:8000",
-    "http://localhost:8000",
-    "http://127.0.0.1:8001", // added
-    "http://localhost:8001"  // added
+    "http://localhost:8001",
+    "http://127.0.0.1:8001"
 ];
 
-// optional: keep a default single value
+// Use localhost to match frontend domain
 export const API_BASE_URL = API_BASE_URLS[0];
