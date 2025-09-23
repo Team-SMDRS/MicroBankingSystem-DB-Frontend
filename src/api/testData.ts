@@ -30,7 +30,7 @@ export const mockSavingsAccounts: SavingsAccount[] = [
 ];
 
 export const mockFixedDeposits: FixedDeposit[] = [
-  { fdId: 'FD001', linkedAccountId: 'SA002', principal: 100000, interestRate: 14, term: 12, startDate: '2024-09-01T00:00:00Z', nextPayoutDate: '2025-10-01T00:00:00Z' },
+  { fdId: 'FD001', linkedAccountId: 'SA008', principal: 100000, interestRate: 14, term: 12, startDate: '2024-09-01T00:00:00Z', nextPayoutDate: '2025-10-01T00:00:00Z' },
   { fdId: 'FD002', linkedAccountId: 'SA004', principal: 200000, interestRate: 15, term: 36, startDate: '2023-01-15T00:00:00Z', nextPayoutDate: '2025-09-15T00:00:00Z' },
   { fdId: 'FD003', linkedAccountId: 'SA007', principal: 50000, interestRate: 13, term: 6, startDate: '2025-06-10T00:00:00Z', nextPayoutDate: '2025-12-10T00:00:00Z' },
 ];
@@ -48,4 +48,16 @@ export const mockTransactions: Transaction[] = [
 export const mockNotifications = [
   { id: 1, message: 'System maintenance scheduled for Sep 5th at 10 PM.', timestamp: '2025-09-02T11:00:00Z' },
   { id: 2, message: 'New interest rates for Senior accounts are now active.', timestamp: '2025-09-01T09:00:00Z' },
+];
+
+export const mockBranches = [
+    { branchId: 'B001', name: 'Kandy Branch', location: 'Kandy' },
+    { branchId: 'B002', name: 'Galle Branch', location: 'Galle' },
+    { branchId: 'B003', name: 'Colombo Branch', location: 'Colombo' },
+];
+
+export const mockAgents = [
+    { agentId: 'AGENT01', name: 'Saman Perera', branchId: 'B001' },
+    { agentId: 'AGENT02', name: 'Anusha Kumari', branchId: 'B002' },
+    { agentId: 'AGENT03', name: 'Ravi Fernando', branchId: 'B003' },
 ];

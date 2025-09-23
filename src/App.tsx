@@ -30,9 +30,9 @@ function App() {
           <Route path="/customer/:customerId/create-fd/" element={<CreateFDPage />} />
 
           {/* Account-Specific Action Routes */}
-          {/* These routes are for actions on a specific account belonging to a customer */}
-          <Route path="/customer/:customerId/transaction/" element={<TransactionPage />} />
-          <Route path="/customer/:customerId/transfer/" element={<TransferPage />} />
+          <Route path="/customer/:customerId/account/:accountId/transaction" element={<TransactionPage />} />
+          <Route path="/customer/:customerId/account/:accountId/transfer" element={<TransferPage />} />
+          <Route path="/customer/:customerId/account/:accountId/create-fd" element={<CreateFDPage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
