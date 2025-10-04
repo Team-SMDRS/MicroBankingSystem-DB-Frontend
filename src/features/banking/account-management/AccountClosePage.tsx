@@ -12,7 +12,7 @@ import {
   InputLabel
 } from "@mui/material";
 import { Lock } from "@mui/icons-material";
-
+import Navigation from "../../../components/Navigation";
 const AccountClosePage = () => {
   const [formData, setFormData] = useState({
     accountNumber: "",
@@ -35,6 +35,7 @@ const AccountClosePage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
+      <Navigation />
       <div className="max-w-2xl mx-auto">
         <Paper elevation={3} className="p-8">
           <Box className="flex items-center mb-6">

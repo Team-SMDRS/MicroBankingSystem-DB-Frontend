@@ -12,7 +12,7 @@ import {
   InputLabel
 } from "@mui/material";
 import { LockOpen } from "@mui/icons-material";
-
+import Navigation from "../../../components/Navigation";
 const AccountOpenPage = () => {
   const [formData, setFormData] = useState({
     customerName: "",
@@ -39,6 +39,7 @@ const AccountOpenPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
+        <Navigation />
       <div className="max-w-3xl mx-auto">
         <Paper elevation={3} className="p-8">
           <Box className="flex items-center mb-6">
