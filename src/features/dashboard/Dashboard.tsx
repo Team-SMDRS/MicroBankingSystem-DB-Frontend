@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import api from "../../api/axios";
+import DashboardCards from "./DashboardCards";
+
 
 interface Account {
   id: number;
@@ -62,23 +64,30 @@ const Dashboard = () => {
         </div>
       </div>
       
-      {loading ? (
-        <p>Loading accounts...</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {accounts.map((account) => (
-            <div
-              key={account.id}
-              className="bg-white p-4 rounded shadow hover:shadow-md transition"
-            >
-              <h2 className="text-xl font-semibold">{account.name}</h2>
-              <p className="mt-2 text-gray-600">
-                Balance: ${account.balance.toFixed(2)}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
+      {/* Banking Operations Cards */}
+      <DashboardCards />
+      
+      {/* Accounts Overview */}
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold mb-4">Your Accounts</h2>
+        {loading ? (
+          <p>Loading accounts...</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {accounts.map((account) => (
+              <div
+                key={account.id}
+                className="bg-white p-4 rounded shadow hover:shadow-md transition"
+              >
+                <h3 className="text-xl font-semibold">{account.name}</h3>
+                <p className="mt-2 text-gray-600">
+                  Balance: ${account.balance.toFixed(2)}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
