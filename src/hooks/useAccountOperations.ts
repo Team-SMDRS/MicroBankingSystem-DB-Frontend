@@ -25,31 +25,17 @@ export const useAccountOperations = () => {
       return null;
     }
 
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      setError('Authentication token not found. Please login again.');
-      return null;
-    }
-
     setIsLoadingAccount(true);
     setError(null);
     setAccountDetails(null);
 
     try {
-      const response = await api.get(`/api/account-management/account/details/${accountNo}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await api.get(`/api/account-management/account/details/${accountNo}`);
       
       setAccountDetails(response.data);
       return response.data;
     } catch (err: any) {
-      const errorMessage = err.response?.status === 401 
-        ? 'Authentication failed. Please login again.'
-        : err.response?.data?.message || err.message || 'Failed to fetch account details';
-      
+      const errorMessage = err.response?.data?.message || err.message || 'Failed to fetch account details';
       setError(errorMessage);
       console.error('Account details fetch error:', err);
       return null;

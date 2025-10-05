@@ -13,7 +13,7 @@ const AccountNumberInput = ({
   onAccountNoChange, 
   onFetchDetails, 
   isLoading,
-  onDebugAuth 
+
 }: AccountNumberInputProps) => {
   return (
     <div>
@@ -39,14 +39,7 @@ const AccountNumberInput = ({
           <Search className="w-4 h-4" />
           {isLoading ? 'Loading...' : 'Fetch Details'}
         </button>
-        <button
-          type="button"
-          onClick={onDebugAuth}
-          className="px-4 py-3 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition-all text-sm"
-          title="Check authentication token in console"
-        >
-          Debug Auth
-        </button>
+       
       </div>
     </div>
   );

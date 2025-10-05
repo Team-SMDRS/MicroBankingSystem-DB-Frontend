@@ -29,7 +29,7 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
               <Building2 className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-800">BankPro</h1>
+              <h1 className="text-xl font-bold text-slate-800">BTrust Bank</h1>
               <p className="text-xs text-slate-500">Management System</p>
             </div>
           </div>
