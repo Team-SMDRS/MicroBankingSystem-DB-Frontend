@@ -1,47 +1,65 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowDownToLine } from 'lucide-react';
-import api from '../../../api/axios';
+import { useWithdrawalOperations } from '../../../hooks/useWithdrawalOperations';
+import AccountNumberInput from '../../../components/forms/AccountNumberInput';
+import AccountDetailsDisplay from '../../../components/account/AccountDetailsDisplay';
+import AmountInput from '../../../components/forms/AmountInput';
+import DescriptionInput from '../../../components/forms/DescriptionInput';
+import Alert from '../../../components/common/Alert';
+import TransactionResultDisplay from '../../../components/common/TransactionResultDisplay';
+import SubmitButton from '../../../components/common/SubmitButton';
 
 interface WithdrawalFormProps {
   onSuccess?: () => void;
 }
 
 const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
-  const [amount, setAmount] = useState('');
   const [accountNo, setAccountNo] = useState('');
+  const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  
+  const {
+    accountDetails,
+    isLoadingAccount,
+    isSubmitting,
+    error,
+    success,
+    transactionResult,
+    fetchAccountDetails,
+    clearAccountDetails,
+    checkAuthToken,
+    submitWithdrawal,
+  } = useWithdrawalOperations();
+
+  const handleAccountNoChange = (value: string) => {
+    setAccountNo(value);
+    if (accountDetails) {
+      clearAccountDetails(); // Clear details when account number changes
+    }
+  };
+
+  const handleFetchDetails = () => {
+    fetchAccountDetails(accountNo);
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(false);
-    setIsSubmitting(true);
+    
+    if (!accountDetails) {
+      return;
+    }
 
-    try {
-      const response = await api.post('/api/transactions/withdrawal', {
-        transaction_type: 'withdrawal',
-        amount: parseFloat(amount),
-        from_account_no: accountNo,
-        description,
-        status: 'completed',
-      });
+    const success = await submitWithdrawal({
+      amount: parseFloat(amount),
+      description,
+      account_no: parseInt(accountNo),
+    });
 
-      if (response.data) {
-        setSuccess(true);
-        setAmount('');
-        setAccountNo('');
-        setDescription('');
-
-        if (onSuccess) onSuccess();
-      }
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to process withdrawal');
-    } finally {
-      setIsSubmitting(false);
+    if (success) {
+      setAmount('');
+      setDescription('');
+      if (onSuccess) onSuccess();
     }
   };
 
@@ -58,72 +76,61 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
-            Amount
-          </label>
-          <input
-            type="number"
-            id="amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-            min="0.01"
-            step="0.01"
-            placeholder="0.00"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all outline-none"
-          />
-        </div>
+        <AccountNumberInput
+          accountNo={accountNo}
+          onAccountNoChange={handleAccountNoChange}
+          onFetchDetails={handleFetchDetails}
+          isLoading={isLoadingAccount}
+          onDebugAuth={checkAuthToken}
+        />
 
-        <div>
-          <label htmlFor="accountNo" className="block text-sm font-semibold text-slate-700 mb-2">
-            Account No
-          </label>
-          <input
-            type="text"
-            id="accountNo"
-            value={accountNo}
-            onChange={(e) => setAccountNo(e.target.value)}
-            required
-            placeholder="Enter account number"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all outline-none"
-          />
-        </div>
+        {/* Account Details Display */}
+        {accountDetails && (
+          <AccountDetailsDisplay accountDetails={accountDetails} />
+        )}
 
-        <div>
-          <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-2">
-            Description
-          </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            rows={3}
-            placeholder="Enter withdrawal description"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all outline-none resize-none"
-          />
-        </div>
+        {/* Amount and Description fields - only show if account details are loaded */}
+        {accountDetails && (
+          <>
+            <AmountInput
+              amount={amount}
+              onChange={setAmount}
+              maxAmount={accountDetails.balance}
+            />
+
+            <DescriptionInput
+              description={description}
+              onChange={setDescription}
+            />
+          </>
+        )}
+
+        {/* Show helper message when no account details */}
+        {!accountDetails && !isLoadingAccount && (
+          <Alert type="info">
+            <p className="text-sm">
+              Please enter an account number and click "Fetch Details" to view account information and proceed with withdrawal.
+            </p>
+          </Alert>
+        )}
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+          <Alert type="error">
             {error}
-          </div>
+          </Alert>
         )}
 
-        {success && (
-          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl">
-            Withdrawal completed successfully!
-          </div>
+        {success && transactionResult && (
+          <TransactionResultDisplay result={transactionResult} />
         )}
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-amber-600 to-amber-700 text-white font-semibold py-4 rounded-xl hover:from-amber-700 hover:to-amber-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-600/30"
+        <SubmitButton
+          isSubmitting={isSubmitting}
+          disabled={!accountDetails}
+          loadingText="Processing Withdrawal..."
         >
-          {isSubmitting ? 'Processing...' : 'Withdraw Funds'}
-        </button>
+          Withdraw Funds
+        </SubmitButton>
       </form>
     </div>
   );

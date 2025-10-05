@@ -1,55 +1,73 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { ArrowUpFromLine } from 'lucide-react';
-import api from '../../../api/axios';
+import { ArrowUpToLine } from 'lucide-react';
+import { useDepositOperations } from '../../../hooks/useDepositOperations';
+import AccountNumberInput from '../../../components/forms/AccountNumberInput';
+import AccountDetailsDisplay from '../../../components/account/AccountDetailsDisplay';
+import AmountInput from '../../../components/forms/AmountInput';
+import DescriptionInput from '../../../components/forms/DescriptionInput';
+import Alert from '../../../components/common/Alert';
+import TransactionResultDisplay from '../../../components/common/TransactionResultDisplay';
+import SubmitButton from '../../../components/common/SubmitButton';
 
 interface DepositFormProps {
   onSuccess?: () => void;
 }
 
 const DepositForm = ({ onSuccess }: DepositFormProps) => {
-  const [amount, setAmount] = useState('');
   const [accountNo, setAccountNo] = useState('');
+  const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  
+  const {
+    accountDetails,
+    isLoadingAccount,
+    isSubmitting,
+    error,
+    success,
+    transactionResult,
+    fetchAccountDetails,
+    clearAccountDetails,
+    checkAuthToken,
+    submitDeposit,
+  } = useDepositOperations();
+
+  const handleAccountNoChange = (value: string) => {
+    setAccountNo(value);
+    if (accountDetails) {
+      clearAccountDetails(); // Clear details when account number changes
+    }
+  };
+
+  const handleFetchDetails = () => {
+    fetchAccountDetails(accountNo);
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(false);
-    setIsSubmitting(true);
+    
+    if (!accountDetails) {
+      return;
+    }
 
-    try {
-      const response = await api.post('/api/transactions/deposit', {
-        transaction_type: 'deposit',
-        amount: parseFloat(amount),
-        to_account_no: accountNo,
-        description,
-        status: 'completed',
-      });
+    const success = await submitDeposit({
+      amount: parseFloat(amount),
+      description,
+      account_no: parseInt(accountNo),
+    });
 
-      if (response.data) {
-        setSuccess(true);
-        setAmount('');
-        setAccountNo('');
-        setDescription('');
-
-        if (onSuccess) onSuccess();
-      }
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to process deposit');
-    } finally {
-      setIsSubmitting(false);
+    if (success) {
+      setAmount('');
+      setDescription('');
+      if (onSuccess) onSuccess();
     }
   };
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
       <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200">
-        <div className="w-12 h-12 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl flex items-center justify-center">
-          <ArrowUpFromLine className="w-6 h-6 text-emerald-600" />
+        <div className="w-12 h-12 bg-gradient-to-br from-green-50 to-green-100 rounded-xl flex items-center justify-center">
+          <ArrowUpToLine className="w-6 h-6 text-green-600" />
         </div>
         <div>
           <h3 className="text-2xl font-bold text-slate-800">Deposit</h3>
@@ -58,72 +76,65 @@ const DepositForm = ({ onSuccess }: DepositFormProps) => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
-            Amount
-          </label>
-          <input
-            type="number"
-            id="amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-            min="0.01"
-            step="0.01"
-            placeholder="0.00"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all outline-none"
-          />
-        </div>
+        <AccountNumberInput
+          accountNo={accountNo}
+          onAccountNoChange={handleAccountNoChange}
+          onFetchDetails={handleFetchDetails}
+          isLoading={isLoadingAccount}
+          onDebugAuth={checkAuthToken}
+        />
 
-        <div>
-          <label htmlFor="accountNo" className="block text-sm font-semibold text-slate-700 mb-2">
-            Account No
-          </label>
-          <input
-            type="text"
-            id="accountNo"
-            value={accountNo}
-            onChange={(e) => setAccountNo(e.target.value)}
-            required
-            placeholder="Enter account number"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all outline-none"
-          />
-        </div>
+        {/* Account Details Display */}
+        {accountDetails && (
+          <AccountDetailsDisplay accountDetails={accountDetails} />
+        )}
 
-        <div>
-          <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-2">
-            Description
-          </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-            rows={3}
-            placeholder="Enter deposit description"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all outline-none resize-none"
-          />
-        </div>
+        {/* Amount and Description fields - only show if account details are loaded */}
+        {accountDetails && (
+          <>
+            <AmountInput
+              amount={amount}
+              onChange={setAmount}
+              maxAmount={999999999} // No upper limit for deposits
+              label="Deposit Amount"
+              placeholder="Enter amount to deposit"
+            />
+
+            <DescriptionInput
+              description={description}
+              onChange={setDescription}
+              placeholder="Enter deposit description"
+            />
+          </>
+        )}
+
+        {/* Show helper message when no account details */}
+        {!accountDetails && !isLoadingAccount && (
+          <Alert type="info">
+            <p className="text-sm">
+              Please enter an account number and click "Fetch Details" to view account information and proceed with deposit.
+            </p>
+          </Alert>
+        )}
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+          <Alert type="error">
             {error}
-          </div>
+          </Alert>
         )}
 
-        {success && (
-          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl">
-            Deposit completed successfully!
-          </div>
+        {success && transactionResult && (
+          <TransactionResultDisplay result={transactionResult} />
         )}
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold py-4 rounded-xl hover:from-emerald-700 hover:to-emerald-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-emerald-600/30"
+        <SubmitButton
+          isSubmitting={isSubmitting}
+          disabled={!accountDetails}
+          loadingText="Processing Deposit..."
+          className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-green-600/30"
         >
-          {isSubmitting ? 'Processing...' : 'Deposit Funds'}
-        </button>
+          Deposit Funds
+        </SubmitButton>
       </form>
     </div>
   );
