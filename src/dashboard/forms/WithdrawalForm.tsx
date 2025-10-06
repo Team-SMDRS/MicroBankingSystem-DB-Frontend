@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowDownToLine } from 'lucide-react';
-import { useWithdrawalOperations } from '../../transactions/useWithdrawalOperations';
-import AccountNumberInput from '../../../components/forms/AccountNumberInput';
-import AccountDetailsDisplay from '../../../components/account/AccountDetailsDisplay';
-import AmountInput from '../../../components/forms/AmountInput';
-import DescriptionInput from '../../../components/forms/DescriptionInput';
-import Alert from '../../../components/common/Alert';
-import TransactionResultDisplay from '../../../components/common/TransactionResultDisplay';
-import SubmitButton from '../../../components/common/SubmitButton';
+import { useWithdrawalOperations } from '../../features/transactions/useWithdrawalOperations';
+import AccountNumberInput from '../../components/forms/AccountNumberInput';
+import AccountDetailsDisplay from '../../components/account/AccountDetailsDisplay';
+import AmountInput from '../../components/forms/AmountInput';
+import DescriptionInput from '../../components/forms/DescriptionInput';
+import Alert from '../../components/common/Alert';
+import TransactionResultDisplay from '../../components/common/TransactionResultDisplay';
+import SubmitButton from '../../components/common/SubmitButton';
 
 interface WithdrawalFormProps {
   onSuccess?: () => void;

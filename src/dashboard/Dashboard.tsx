@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "../auth/useAuth";
+import { useAuth } from "../features/auth/useAuth";
 import { useNavigate } from "react-router-dom";
-import MainLayout from "../../components/layout/MainLayout";
+import MainLayout from "../components/layout/MainLayout";
 import TransactionSection from "./sections/TransactionSection";
 import SummarySection from "./sections/SummarySection";
 import AccountsSection from "./sections/AccountsSection";

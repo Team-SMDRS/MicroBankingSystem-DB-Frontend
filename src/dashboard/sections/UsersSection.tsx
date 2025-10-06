@@ -1,7 +1,7 @@
 import { Users, ArrowLeftRight, UserCog, UserPlus } from 'lucide-react';
-import SectionHeader from '../../../components/layout/SectionHeader';
-import SubTabGrid from '../../../components/layout/SubTabGrid';
-import GenericContentCard from '../../../components/layout/GenericContentCard';
+import SectionHeader from '../../components/layout/SectionHeader';
+import SubTabGrid from '../../components/layout/SubTabGrid';
+import GenericContentCard from '../../components/layout/GenericContentCard';
 
 interface UsersSectionProps {
   activeSubTab: string;

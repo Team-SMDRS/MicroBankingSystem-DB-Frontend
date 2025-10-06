@@ -1,6 +1,6 @@
 import { ArrowLeftRight, ArrowDownToLine, ArrowUpFromLine } from 'lucide-react';
-import SectionHeader from '../../../components/layout/SectionHeader';
-import SubTabGrid from '../../../components/layout/SubTabGrid';
+import SectionHeader from '../../components/layout/SectionHeader';
+import SubTabGrid from '../../components/layout/SubTabGrid';
 import BankTransferForm from '../forms/BankTransferForm';
 import WithdrawalForm from '../forms/WithdrawalForm';
 import DepositForm from '../forms/DepositForm';

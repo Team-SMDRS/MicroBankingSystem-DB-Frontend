@@ -1,6 +1,6 @@
 import { Building2, TrendingUp, FileText } from 'lucide-react';
-import SectionHeader from '../../../components/layout/SectionHeader';
-import SubTabGrid from '../../../components/layout/SubTabGrid';
+import SectionHeader from '../../components/layout/SectionHeader';
+import SubTabGrid from '../../components/layout/SubTabGrid';
 import BranchSummary from '../tables/BranchSummary';
 import TransactionSummary from '../tables/TransactionSummary';
 import AccountSummary from '../tables/AccountSummary';

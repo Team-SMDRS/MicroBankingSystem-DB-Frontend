@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { LayoutDashboard, Users, Wallet, UserPlus, ArrowLeftRight, Building2, LogOut } from 'lucide-react';
-import type { MainTab } from '../../features/dashboard/Dashboard';
+import type { MainTab } from '../../dashboard/Dashboard';
 
 interface MainLayoutProps {
   children: ReactNode;

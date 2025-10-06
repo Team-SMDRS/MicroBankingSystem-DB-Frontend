@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowUpToLine } from 'lucide-react';
-import { useDepositOperations } from '../../transactions/useDepositOperations';
-import AccountNumberInput from '../../../components/forms/AccountNumberInput';
-import AccountDetailsDisplay from '../../../components/account/AccountDetailsDisplay';
-import AmountInput from '../../../components/forms/AmountInput';
-import DescriptionInput from '../../../components/forms/DescriptionInput';
-import Alert from '../../../components/common/Alert';
-import TransactionResultDisplay from '../../../components/common/TransactionResultDisplay';
-import SubmitButton from '../../../components/common/SubmitButton';
+import { useDepositOperations } from '../../features/transactions/useDepositOperations';
+import AccountNumberInput from '../../components/forms/AccountNumberInput';
+import AccountDetailsDisplay from '../../components/account/AccountDetailsDisplay';
+import AmountInput from '../../components/forms/AmountInput';
+import DescriptionInput from '../../components/forms/DescriptionInput';
+import Alert from '../../components/common/Alert';
+import TransactionResultDisplay from '../../components/common/TransactionResultDisplay';
+import SubmitButton from '../../components/common/SubmitButton';
 
 interface DepositFormProps {
   onSuccess?: () => void;

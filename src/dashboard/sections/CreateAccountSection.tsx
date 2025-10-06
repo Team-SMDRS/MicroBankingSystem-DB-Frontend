@@ -1,7 +1,7 @@
 import { Landmark, Users, CreditCard } from 'lucide-react';
-import SectionHeader from '../../../components/layout/SectionHeader';
-import SubTabGrid from '../../../components/layout/SubTabGrid';
-import GenericContentCard from '../../../components/layout/GenericContentCard';
+import SectionHeader from '../../components/layout/SectionHeader';
+import SubTabGrid from '../../components/layout/SubTabGrid';
+import GenericContentCard from '../../components/layout/GenericContentCard';
 
 interface CreateAccountSectionProps {
   activeSubTab: string;

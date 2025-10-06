@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowLeftRight } from 'lucide-react';
-import api from '../../../api/axios';
+import api from '../../api/axios';
 
 interface BankTransferFormProps {
   onSuccess?: () => void;
