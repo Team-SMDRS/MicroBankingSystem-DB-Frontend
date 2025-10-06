@@ -1,5 +1,5 @@
 import { User, MapPin, Phone, Building2, DollarSign } from 'lucide-react';
-import type { AccountDetails } from '../../hooks/useAccountOperations';
+import type { AccountDetails } from '../../features/accounts/useAccountOperations';
 
 interface AccountDetailsDisplayProps {
   accountDetails: AccountDetails;

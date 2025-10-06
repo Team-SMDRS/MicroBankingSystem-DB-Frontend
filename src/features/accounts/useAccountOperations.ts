@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import api from '../api/axios';
+import { accountApi } from '../../api/accounts';
 
 export interface AccountDetails {
   customer_names: string;
@@ -30,10 +30,10 @@ export const useAccountOperations = () => {
     setAccountDetails(null);
 
     try {
-      const response = await api.get(`/api/account-management/account/details/${accountNo}`);
+      const result = await accountApi.getDetails(parseInt(accountNo));
       
-      setAccountDetails(response.data);
-      return response.data;
+      setAccountDetails(result);
+      return result;
     } catch (err: any) {
       const errorMessage = err.response?.data?.message || err.message || 'Failed to fetch account details';
       setError(errorMessage);

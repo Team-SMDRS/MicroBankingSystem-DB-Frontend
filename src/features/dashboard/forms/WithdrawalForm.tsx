@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowDownToLine } from 'lucide-react';
-import { useWithdrawalOperations } from '../../../hooks/useWithdrawalOperations';
+import { useWithdrawalOperations } from '../../transactions/useWithdrawalOperations';
 import AccountNumberInput from '../../../components/forms/AccountNumberInput';
 import AccountDetailsDisplay from '../../../components/account/AccountDetailsDisplay';
 import AmountInput from '../../../components/forms/AmountInput';

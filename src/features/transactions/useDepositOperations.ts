@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import api from '../api/axios';
-import { useAccountOperations } from './useAccountOperations';
+import { transactionApi } from '../../api/transactions';
+import { useAccountOperations } from '../accounts/useAccountOperations';
 
 interface DepositData {
   amount: number;
@@ -28,11 +28,11 @@ export const useDepositOperations = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await api.post('/api/transactions/deposit', depositData);
+      const result = await transactionApi.deposit(depositData);
 
-      if (response.data && response.data.success) {
+      if (result && result.success) {
         setSuccess(true);
-        setTransactionResult(response.data);
+        setTransactionResult(result);
         
         // Refresh account details to show updated balance
         await accountOperations.fetchAccountDetails(depositData.account_no.toString());

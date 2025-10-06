@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowUpToLine } from 'lucide-react';
-import { useDepositOperations } from '../../../hooks/useDepositOperations';
+import { useDepositOperations } from '../../transactions/useDepositOperations';
 import AccountNumberInput from '../../../components/forms/AccountNumberInput';
 import AccountDetailsDisplay from '../../../components/account/AccountDetailsDisplay';
 import AmountInput from '../../../components/forms/AmountInput';
