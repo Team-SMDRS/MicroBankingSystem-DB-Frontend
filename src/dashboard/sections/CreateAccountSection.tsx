@@ -1,7 +1,9 @@
-import { Landmark, Users, CreditCard } from 'lucide-react';
+import { Users, CreditCard } from 'lucide-react';
+import SavingsLookupForm from '../forms/SavingsLookupForm';
+import JointLookupForm from '../forms/JointLookupForm';
 import SectionHeader from '../../components/layout/SectionHeader';
 import SubTabGrid from '../../components/layout/SubTabGrid';
-import GenericContentCard from '../../components/layout/GenericContentCard';
+// ...existing imports
 
 interface CreateAccountSectionProps {
   activeSubTab: string;
@@ -10,9 +12,8 @@ interface CreateAccountSectionProps {
 
 const CreateAccountSection = ({ activeSubTab, setActiveSubTab }: CreateAccountSectionProps) => {
   const subTabs = [
-    { id: 'fixed-deposit-new', label: 'Fixed Deposit Account', icon: Landmark },
     { id: 'joint-account-new', label: 'Joint Account', icon: Users },
-    { id: 'current-account-new', label: 'Current Account', icon: CreditCard },
+    { id: 'savings-account-new', label: 'Savings Account', icon: CreditCard },
   ];
 
   return (
@@ -28,13 +29,22 @@ const CreateAccountSection = ({ activeSubTab, setActiveSubTab }: CreateAccountSe
         onSubTabChange={setActiveSubTab}
       />
 
-      <GenericContentCard 
-        activeSubTab={activeSubTab}
-        subTabs={subTabs}
-        description="Create a new"
-      />
+      
+
+      {/* Inline simple form: one input for savings, two for joint */}
+      <div className="mt-6 bg-white p-6 rounded-lg shadow-sm">
+        {activeSubTab === 'savings-account-new' && (
+          <SavingsLookupForm />
+        )}
+
+        {activeSubTab === 'joint-account-new' && (
+          <JointLookupForm />
+        )}
+      </div>
     </div>
   );
 };
+
+
 
 export default CreateAccountSection;
