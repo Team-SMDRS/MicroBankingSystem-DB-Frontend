@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { LayoutDashboard, Users, Wallet, UserPlus, ArrowLeftRight, Building2, LogOut } from 'lucide-react';
-import type { MainTab } from '../../features/dashboard/Dashboard';
+import type { MainTab } from '../../dashboard/Dashboard';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -21,21 +21,21 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex">
-      {/* Sidebar */}
-      <aside className="w-72 bg-white shadow-xl border-r border-slate-200">
-        <div className="p-6 border-b border-slate-200">
+      {/* Fixed Sidebar */}
+      <aside className="fixed left-0 top-0 w-72 h-screen bg-white shadow-xl border-r border-slate-200 flex flex-col">
+        <div className="p-6 border-b border-slate-200 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
               <Building2 className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-800">BankPro</h1>
+              <h1 className="text-xl font-bold text-slate-800">BTrust Bank</h1>
               <p className="text-xs text-slate-500">Management System</p>
             </div>
           </div>
         </div>
 
-        <nav className="p-4">
+        <nav className="p-4 flex-1 overflow-y-auto">
           <ul className="space-y-2">
             {mainTabs.map((tab) => {
               const Icon = tab.icon;
@@ -59,7 +59,7 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
           </ul>
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 w-72 p-4 border-t border-slate-200 bg-white">
+        <div className="p-4 border-t border-slate-200 bg-white flex-shrink-0">
           <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 rounded-xl">
             <div className="w-10 h-10 bg-gradient-to-br from-slate-300 to-slate-400 rounded-full flex items-center justify-center text-slate-700 font-semibold">
               {user?.username?.slice(0, 2).toUpperCase() || 'JD'}
@@ -81,8 +81,8 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
+      {/* Main Content with left margin to account for fixed sidebar */}
+      <main className="flex-1 ml-72 overflow-auto">
         {children}
       </main>
     </div>

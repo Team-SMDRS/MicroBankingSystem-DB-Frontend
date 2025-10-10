@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
-import Dashboard from "../features/dashboard/Dashboard";
+import Dashboard from "../dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 
 const AppRoutes = () => (
