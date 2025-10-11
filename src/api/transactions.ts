@@ -93,6 +93,19 @@ export const transactionApi = {
   reverse: async (transactionId: string, reason: string): Promise<TransactionResponse> => {
     const response = await api.post(`/api/transactions/${transactionId}/reverse`, { reason });
     return response.data;
+  },
+
+  // Get all transactions report (last 30 days by default)
+  getAllTransactions: async (params: {
+    page?: number;
+    per_page?: number;
+    acc_id?: string;
+    transaction_type?: string;
+    start_date?: string;
+    end_date?: string;
+  } = {}) => {
+    const response = await api.get('/api/transactions/report/all-transactions', { params });
+    return response.data;
   }
 };
 
