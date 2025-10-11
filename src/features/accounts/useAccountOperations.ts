@@ -7,6 +7,7 @@ export interface AccountDetails {
   customer_phone_numbers: string;
   customer_addresses: string;
   account_id: string;
+  account_no?: number;
   branch_name: string;
   branch_id: string;
   balance: number;

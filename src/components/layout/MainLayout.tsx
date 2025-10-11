@@ -14,9 +14,10 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
   const mainTabs = [
     { id: 'transactions' as MainTab, label: 'Transactions', icon: ArrowLeftRight },
     { id: 'summary' as MainTab, label: 'Summary', icon: LayoutDashboard },
-    { id: 'accounts' as MainTab, label: 'Accounts', icon: Wallet },
-    { id: 'create-account' as MainTab, label: 'Create Account', icon: UserPlus },
+    { id: 'accounts' as MainTab, label: 'Accounts Details', icon: Wallet },
+    { id: 'create-account' as MainTab, label: 'Account Management', icon: UserPlus },
     { id: 'users' as MainTab, label: 'Users', icon: Users },
+    { id: 'customer-details' as MainTab, label: 'Customer Details', icon: Building2 },
   ];
 
   return (
