@@ -1,8 +1,9 @@
-import { Landmark, Users, CreditCard } from 'lucide-react';
+import { Landmark, CreditCard } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import SubTabGrid from '../../components/layout/SubTabGrid';
 import AccountDetailsDisplay from '../../components/account/AccountDetailsDisplay';
 import { useState } from 'react';
+import AllAccountsDisplay from '../../components/account/AllAccountsDisplay';
 import { accountApi } from '../../api/accounts';
 import type { AccountDetails } from '../../features/accounts/useAccountOperations';
 import Alert from '../../components/common/Alert';
@@ -32,11 +33,11 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
   const [queryValue, setQueryValue] = useState<string | null>(null);
   const [pendingTab, setPendingTab] = useState<string | null>(null);
   const [accountDetails, setAccountDetails] = useState<AccountDetails | null>(null);
+  const [allAccounts, setAllAccounts] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const subTabs = [
-    { id: 'account-details', label: 'Account Details', icon: Landmark },
-    { id: 'account-customer-details', label: 'Account Owner Details', icon: Users },
+    { id: 'account-details', label: 'Account Details ', icon: Landmark },
     { id: 'all-accounts', label: 'All Accounts', icon: CreditCard },
   ];
 
@@ -44,15 +45,13 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
     // Immediately mark the clicked tab active so it shows blue
     setActiveSubTab(tabId);
     setError(null);
-    setAccountDetails(null);
+  setAccountDetails(null);
+  setAllAccounts(null);
     
     // Determine required input
     if (tabId === 'account-details') {
       setPendingTab(tabId);
-      setPrompt({ type: 'nic', label: 'Enter NIC to view account details' });
-    } else if (tabId === 'account-customer-details') {
-      setPendingTab(tabId);
-      setPrompt({ type: 'account', label: 'Enter account number' });
+      setPrompt({ type: 'nic', label: 'Enter account number to view account details' });
     } else if (tabId === 'all-accounts') {
       setPendingTab(tabId);
       setPrompt({ type: 'nic', label: 'Enter NIC to search all accounts' });
@@ -76,10 +75,6 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
     
     try {
       if (pendingTab === 'account-details' && prompt?.type === 'nic') {
-        // Fetch account details by NIC
-        const details = await accountApi.getDetailsByNic(value.trim());
-        setAccountDetails(details);
-      } else if (pendingTab === 'account-details' && prompt?.type === 'account') {
         // Fetch account details by account number
         const accountNumber = parseInt(value.trim());
         if (isNaN(accountNumber)) {
@@ -88,6 +83,10 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
         }
         const details = await accountApi.getDetails(accountNumber);
         setAccountDetails(details);
+      } else if (pendingTab === 'all-accounts' && prompt?.type === 'nic') {
+        // Fetch all accounts by NIC
+        const accounts = await accountApi.getAccountsByNic(value.trim());
+        setAllAccounts(accounts);
       }
     } catch (err: any) {
       if (err.response?.status === 404) {
@@ -130,10 +129,24 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
       {prompt && (
         <PromptInput 
           label={prompt.label} 
-          placeholder={prompt.type === 'account' ? 'e.g. SA0001' : 'e.g. 971234567V'} 
+          placeholder={activeSubTab === 'all-accounts' ? 'e.g. 971234567V' : 'e.g. 10001234'}
           onCancel={handleCancelPrompt} 
           onSubmit={handleSubmitPrompt} 
         />
+      )}
+      {allAccounts && activeSubTab === 'all-accounts' && (
+        <div className="mt-6 w-full">
+            <AllAccountsDisplay 
+              accounts={allAccounts} 
+              nic={queryValue ?? undefined}
+              onClose={() => {
+                setAllAccounts(null);
+                setQueryValue(null);
+                setPendingTab('all-accounts');
+                setPrompt({ type: 'nic', label: 'Enter NIC to search all accounts' });
+              }} 
+            />
+        </div>
       )}
 
       {loading && (

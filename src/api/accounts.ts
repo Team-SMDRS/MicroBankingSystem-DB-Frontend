@@ -54,6 +54,11 @@ export interface AccountBalance {
 
 // Account API service
 export const accountApi = {
+  // Get all accounts by NIC
+  getAccountsByNic: async (nic: string): Promise<any[]> => {
+    const response = await api.get(`/api/account-management/accounts/by-nic/${nic}`);
+    return response.data;
+  },
   // Get account details by account number
   getDetails: async (accountNo: number): Promise<AccountDetails> => {
     const response = await api.get(`/api/account-management/account/details/${accountNo}`);

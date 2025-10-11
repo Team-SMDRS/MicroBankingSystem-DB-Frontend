@@ -1,4 +1,4 @@
-import { User, MapPin, Building2, DollarSign, Tag } from 'lucide-react';
+import { User, MapPin, Building2, Wallet, Tag } from 'lucide-react';
 import type { AccountDetails } from '../../features/accounts/useAccountOperations';
 
 interface AccountDetailsDisplayProps {
@@ -86,7 +86,7 @@ const AccountDetailsDisplay = ({ accountDetails, accountNumber, onClose }: Accou
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <DollarSign className="w-5 h-5 text-green-600" />
+            <Wallet className="w-5 h-5 text-green-600" />
             <div>
               <span className="block text-xs text-slate-500">Current Balance</span>
               <span className="block font-bold text-green-600 text-xl">Rs. {accountDetails.balance.toFixed(2)}</span>
