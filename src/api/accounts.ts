@@ -103,9 +103,16 @@ export const accountApi = {
     return response.data;
   },
 
-  // Close account
-  close: async (accountNo: number, reason: string): Promise<{ success: boolean; message: string }> => {
-    const response = await api.post(`/api/account-management/account/${accountNo}/close`, { reason });
+  // Close account (new API)
+  closeAccount: async (accountNo: number): Promise<{
+    msg: string;
+    previous_balance: number;
+    account_no: number;
+    savings_plan_name: string;
+    updated_at: string;
+    status: string;
+  }> => {
+    const response = await api.post('/api/account-management/account/close', { account_no: accountNo });
     return response.data;
   },
 

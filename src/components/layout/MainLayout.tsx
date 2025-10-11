@@ -17,6 +17,7 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
     { id: 'accounts' as MainTab, label: 'Accounts Details', icon: Wallet },
     { id: 'create-account' as MainTab, label: 'Account Management', icon: UserPlus },
     { id: 'users' as MainTab, label: 'Users', icon: Users },
+    { id: 'customer-details' as MainTab, label: 'Customer Details', icon: Building2 },
   ];
 
   return (
