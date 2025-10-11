@@ -4,6 +4,7 @@ import SavingsLookupForm from '../forms/SavingsLookupForm';
 import JointLookupForm from '../forms/JointLookupForm';
 import SectionHeader from '../../components/layout/SectionHeader';
 import SubTabGrid from '../../components/layout/SubTabGrid';
+import { accountApi } from '../../api/accounts';
 
 interface CreateAccountSectionProps {
   activeSubTab: string;
@@ -50,7 +51,7 @@ const CreateAccountSection = ({ activeSubTab, setActiveSubTab }: CreateAccountSe
   );
 };
 
-import { accountApi } from '../../api/accounts';
+
 
 const CloseAccountAction: React.FC = () => {
   const [accountNo, setAccountNo] = React.useState('');
