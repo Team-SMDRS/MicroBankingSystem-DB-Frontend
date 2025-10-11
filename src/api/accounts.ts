@@ -60,6 +60,12 @@ export const accountApi = {
     return response.data;
   },
 
+  // Get account details by NIC
+  getDetailsByNic: async (nic: string): Promise<AccountDetails> => {
+    const response = await api.get(`/api/account-management/account/details/${nic}`);
+    return response.data;
+  },
+
   // Get account balance
   getBalance: async (accountNo: number): Promise<AccountBalance> => {
     const response = await api.get(`/api/account-management/account/balance/${accountNo}`);
