@@ -1,4 +1,4 @@
-import { User, MapPin, Building2, Wallet, Tag } from 'lucide-react';
+import { User, Building2, Wallet, Tag } from 'lucide-react';
 import type { AccountDetails } from '../../features/accounts/useAccountOperations';
 
 interface AccountDetailsDisplayProps {
