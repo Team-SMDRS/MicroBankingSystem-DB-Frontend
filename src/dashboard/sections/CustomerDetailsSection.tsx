@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { User, Wallet } from 'lucide-react';
 import SubTabGrid from '../../components/layout/SubTabGrid';
 import SectionHeader from "../../components/layout/SectionHeader";
+import CustomerInfoBlock from "../../components/customer/CustomerInfoBlock";
+import { fetchCustomerDetailsByNIC } from "../../api/customers";
 
 interface CustomerDetailsSectionProps {
   activeSubTab: string;
@@ -14,6 +16,29 @@ const subTabs = [
 ];
 
 const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetailsSectionProps) => {
+    // State for NIC input and loading
+    const [nicNumber, setNICNumber] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [customerDetails, setCustomerDetails] = useState<import("../../api/customers").CustomerDetails | null>(null);
+    const [error, setError] = useState("");
+
+    // Only show content if a tab is selected
+    const showContent = !!activeSubTab;
+
+    const handleFetchDetails = async () => {
+        setIsLoading(true);
+        setError("");
+        setCustomerDetails(null);
+        try {
+            const details = await fetchCustomerDetailsByNIC(nicNumber);
+            setCustomerDetails(details);
+        } catch (err) {
+            setError("Customer not found or error fetching details.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <div className="p-8">
             <SectionHeader
@@ -27,14 +52,18 @@ const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetai
                 onSubTabChange={setActiveSubTab}
             />
 
-            <div className="mt-6 bg-white p-6 rounded-lg shadow-sm">
-                {activeSubTab === 'customer-info' && (
-                    <div className="text-slate-600">Customer info functionality will be implemented here.</div>
-                )}
-                {activeSubTab === 'customer-accounts' && (
-                    <div className="text-slate-600">Customer accounts functionality will be implemented here.</div>
-                )}
-            </div>
+            {showContent && (
+                <CustomerInfoBlock
+                    activeSubTab={activeSubTab}
+                    nicNumber={nicNumber}
+                    setNICNumber={setNICNumber}
+                    handleFetchDetails={handleFetchDetails}
+                    isLoading={isLoading}
+                    error={error}
+                    customerDetails={customerDetails}
+                    onCloseDetails={() => setCustomerDetails(null)}
+                />
+            )}
         </div>
     );
 };
