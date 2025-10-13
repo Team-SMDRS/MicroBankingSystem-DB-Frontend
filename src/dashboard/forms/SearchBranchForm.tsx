@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SubmitButton } from '../../components/common';
-import type { BranchDetails } from '../../api/branch';
+import type { BranchDetails } from '../../features/branch';
 
 interface SearchBranchFormProps {
     onSearch: (query: string, type: 'name' | 'id') => Promise<void>;

@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { branchApi } from '../../api/branch';
-import type { BranchDetails, CreateBranch, UpdateBranch } from '../../api/branch';
+import { branchApi, type BranchDetails, type CreateBranch, type UpdateBranch } from '../../api/branch';
 
 export const useBranchOperations = () => {
     const [loading, setLoading] = useState(false);
@@ -43,10 +42,22 @@ export const useBranchOperations = () => {
         setError(null);
         try {
             const data = await branchApi.getByName(branchName);
-            setBranches(data);
+            if (Array.isArray(data)) {
+                setBranches(data);
+                if (data.length === 0) {
+                    setError('No branches found with this name');
+                }
+            } else {
+                console.error('Unexpected response format:', data);
+                setError('Received invalid data format from server');
+            }
             return data;
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to search branches');
+            console.error('Search branches error:', err);
+            const errorMessage = err.response?.data?.message ||
+                err.message ||
+                'Failed to search branches';
+            setError(errorMessage);
             return [];
         } finally {
             setLoading(false);
@@ -72,12 +83,31 @@ export const useBranchOperations = () => {
         setLoading(true);
         setError(null);
         try {
+            // Validate input data
+            if (!branchId) {
+                throw new Error('Branch ID is required');
+            }
+            if (!updateData.name && !updateData.address) {
+                throw new Error('At least one field (name or address) must be provided for update');
+            }
+
+            console.log('Updating branch:', { branchId, updateData }); // Log update attempt
             const data = await branchApi.update(branchId, updateData);
+
+            if (!data) {
+                throw new Error('No data received after update');
+            }
+
+            console.log('Update successful:', data); // Log success
             await getAllBranches(); // Refresh the list
             setSelectedBranch(data);
             return data;
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to update branch');
+            console.error('Update branch error in hook:', err);
+            const errorMessage = err.response?.data?.message ||
+                err.message ||
+                'Failed to update branch';
+            setError(errorMessage);
             return null;
         } finally {
             setLoading(false);

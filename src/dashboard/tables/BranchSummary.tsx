@@ -1,6 +1,6 @@
 import { Building2 } from 'lucide-react';
 import { useEffect } from 'react';
-import { useBranchOperations } from '../../features/branch/useBranchOperations';
+import { useBranchOperations } from '../../features/branch';
 
 const BranchSummary = () => {
   const { loading, branches, getAllBranches } = useBranchOperations();

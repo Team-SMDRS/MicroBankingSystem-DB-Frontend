@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { SubmitButton } from '../../components/common';
-import type { CreateBranch } from '../../api/branch';
-import { useBranchOperations } from '../../features/branch/useBranchOperations';
+import type { CreateBranch } from '../../features/branch';
+import { useBranchOperations } from '../../features/branch';
 
 interface CreateBranchFormProps {
     onSuccess?: (data: CreateBranch) => Promise<void>;
 }
 
 const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess }) => {
-    const { loading, error } = useBranchOperations();
+    const { loading, error, createBranch } = useBranchOperations();
     const [formData, setFormData] = useState<CreateBranch>({
         name: '',
         address: '',
@@ -17,10 +17,17 @@ const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (onSuccess) {
-            await onSuccess(formData);
-            setFormData({ name: '', address: '' });
-            setSuccess('Branch created successfully');
+        try {
+            const result = await createBranch(formData);
+            if (result) {
+                if (onSuccess) {
+                    await onSuccess(formData);
+                }
+                setFormData({ name: '', address: '' });
+                setSuccess('Branch created successfully');
+            }
+        } catch (err) {
+            console.error('Failed to create branch:', err);
         }
     };
 

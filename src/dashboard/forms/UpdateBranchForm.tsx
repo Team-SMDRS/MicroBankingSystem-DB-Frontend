@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SubmitButton } from '../../components/common';
-import type { BranchDetails, UpdateBranch } from '../../api/branch';
+import type { BranchDetails, UpdateBranch } from '../../features/branch';
 
 interface UpdateBranchFormProps {
     branch: BranchDetails;

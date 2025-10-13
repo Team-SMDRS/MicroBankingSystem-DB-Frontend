@@ -23,33 +23,35 @@ export interface UpdateBranch {
 
 // Branch API service
 export const branchApi = {
-    // Get all branches
+    // Get all branches (canonical route)
     getAll: async (): Promise<BranchDetails[]> => {
-        const res = await api.get('/branches');
+        const res = await api.get('/api/branch/branches');
         return res.data;
     },
 
-    // Get branch by ID (returns first element since backend returns a list)
+    // Get branch by ID (canonical route)
     getById: async (branchId: string): Promise<BranchDetails> => {
-        const res = await api.get(`/branches/${branchId}`);
-        return res.data[0];
+        const res = await api.get(`/api/branch/branches/${branchId}`);
+        return res.data;
     },
 
     // Get branch by name (can return multiple branches)
+    // Get branch by name (canonical route)
     getByName: async (branchName: string): Promise<BranchDetails[]> => {
-        const res = await api.get(`/branches/name/${branchName}`);
-        return res.data;
+        const res = await api.get(`/api/branch/branches/name/${branchName}`);
+        return Array.isArray(res.data) ? res.data : [res.data];
     },
 
-    // Create a new branch
+    // Create a new branch (canonical route)
     create: async (branchData: CreateBranch): Promise<BranchDetails> => {
-        const res = await api.post('/branches', branchData);
+        const res = await api.post('/api/branch/branches', branchData);
         return res.data;
     },
 
     // Update branch by ID
+    // Update branch by ID (canonical route)
     update: async (branchId: string, updateData: UpdateBranch): Promise<BranchDetails> => {
-        const res = await api.put(`/branches/${branchId}`, updateData);
+        const res = await api.put(`/api/branch/branches/${branchId}`, updateData);
         return res.data;
     },
 };
