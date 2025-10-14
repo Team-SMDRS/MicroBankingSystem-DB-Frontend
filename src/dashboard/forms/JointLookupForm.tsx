@@ -3,6 +3,7 @@ import api from '../../api/axios';
 import { CheckCircle } from 'lucide-react';
 import JointAccountCreateForm from './JointAccountCreateForm';
 import NewCustomerJointAccountForm from './NewCustomerJointAccountForm';
+import MixedCustomerJointAccountForm from './MixedCustomerJointAccountForm';
 
 const CustomerSummary = ({ customer }: { customer: any }) => (
   <div className="p-3 border rounded bg-slate-50">
@@ -73,15 +74,28 @@ const JointLookupForm: React.FC = () => {
 
   const bothCustomersFound = found1 && found2 && errors.length === 0;
   const bothNICsProvided = nic1.trim() !== '' && nic2.trim() !== '';
+  
   // Only show the new customer form when both customers are not found
   const showNewCustomerForm = bothNICsProvided && 
     errors.length === 2 && 
     errors.every(err => err.includes('No customer found with NIC'));
+    
+  // Show mixed form when exactly one customer is found and one is not found
+  const showMixedCustomerForm = 
+    ((found1 && !found2) || (!found1 && found2)) && 
+    errors.length === 1 && 
+    errors.some(err => err.includes('No customer found with NIC'));
+    
+  // Determine which customer is found and which isn't for the mixed form
+  const existingCustomer = found1 || found2;
+  const newCustomerNic = found1 ? nic2 : nic1;
   
   const resetForm = () => {
     setNic1('');
     setNic2('');
     setFound1(null);
+    setFound2(null);
+    setErrors([]);
     setFound2(null);
     setErrors([]);
   };
@@ -114,18 +128,9 @@ const JointLookupForm: React.FC = () => {
           <div>{found2 ? <CustomerSummary customer={found2} /> : <div className="text-slate-500">Customer 2 not found</div>}</div>
         </div>
         
-        {/* Show guidance message when only one customer is found */}
-        {((found1 && !found2) || (!found1 && found2)) && (
-          <div className="p-3 bg-yellow-50 text-yellow-800 rounded mt-3">
-            <p>Only one customer was found. For a joint account, either:</p>
-            <ul className="list-disc ml-5 mt-2">
-              <li>Both customers must exist in the system, or</li>
-              <li>Both customers must be new (not in the system)</li>
-            </ul>
-          </div>
-        )}
       </div>
       
+      {/* Show the appropriate form based on the conditions */}
       {bothCustomersFound && (
         <JointAccountCreateForm 
           customer1={found1} 
@@ -138,6 +143,14 @@ const JointLookupForm: React.FC = () => {
         <NewCustomerJointAccountForm 
           nic1={nic1} 
           nic2={nic2} 
+          onReset={resetForm}
+        />
+      )}
+      
+      {showMixedCustomerForm && (
+        <MixedCustomerJointAccountForm 
+          existingCustomer={existingCustomer}
+          newCustomerNic={newCustomerNic}
           onReset={resetForm}
         />
       )}
