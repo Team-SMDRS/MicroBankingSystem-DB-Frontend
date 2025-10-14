@@ -9,11 +9,19 @@ export interface ReportParams {
   format?: 'json' | 'csv' | 'pdf';
 }
 
+export type TransactionType = 
+  | 'Deposit' 
+  | 'Withdrawal' 
+  | 'Interest' 
+  | 'BankTransfer' 
+  | 'BankTransfer-In' 
+  | 'BankTransfer-Out';
+
 export interface TransactionReport {
   transaction_id: string;
   account_no: number;
   customer_name: string;
-  transaction_type: string;
+  transaction_type: TransactionType | string;
   amount: number;
   description: string;
   timestamp: string;

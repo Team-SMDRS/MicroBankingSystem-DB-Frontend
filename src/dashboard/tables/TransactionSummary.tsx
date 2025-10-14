@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TrendingUp, Loader2, AlertCircle } from 'lucide-react';
 import { transactionApi } from '../../api/transactions';
+import { formatTransactionType, getTransactionTypeColor, formatCurrency, formatDate } from '../../utils/formatters';
 
 interface TransactionData {
   transaction_id: string;
@@ -50,24 +51,6 @@ const TransactionSummary = () => {
 
     fetchTransactions();
   }, []);
-
-  // Format amount to LKR currency
-  const formatAmount = (amount: number) => {
-    return new Intl.NumberFormat('en-LK', {
-      style: 'currency',
-      currency: 'LKR',
-      minimumFractionDigits: 2
-    }).format(amount);
-  };
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
-    });
-  };
 
   // Show loading state
   if (loading) {
@@ -144,15 +127,19 @@ const TransactionSummary = () => {
               {transactionData.map((transaction) => (
                 <tr key={transaction.transaction_id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                   <td className="px-6 py-4 text-sm text-slate-600">{formatDate(transaction.created_at)}</td>
-                  <td className="px-6 py-4 text-sm font-medium text-slate-800">{transaction.type}</td>
-                  <td className="px-6 py-4 text-sm text-slate-600">
-                    {transaction.type === 'Deposit' ? '-' : transaction.acc_id}
+                  <td className="px-6 py-4 text-sm">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTransactionTypeColor(transaction.type)}`}>
+                      {formatTransactionType(transaction.type)}
+                    </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-600">
-                    {transaction.type === 'Withdrawal' ? '-' : transaction.acc_id}
+                    {transaction.type === 'Deposit' || transaction.type === 'BankTransfer-In' ? '-' : transaction.acc_id}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-600">
+                    {transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out' ? '-' : transaction.acc_id}
                   </td>
                   <td className="px-6 py-4 text-sm font-semibold text-blue-600">
-                    {formatAmount(transaction.amount)}
+                    {formatCurrency(transaction.amount)}
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-600">
                     {transaction.description || transaction.reference_no || '-'}

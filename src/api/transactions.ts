@@ -33,15 +33,26 @@ export interface TransactionHistoryParams {
   account_no?: number;
   from_date?: string;
   to_date?: string;
-  transaction_type?: 'withdrawal' | 'deposit' | 'transfer';
+  transaction_type?: 'withdrawal' | 'deposit' | 'transfer' | 'Deposit' | 'Withdrawal' | 'Interest' | 'BankTransfer' | 'BankTransfer-In' | 'BankTransfer-Out';
   limit?: number;
   offset?: number;
 }
 
+export type TransactionType = 
+  | 'Deposit' 
+  | 'Withdrawal' 
+  | 'Interest' 
+  | 'BankTransfer' 
+  | 'BankTransfer-In' 
+  | 'BankTransfer-Out'
+  | 'withdrawal' 
+  | 'deposit' 
+  | 'transfer';
+
 export interface Transaction {
   transaction_id: string;
   account_no: number;
-  transaction_type: string;
+  transaction_type: TransactionType;
   amount: number;
   description: string;
   timestamp: string;
