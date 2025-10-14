@@ -114,8 +114,23 @@ const JointAccountCreateForm: React.FC<JointAccountCreateFormProps> = ({ custome
             <div className="font-medium">{result.message}</div>
             {result.success && result.data && (
               <>
-                <div className="mt-1 mb-3">
-                  <div className="text-sm">Account No: {result.data.account_no}</div>
+                <div className="mt-3 mb-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                    <div className="p-2 border rounded bg-white">
+                      <h6 className="font-medium text-slate-800">{customer1.name}</h6>
+                      <div className="text-sm text-slate-600">NIC: {customer1.nic}</div>
+                    </div>
+                    
+                    <div className="p-2 border rounded bg-white">
+                      <h6 className="font-medium text-slate-800">{customer2.name}</h6>
+                      <div className="text-sm text-slate-600">NIC: {customer2.nic}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-2 border rounded bg-white">
+                    <h6 className="font-medium text-slate-800">Account Details</h6>
+                    <div className="text-sm text-slate-600">Account No: {result.data.account_no}</div>
+                  </div>
                 </div>
                 <div className="flex justify-end">
                   <button

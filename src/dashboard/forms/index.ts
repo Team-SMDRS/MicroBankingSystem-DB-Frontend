@@ -4,6 +4,7 @@ export { default as CreateAccountForExisting } from './CreateAccountForExisting'
 export { default as DepositForm } from './DepositForm';
 export { default as JointLookupForm } from './JointLookupForm';
 export { default as JointAccountCreateForm } from './JointAccountCreateForm';
+export { default as NewCustomerJointAccountForm } from './NewCustomerJointAccountForm';
 export { default as PromptInput } from './PromptInput';
 export { default as RegisterAndCreate } from './RegisterAndCreate';
 export { default as SavingsLookupForm } from './SavingsLookupForm';
