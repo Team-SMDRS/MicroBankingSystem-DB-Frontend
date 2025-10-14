@@ -34,6 +34,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
         setSelectedBranch(null);
         setCreatedBranch(null);
         setUpdatedBranch(null);
+        setBranches([]); // Clear search results when switching tabs
         setSuccess(null);
         setError(null);
     };
