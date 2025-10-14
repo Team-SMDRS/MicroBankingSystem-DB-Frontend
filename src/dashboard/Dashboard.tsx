@@ -8,8 +8,8 @@ import AccountsSection from "./sections/AccountsSection";
 import CreateAccountSection from "./sections/CreateAccountSection";
 import UsersSection from "./sections/UsersSection";
 import CustomerDetailsSection from "./sections/CustomerDetailsSection";
-
-export type MainTab = 'transactions' | 'summary' | 'accounts' | 'create-account' | 'users' | 'customer-details';
+import FixedDepositSection from "./sections/FixedDepositSection";
+export type MainTab = 'transactions' | 'summary' | 'accounts' | 'create-account' | 'users' | 'customer-details'| 'fixed-deposit';
 
 const Dashboard = () => {
   const [activeMainTab, setActiveMainTab] = useState<MainTab>('transactions');
@@ -36,6 +36,7 @@ const Dashboard = () => {
       'create-account': 'fixed-deposit-new',
       'users': 'customers',
       'customer-details': 'customer-info',
+      'fixed-deposit': 'open fixed-deposit',
     };
     setActiveSubTab(defaultSubTabs[tabId]);
   };
@@ -54,6 +55,8 @@ const Dashboard = () => {
         return <UsersSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'customer-details':
         return <CustomerDetailsSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
+      case 'fixed-deposit':
+        return <FixedDepositSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       default:
         return <TransactionSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
     }
