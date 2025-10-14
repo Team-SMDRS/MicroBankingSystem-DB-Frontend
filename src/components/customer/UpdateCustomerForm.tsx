@@ -1,15 +1,14 @@
 import React, { useState } from "react";
+import { fetchCustomerDetailsById, updateCustomer } from "../../api/customers";
+import type { CustomerDetails } from "../../api/customers";
 
 interface UpdateCustomerFormProps {
   customerId: string;
-  token: string;
   onClose: () => void;
 }
 
-const API_BASE = "http://127.0.0.1:8000/api/account-management/customer/";
-
-const UpdateCustomerForm: React.FC<UpdateCustomerFormProps> = ({ customerId, token, onClose }) => {
-  const [details, setDetails] = useState<any>(null);
+const UpdateCustomerForm: React.FC<UpdateCustomerFormProps> = ({ customerId, onClose }) => {
+  const [details, setDetails] = useState<CustomerDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
@@ -21,16 +20,10 @@ const UpdateCustomerForm: React.FC<UpdateCustomerFormProps> = ({ customerId, tok
   const [success, setSuccess] = useState(false);
 
   React.useEffect(() => {
-    setLoading(true);
-    fetch(`${API_BASE}${customerId}`, {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
+    const fetchCustomerData = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchCustomerDetailsById(customerId);
         setDetails(data);
         setForm({
           full_name: data.full_name || "",
@@ -38,10 +31,15 @@ const UpdateCustomerForm: React.FC<UpdateCustomerFormProps> = ({ customerId, tok
           phone_number: data.phone_number || "",
           nic: data.nic || ""
         });
-      })
-      .catch(() => setError("Error fetching customer details."))
-      .finally(() => setLoading(false));
-  }, [customerId, token]);
+      } catch (error) {
+        setError("Error fetching customer details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomerData();
+  }, [customerId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -53,18 +51,15 @@ const UpdateCustomerForm: React.FC<UpdateCustomerFormProps> = ({ customerId, tok
     setError("");
     setSuccess(false);
     try {
-      const res = await fetch(`${API_BASE}${customerId}`, {
-        method: "PUT",
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(form)
-      });
-      if (!res.ok) throw new Error("Update failed");
+      // Only send updatable fields (excluding nic)
+      const updateData = {
+        full_name: form.full_name,
+        address: form.address,
+        phone_number: form.phone_number
+      };
+      await updateCustomer(customerId, updateData);
       setSuccess(true);
-    } catch {
+    } catch (error) {
       setError("Error updating customer.");
     } finally {
       setLoading(false);
@@ -94,7 +89,7 @@ const UpdateCustomerForm: React.FC<UpdateCustomerFormProps> = ({ customerId, tok
           </div>
           <div>
             <label className="block text-gray-700 font-semibold mb-2" htmlFor="nic">NIC</label>
-            <input id="nic" name="nic" value={form.nic} onChange={handleChange} placeholder="NIC" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input id="nic" name="nic" value={form.nic} readOnly placeholder="NIC" className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed" />
           </div>
           <div className="col-span-1 md:col-span-2 flex justify-center gap-4 mt-4">
             <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg shadow transition">Update</button>
