@@ -17,6 +17,8 @@ interface BranchSectionProps {
 const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSubTab }) => {
     const [branches, setBranches] = useState<BranchDetails[]>([]);
     const [selectedBranch, setSelectedBranch] = useState<BranchDetails | null>(null);
+    const [createdBranch, setCreatedBranch] = useState<BranchDetails | null>(null);
+    const [updatedBranch, setUpdatedBranch] = useState<BranchDetails | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
@@ -30,6 +32,8 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
     const handleTabClick = (tabId: string) => {
         setActiveSubTab(tabId);
         setSelectedBranch(null);
+        setCreatedBranch(null);
+        setUpdatedBranch(null);
         setSuccess(null);
         setError(null);
     };
@@ -40,20 +44,20 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
     const handleCreate = async (data: CreateBranch) => {
         setLoading(true);
         setError(null);
+        setSuccess(null);
+        setCreatedBranch(null);
         try {
             console.log('BranchSection.handleCreate called with:', data);
             const newBranch = await branchApi.create(data);
             if (newBranch) {
                 setSuccess('Branch created successfully');
-                setActiveSubTab('search-branch');
-                // Show only the newly created branch in results instead of
-                // fetching all branches.
-                setBranches([newBranch]);
-                setSelectedBranch(newBranch);
+                setCreatedBranch(newBranch);
+                // Stay on the Create tab; no redirect to search
             }
         } catch (err: any) {
             console.error('Create branch error:', err);
-            setError(err.response?.data?.message || err.message || 'Failed to create branch');
+            // Extract error message from response.data.detail or fallback
+            setError(err.response?.data?.detail || err.response?.data?.message || err.message || 'Failed to create branch');
         } finally {
             setLoading(false);
         }
@@ -62,19 +66,18 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
     const handleUpdate = async (branchId: string, data: UpdateBranch) => {
         setLoading(true);
         setError(null);
+        setSuccess(null);
+        setUpdatedBranch(null);
         try {
             const updatedBranch = await branchApi.update(branchId, data);
             if (updatedBranch) {
                 setSuccess('Branch updated successfully');
-                setActiveSubTab('search-branch');
-                // Show only the updated branch in results instead of fetching
-                // everything.
-                setBranches([updatedBranch]);
-                setSelectedBranch(updatedBranch);
+                setUpdatedBranch(updatedBranch);
+                // Stay on the Update tab; no redirect to search
             }
         } catch (err: any) {
             console.error('Update branch error:', err);
-            setError(err.response?.data?.message || err.message || 'Failed to update branch');
+            setError(err.response?.data?.detail || err.response?.data?.message || err.message || 'Failed to update branch');
         } finally {
             setLoading(false);
         }
@@ -106,7 +109,8 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 endpoint: type === 'id' ? `/branches/${query}` : `/branches/name/${query}`,
                 status: err.response?.status
             });
-            setError(`Search failed: ${err.response?.status === 404 ? 'Endpoint not found' : err.message}`);
+            // Extract error message from response (check error, detail, message fields)
+            setError(err.response?.data?.error || err.response?.data?.detail || err.response?.data?.message || err.message || 'Failed to retrieve branch by ID/name');
         } finally {
             setLoading(false);
         }
@@ -147,7 +151,8 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 {activeSubTab === 'create-branch' && (
                     <div className="max-w-2xl mx-auto">
                         <h2 className="text-xl font-semibold mb-4">Create New Branch</h2>
-                        <CreateBranchForm onSuccess={handleCreate} isLoading={loading} />
+                        {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
+                        <CreateBranchForm onSuccess={handleCreate} isLoading={loading} createdBranch={createdBranch} />
                     </div>
                 )}
 
@@ -155,11 +160,13 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 {activeSubTab === 'update-branch' && (
                     <div className="max-w-2xl mx-auto">
                         <h2 className="text-xl font-semibold mb-4">Update Branch</h2>
+                        {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         {selectedBranch ? (
                             <UpdateBranchForm
                                 branch={selectedBranch}
                                 onSubmit={handleUpdate}
                                 isLoading={loading}
+                                updatedBranch={updatedBranch}
                             />
                         ) : (
                             <SearchBranchForm
@@ -176,6 +183,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 {activeSubTab === 'search-branch' && (
                     <div className="max-w-2xl mx-auto">
                         <h2 className="text-xl font-semibold mb-4">Search Branches</h2>
+                        {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         <SearchBranchForm
                             onSearch={handleSearch}
                             isLoading={loading}
@@ -213,9 +221,6 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                     </div>
                 )}
             </div>
-
-            {/* ALERTS */}
-            {error && <div className="mt-6"><Alert type="error">{error}</Alert></div>}
         </div>
     );
 };
