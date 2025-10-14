@@ -7,6 +7,7 @@ export interface AccountDetails {
   customer_phone_numbers: string;
   customer_addresses: string;
   account_id: string;
+  account_no?: number;
   branch_name: string;
   branch_id: string;
   balance: number;
@@ -35,7 +36,7 @@ export const useAccountOperations = () => {
       setAccountDetails(result);
       return result;
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to fetch account details';
+      const errorMessage = err.response?.data?.detail || err.response?.data?.message || err.message || 'Failed to fetch account details';
       setError(errorMessage);
       console.error('Account details fetch error:', err);
       return null;
