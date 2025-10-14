@@ -42,7 +42,7 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
         if (onSuccess) onSuccess();
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Failed to process transaction');
+      setError(err.response?.data?.detail || err.message || 'Failed to process transaction');
     } finally {
       setIsSubmitting(false);
     }

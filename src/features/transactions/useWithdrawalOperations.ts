@@ -49,7 +49,7 @@ export const useWithdrawalOperations = () => {
     } catch (err: any) {
       const errorMessage = err.response?.status === 401 
         ? 'Authentication failed. Please login again.'
-        : err.response?.data?.message || err.message || 'Failed to process withdrawal';
+        : err.response?.data?.detail || err.message || 'Failed to process withdrawal';
       
       accountOperations.setError(errorMessage);
       console.error('Withdrawal error:', err);
