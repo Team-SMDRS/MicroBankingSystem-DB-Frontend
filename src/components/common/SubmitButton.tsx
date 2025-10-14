@@ -8,9 +8,9 @@ interface SubmitButtonProps {
   className?: string;
 }
 
-const SubmitButton = ({ 
-  isSubmitting, 
-  disabled = false, 
+const SubmitButton = ({
+  isSubmitting,
+  disabled = false,
   onClick,
   type = 'submit',
   children,
@@ -24,7 +24,7 @@ const SubmitButton = ({
       type={type}
       onClick={onClick}
       disabled={isDisabled}
-      className={`w-full bg-gradient-to-r from-amber-600 to-amber-700 text-white font-semibold py-4 rounded-xl hover:from-amber-700 hover:to-amber-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-600/30 ${className}`}
+      className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30 ${className}`}
     >
       {isSubmitting ? loadingText : children}
     </button>

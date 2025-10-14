@@ -17,7 +17,8 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
     { id: 'accounts' as MainTab, label: 'Accounts Details', icon: Wallet },
     { id: 'create-account' as MainTab, label: 'Account Management', icon: UserPlus },
     { id: 'users' as MainTab, label: 'Users', icon: Users },
-    { id: 'customer-details' as MainTab, label: 'Customer Details', icon: Building2 },
+    { id: 'customer-details' as MainTab, label: 'Customer Details', icon: Users },
+    { id: 'branches' as MainTab, label: 'Branch Management', icon: Building2 },
   ];
 
   return (
@@ -45,11 +46,10 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
                 <li key={tab.id}>
                   <button
                     onClick={() => onMainTabChange(tab.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 ${
-                      isActive
+                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 ${isActive
                         ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-600/30'
                         : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                    }`}
+                      }`}
                   >
                     <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-500'}`} />
                     <span className="font-medium">{tab.label}</span>

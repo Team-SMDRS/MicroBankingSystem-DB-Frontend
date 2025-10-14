@@ -8,8 +8,9 @@ import AccountsSection from "./sections/AccountsSection";
 import CreateAccountSection from "./sections/CreateAccountSection";
 import UsersSection from "./sections/UsersSection";
 import CustomerDetailsSection from "./sections/CustomerDetailsSection";
+import BranchSection from "./sections/BranchSection";
 
-export type MainTab = 'transactions' | 'summary' | 'accounts' | 'create-account' | 'users' | 'customer-details';
+export type MainTab = 'transactions' | 'summary' | 'accounts' | 'create-account' | 'users' | 'customer-details' | 'branches';
 
 const Dashboard = () => {
   const [activeMainTab, setActiveMainTab] = useState<MainTab>('transactions');
@@ -31,11 +32,12 @@ const Dashboard = () => {
     // Set default sub tab based on main tab
     const defaultSubTabs: Record<string, string> = {
       'transactions': 'bank-transfer',
-      'summary': 'branch-summary', 
+      'summary': 'branch-summary',
       'accounts': 'fixed-deposit',
       'create-account': 'fixed-deposit-new',
       'users': 'customers',
       'customer-details': 'customer-info',
+      'branches': 'summary',
     };
     setActiveSubTab(defaultSubTabs[tabId]);
   };
@@ -54,6 +56,8 @@ const Dashboard = () => {
         return <UsersSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'customer-details':
         return <CustomerDetailsSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
+      case 'branches':
+        return <BranchSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       default:
         return <TransactionSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
     }
