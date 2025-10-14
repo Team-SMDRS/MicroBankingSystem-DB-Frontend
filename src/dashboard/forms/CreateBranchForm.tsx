@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
 import { SubmitButton } from '../../components/common';
 import type { CreateBranch } from '../../features/branch';
-import { useBranchOperations } from '../../features/branch';
 
 interface CreateBranchFormProps {
     onSuccess?: (data: CreateBranch) => Promise<void>;
+    isLoading?: boolean;
 }
 
-const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess }) => {
-    const { loading, error, createBranch } = useBranchOperations();
+const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess, isLoading }) => {
     const [formData, setFormData] = useState<CreateBranch>({
         name: '',
         address: '',
     });
     const [success, setSuccess] = useState<string | null>(null);
 
+    const [submitting, setSubmitting] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (submitting) return; // guard against double submit
+        setSubmitting(true);
         try {
-            const result = await createBranch(formData);
-            if (result) {
-                if (onSuccess) {
-                    await onSuccess(formData);
-                }
-                setFormData({ name: '', address: '' });
-                setSuccess('Branch created successfully');
+            console.log('CreateBranchForm: submitting', formData);
+            if (onSuccess) {
+                await onSuccess(formData);
             }
+            setFormData({ name: '', address: '' });
+            setSuccess('Branch created successfully');
         } catch (err) {
             console.error('Failed to create branch:', err);
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -52,11 +55,7 @@ const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess }) => {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-                <div className="p-4 bg-red-50 text-red-800 rounded-lg border border-red-200">
-                    {error}
-                </div>
-            )}
+            {/* Parent handles API errors; this form shows local success state only */}
 
             <div>
                 <label htmlFor="name" className="block text-sm text-blue-700 font-medium mb-1">
@@ -91,7 +90,7 @@ const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess }) => {
             </div>
 
             <div className="flex justify-end">
-                <SubmitButton isSubmitting={loading}>
+                <SubmitButton isSubmitting={!!isLoading}>
                     Create Branch
                 </SubmitButton>
             </div>

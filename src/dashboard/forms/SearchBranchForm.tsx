@@ -7,13 +7,16 @@ interface SearchBranchFormProps {
     isLoading?: boolean;
     results?: BranchDetails[];
     onSelect?: (branch: BranchDetails) => void;
+    // If true, render results at the bottom of the container (requires parent to allow flexible height)
+    pushResultsToBottom?: boolean;
 }
 
 const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
     onSearch,
     isLoading,
     results,
-    onSelect
+    onSelect,
+    pushResultsToBottom = false,
 }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchType, setSearchType] = useState<'name' | 'id'>('name');
@@ -24,7 +27,7 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
     };
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-4 flex flex-col min-h-full">
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="flex gap-4">
                     <div className="flex-1">
@@ -53,23 +56,23 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
             </form>
 
             {results && results.length > 0 && (
-                <div className="mt-4">
+                <div className={`mt-4 ${pushResultsToBottom ? 'mt-auto' : ''}`}>
                     <h3 className="text-lg font-semibold mb-2">Search Results</h3>
                     <div className="space-y-2">
                         {results.map(branch => (
                             <div
                                 key={branch.branch_id}
-                                className="p-4 border rounded-lg hover:bg-blue-50 cursor-pointer transition-colors duration-200 border-blue-100"
-                                onClick={() => onSelect?.(branch)}
+                                className="p-3 border rounded-lg hover:bg-blue-50 transition-colors duration-150 border-blue-100 flex items-center justify-between"
                             >
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <p className="font-medium">{branch.name}</p>
-                                        <p className="text-sm text-gray-600">{branch.address}</p>
-                                    </div>
-                                    <div className="text-sm text-gray-500">
-                                        ID: {branch.branch_id}
-                                    </div>
+                                <div className="font-medium">{branch.name}</div>
+                                <div>
+                                    <button
+                                        type="button"
+                                        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+                                        onClick={() => onSelect?.(branch)}
+                                    >
+                                        Select
+                                    </button>
                                 </div>
                             </div>
                         ))}

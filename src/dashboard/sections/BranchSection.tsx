@@ -51,6 +51,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
         setLoading(true);
         setError(null);
         try {
+            console.log('BranchSection.handleCreate called with:', data);
             const newBranch = await branchApi.create(data);
             if (newBranch) {
                 setSuccess('Branch created successfully');
@@ -115,6 +116,12 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
         }
     };
 
+    const handleSelectBranch = (b: BranchDetails) => {
+        console.log('Branch selected:', b);
+        setSelectedBranch(b);
+        setActiveSubTab('update-branch');
+    };
+
     // Fetch all branches initially
     useEffect(() => {
         if (activeSubTab === 'search-branch') fetchAllBranches();
@@ -127,6 +134,9 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 description="Create, update, and view branch details"
             />
 
+            {/* Success alert shown at the top */}
+            {success && <div className="mt-6"><Alert type="success">{success}</Alert></div>}
+
             <SubTabGrid
                 subTabs={subTabs}
                 activeSubTab={activeSubTab}
@@ -138,7 +148,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 {activeSubTab === 'create-branch' && (
                     <div className="max-w-2xl mx-auto">
                         <h2 className="text-xl font-semibold mb-4">Create New Branch</h2>
-                        <CreateBranchForm onSuccess={handleCreate} />
+                        <CreateBranchForm onSuccess={handleCreate} isLoading={loading} />
                     </div>
                 )}
 
@@ -157,7 +167,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                                 onSearch={handleSearch}
                                 isLoading={loading}
                                 results={branches}
-                                onSelect={setSelectedBranch}
+                                onSelect={handleSelectBranch}
                             />
                         )}
                     </div>
@@ -171,7 +181,37 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                             onSearch={handleSearch}
                             isLoading={loading}
                             results={branches}
+                            // When selecting from the main Search tab we only set the selected branch
+                            // without automatically navigating to the Update tab.
+                            onSelect={(b) => setSelectedBranch(b)}
+                            pushResultsToBottom={true}
                         />
+
+                        {/* Inline details for the selected branch (visible on Search tab) */}
+                        {selectedBranch && (
+                            <div className="mt-6 p-4 border rounded-lg bg-white shadow-sm">
+                                <h3 className="text-lg font-semibold mb-2">Selected Branch</h3>
+                                <div className="text-sm text-slate-700 mb-2">Name: <span className="font-medium">{selectedBranch.name}</span></div>
+                                <div className="text-sm text-slate-600 mb-2">Address: {selectedBranch.address || '—'}</div>
+                                <div className="text-sm text-slate-500 mb-4">ID: {selectedBranch.branch_id}</div>
+                                <div className="flex gap-3">
+                                    <button
+                                        type="button"
+                                        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+                                        onClick={() => setActiveSubTab('update-branch')}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="px-3 py-1 border rounded text-sm text-slate-700 hover:bg-slate-50"
+                                        onClick={() => setSelectedBranch(null)}
+                                    >
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
