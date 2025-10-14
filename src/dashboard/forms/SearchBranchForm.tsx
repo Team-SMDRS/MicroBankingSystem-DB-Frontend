@@ -48,7 +48,7 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
                             <option value="name">Search by Name</option>
                             <option value="id">Search by ID</option>
                         </select>
-                        <SubmitButton isSubmitting={!!isLoading}>
+                        <SubmitButton isSubmitting={!!isLoading} className="!w-36 ml-2">
                             Search
                         </SubmitButton>
                     </div>

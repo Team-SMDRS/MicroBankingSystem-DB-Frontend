@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Building2, Edit, Search } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import SubTabGrid from '../../components/layout/SubTabGrid';
@@ -34,18 +34,8 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
         setError(null);
     };
 
-    const fetchAllBranches = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const data = await branchApi.getAll();
-            setBranches(data);
-        } catch (err: any) {
-            setError(err.response?.data?.detail || err.message || 'Failed to fetch branches');
-        } finally {
-            setLoading(false);
-        }
-    };
+    // Previously we fetched all branches when opening the Search tab. That
+    // behavior was removed to avoid rendering a huge list by default.
 
     const handleCreate = async (data: CreateBranch) => {
         setLoading(true);
@@ -56,7 +46,10 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
             if (newBranch) {
                 setSuccess('Branch created successfully');
                 setActiveSubTab('search-branch');
-                await fetchAllBranches();
+                // Show only the newly created branch in results instead of
+                // fetching all branches.
+                setBranches([newBranch]);
+                setSelectedBranch(newBranch);
             }
         } catch (err: any) {
             console.error('Create branch error:', err);
@@ -74,7 +67,10 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
             if (updatedBranch) {
                 setSuccess('Branch updated successfully');
                 setActiveSubTab('search-branch');
-                await fetchAllBranches();
+                // Show only the updated branch in results instead of fetching
+                // everything.
+                setBranches([updatedBranch]);
+                setSelectedBranch(updatedBranch);
             }
         } catch (err: any) {
             console.error('Update branch error:', err);
@@ -122,10 +118,11 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
         setActiveSubTab('update-branch');
     };
 
-    // Fetch all branches initially
-    useEffect(() => {
-        if (activeSubTab === 'search-branch') fetchAllBranches();
-    }, [activeSubTab]);
+    // NOTE: we intentionally do NOT fetch all branches automatically when
+    // entering the Search tab. Showing thousands of branches by default is
+    // noisy and slow. Branches will be populated only when the user runs a
+    // search (handleSearch) or after creating/updating a branch (we set the
+    // single relevant branch into state so the UI can show it).
 
     return (
         <div className="p-8">
@@ -134,14 +131,16 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 description="Create, update, and view branch details"
             />
 
-            {/* Success alert shown at the top */}
-            {success && <div className="mt-6"><Alert type="success">{success}</Alert></div>}
-
             <SubTabGrid
                 subTabs={subTabs}
                 activeSubTab={activeSubTab}
                 onSubTabChange={handleTabClick}
             />
+
+            {/* Success alert placed after the subsection tabs (not at the very top) */}
+            {success && <div className="mt-4"><Alert type="success">{success}</Alert></div>}
+
+            {/* Search results are rendered inside the Search subtab's form component. */}
 
             <div className="mt-6">
                 {/* CREATE BRANCH */}
@@ -184,7 +183,6 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                             // When selecting from the main Search tab we only set the selected branch
                             // without automatically navigating to the Update tab.
                             onSelect={(b) => setSelectedBranch(b)}
-                            pushResultsToBottom={true}
                         />
 
                         {/* Inline details for the selected branch (visible on Search tab) */}
@@ -218,7 +216,6 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
 
             {/* ALERTS */}
             {error && <div className="mt-6"><Alert type="error">{error}</Alert></div>}
-            {success && <div className="mt-6"><Alert type="success">{success}</Alert></div>}
         </div>
     );
 };

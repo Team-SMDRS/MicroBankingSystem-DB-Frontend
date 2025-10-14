@@ -6,6 +6,7 @@ const BranchSummary = () => {
   const { loading, branches, getAllBranches } = useBranchOperations();
 
   useEffect(() => {
+    // Initial load only
     getAllBranches();
   }, []);
 
