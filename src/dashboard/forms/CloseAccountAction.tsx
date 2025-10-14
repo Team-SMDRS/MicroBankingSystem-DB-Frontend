@@ -16,7 +16,14 @@ const CloseAccountAction: React.FC = () => {
       const res = await accountApi.closeAccount(Number(accountNo));
       setResult(res);
     } catch (err: any) {
-      setError(err?.response?.data?.msg || 'Failed to close account');
+      const errorDetail = err?.response?.data?.detail;
+      if (errorDetail === "Account is already closed") {
+        setError("This account is already closed");
+      } else if (errorDetail === "Cannot close account because it has an active fixed deposit linked to it") {
+        setError("Cannot close account because it has an active fixed deposit linked to it");
+      } else {
+        setError(err?.response?.data?.msg || err?.response?.data?.detail || 'Failed to close account');
+      }
     } finally {
       setLoading(false);
       setConfirming(false);
