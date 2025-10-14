@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import api from '../../api/axios';
 import { CheckCircle } from 'lucide-react';
+import JointAccountCreateForm from './JointAccountCreateForm';
 
 const CustomerSummary = ({ customer }: { customer: any }) => (
   <div className="p-3 border rounded bg-slate-50">
@@ -60,6 +61,16 @@ const JointLookupForm: React.FC = () => {
     }
   };
 
+  const bothCustomersFound = found1 && found2 && errors.length === 0;
+  
+  const resetForm = () => {
+    setNic1('');
+    setNic2('');
+    setFound1(null);
+    setFound2(null);
+    setErrors([]);
+  };
+
   return (
     <div>
       <h4 className="text-lg font-medium mb-3">Joint Account - Lookup Two Customers</h4>
@@ -68,17 +79,31 @@ const JointLookupForm: React.FC = () => {
         <input value={nic2} onChange={e => setNic2(e.target.value)} placeholder="Enter NIC for Customer 2" className="p-2 border rounded w-full" />
       </div>
       <div className="mt-3 flex gap-3">
-        <button type="button" onClick={lookupBoth} className="px-4 py-2 bg-blue-600 text-white rounded">Find Both</button>
+        <button 
+          type="button" 
+          onClick={lookupBoth} 
+          className="px-4 py-2 bg-blue-600 text-white rounded"
+          disabled={loading}
+        >
+          {loading ? 'Searching...' : 'Find Both'}
+        </button>
       </div>
 
       <div className="mt-3 space-y-2">
-        {loading && <div className="text-slate-500">Searching...</div>}
         {errors.length > 0 && errors.map((er, idx) => <div key={idx} className="text-red-600">{er}</div>)}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>{found1 ? <CustomerSummary customer={found1} /> : <div className="text-slate-500">Customer 1 not found</div>}</div>
           <div>{found2 ? <CustomerSummary customer={found2} /> : <div className="text-slate-500">Customer 2 not found</div>}</div>
         </div>
       </div>
+      
+      {bothCustomersFound && (
+        <JointAccountCreateForm 
+          customer1={found1} 
+          customer2={found2} 
+          onReset={resetForm}
+        />
+      )}
     </div>
   );
 };
