@@ -15,7 +15,6 @@ interface BranchSectionProps {
 }
 
 const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSubTab }) => {
-    const [branches, setBranches] = useState<BranchDetails[]>([]);
     const [selectedBranch, setSelectedBranch] = useState<BranchDetails | null>(null);
     const [createdBranch, setCreatedBranch] = useState<BranchDetails | null>(null);
     const [updatedBranch, setUpdatedBranch] = useState<BranchDetails | null>(null);
@@ -34,7 +33,6 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
         setSelectedBranch(null);
         setCreatedBranch(null);
         setUpdatedBranch(null);
-        setBranches([]); // Clear search results when switching tabs
         setSuccess(null);
         setError(null);
     };
@@ -84,50 +82,11 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
         }
     };
 
-    const handleSearch = async (query: string, type: 'id' | 'name') => {
-        setLoading(true);
-        setError(null);
-        try {
-            console.log('Searching branch with:', { type, query });
-            let result: BranchDetails[] = [];
-            if (type === 'id') {
-                console.log('Searching by ID at endpoint:', `/branches/${query}`);
-                const branch = await branchApi.getById(query);
-                result = branch ? [branch] : [];
-            } else {
-                console.log('Searching by name at endpoint:', `/branches/name/${query}`);
-                result = await branchApi.getByName(query);
-            }
-            console.log('Search result:', result);
-            setBranches(result);
-            if (result.length === 0) {
-                setError('No branches found');
-            }
-        } catch (err: any) {
-            console.error('Search branch error:', {
-                error: err,
-                response: err.response,
-                endpoint: type === 'id' ? `/branches/${query}` : `/branches/name/${query}`,
-                status: err.response?.status
-            });
-            // Extract error message from response (check error, detail, message fields)
-            setError(err.response?.data?.error || err.response?.data?.detail || err.response?.data?.message || err.message || 'Failed to retrieve branch by ID/name');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const handleSelectBranch = (b: BranchDetails) => {
         console.log('Branch selected:', b);
         setSelectedBranch(b);
         setActiveSubTab('update-branch');
     };
-
-    // NOTE: we intentionally do NOT fetch all branches automatically when
-    // entering the Search tab. Showing thousands of branches by default is
-    // noisy and slow. Branches will be populated only when the user runs a
-    // search (handleSearch) or after creating/updating a branch (we set the
-    // single relevant branch into state so the UI can show it).
 
     return (
         <div className="p-8">
@@ -171,9 +130,6 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                             />
                         ) : (
                             <SearchBranchForm
-                                onSearch={handleSearch}
-                                isLoading={loading}
-                                results={branches}
                                 onSelect={handleSelectBranch}
                             />
                         )}
@@ -186,9 +142,6 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                         <h2 className="text-xl font-semibold mb-4">Search Branches</h2>
                         {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         <SearchBranchForm
-                            onSearch={handleSearch}
-                            isLoading={loading}
-                            results={branches}
                             // When selecting from the main Search tab we only set the selected branch
                             // without automatically navigating to the Update tab.
                             onSelect={(b) => setSelectedBranch(b)}
