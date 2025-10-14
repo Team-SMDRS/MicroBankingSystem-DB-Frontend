@@ -7,21 +7,8 @@ import AllAccountsDisplay from '../../components/account/AllAccountsDisplay';
 import { accountApi } from '../../api/accounts';
 import type { AccountDetails } from '../../features/accounts/useAccountOperations';
 import Alert from '../../components/common/Alert';
-
-// Inline prompt shown below the subtab buttons to request account number or NIC
-const PromptInput = ({ label, placeholder, onCancel, onSubmit }: { label: string; placeholder: string; onCancel: () => void; onSubmit: (value: string) => void }) => {
-  const [value, setValue] = useState('');
-  return (
-    <div className="mt-4 p-4 bg-white border rounded-lg shadow w-full">
-      <h4 className="font-semibold mb-2">{label}</h4>
-      <div className="flex gap-3">
-        <input value={value} onChange={e => setValue(e.target.value)} placeholder={placeholder} className="flex-1 p-2 border rounded-lg" />
-        <button onClick={() => onSubmit(value)} className="px-3 py-1 bg-blue-600 text-white rounded-md">OK</button>
-        <button onClick={onCancel} className="px-3 py-1 border rounded-md">Cancel</button>
-      </div>
-    </div>
-  );
-};
+import NICNumberInput from '../../components/forms/NICNumberInput';
+import AccountNumberInput from '../../components/forms/AccountNumberInput';
 
 interface AccountsSectionProps {
   activeSubTab: string;
@@ -32,6 +19,8 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
   const [prompt, setPrompt] = useState<null | { type: 'account' | 'nic'; label: string }>(null);
   const [queryValue, setQueryValue] = useState<string | null>(null);
   const [pendingTab, setPendingTab] = useState<string | null>(null);
+  const [nicInput, setNicInput] = useState('');
+  const [accountInput, setAccountInput] = useState('');
   const [accountDetails, setAccountDetails] = useState<AccountDetails | null>(null);
   const [allAccounts, setAllAccounts] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -61,56 +50,65 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
     }
   };
 
-  const handleSubmitPrompt = async (value: string) => {
-    if (!value.trim()) {
-      setError('Please enter a valid input');
+  const handleSubmitNIC = async () => {
+    if (!nicInput.trim()) {
+      setError('Please enter a valid NIC');
       return;
     }
-    
     setPrompt(null);
-    setQueryValue(value || null);
+    setQueryValue(nicInput);
     setLoading(true);
     setError(null);
     setAccountDetails(null);
-    
     try {
-      if (pendingTab === 'account-details' && prompt?.type === 'nic') {
-        // Fetch account details by account number
-        const accountNumber = parseInt(value.trim());
-        if (isNaN(accountNumber)) {
-          setError('Please enter a valid account number');
-          return;
-        }
-        const details = await accountApi.getDetails(accountNumber);
-        setAccountDetails(details);
-      } else if (pendingTab === 'all-accounts' && prompt?.type === 'nic') {
-        // Fetch all accounts by NIC
-        const accounts = await accountApi.getAccountsByNic(value.trim());
-        setAllAccounts(accounts);
-      }
+      const accounts = await accountApi.getAccountsByNic(nicInput.trim());
+      setAllAccounts(accounts);
     } catch (err: any) {
       if (err.response?.status === 404) {
-        setError('No account found with the provided details');
+        setError('No account found with the provided NIC');
       } else {
         setError(err.response?.data?.message || 'Failed to fetch account details');
       }
-      console.error('Error fetching account details:', err);
     } finally {
       setLoading(false);
     }
-    
-    // Keep the current tab active and set the value
     if (pendingTab) {
       setActiveSubTab(pendingTab);
       setPendingTab(null);
     }
   };
 
-  const handleCancelPrompt = () => {
+  const handleSubmitAccount = async () => {
+    if (!accountInput.trim()) {
+      setError('Please enter a valid account number');
+      return;
+    }
     setPrompt(null);
-    setPendingTab(null);
+    setQueryValue(accountInput);
+    setLoading(true);
     setError(null);
     setAccountDetails(null);
+    try {
+      const accountNumber = parseInt(accountInput.trim());
+      if (isNaN(accountNumber)) {
+        setError('Please enter a valid account number');
+        return;
+      }
+      const details = await accountApi.getDetails(accountNumber);
+      setAccountDetails(details);
+    } catch (err: any) {
+      if (err.response?.status === 404) {
+        setError('No account found with the provided details');
+      } else {
+        setError(err.response?.data?.message || 'Failed to fetch account details');
+      }
+    } finally {
+      setLoading(false);
+    }
+    if (pendingTab) {
+      setActiveSubTab(pendingTab);
+      setPendingTab(null);
+    }
   };
 
   return (
@@ -119,20 +117,30 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
         title="Accounts"
         description="Manage your accounts efficiently and securely"
       />
-      
       <SubTabGrid 
         subTabs={subTabs}
         activeSubTab={activeSubTab}
         onSubTabChange={handleTabClick}
       />
-
       {prompt && (
-        <PromptInput 
-          label={prompt.label} 
-          placeholder={activeSubTab === 'all-accounts' ? 'e.g. 971234567V' : 'e.g. 10001234'}
-          onCancel={handleCancelPrompt} 
-          onSubmit={handleSubmitPrompt} 
-        />
+        <div className="mt-4 bg-white p-6 rounded-lg shadow-sm">
+          {pendingTab === 'account-details' ? (
+            <AccountNumberInput
+              accountNo={accountInput}
+              onAccountNoChange={setAccountInput}
+              onFetchDetails={handleSubmitAccount}
+              isLoading={loading}
+              onDebugAuth={() => {}}
+            />
+          ) : (
+            <NICNumberInput
+              nicNumber={nicInput}
+              onNICNumberChange={setNicInput}
+              onFetchDetails={handleSubmitNIC}
+              isLoading={loading}
+            />
+          )}
+        </div>
       )}
       {allAccounts && activeSubTab === 'all-accounts' && (
         <div className="mt-6 w-full">
@@ -148,7 +156,6 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
             />
         </div>
       )}
-
       {loading && (
         <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <div className="flex items-center gap-3">
@@ -157,7 +164,6 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
           </div>
         </div>
       )}
-
       {error && (
         <div className="mt-6">
           <Alert type="error">
@@ -176,7 +182,6 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
           </Alert>
         </div>
       )}
-
       {accountDetails && activeSubTab === 'account-details' && (
         <div className="mt-6 w-full">
           <AccountDetailsDisplay 
@@ -191,13 +196,6 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
           />
         </div>
       )}
-
-      {/* {queryValue && !loading && !error && !accountDetails && (
-        <div className="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-          <p className="text-sm text-slate-600">Query: {queryValue}</p>
-          <p className="text-sm text-slate-500 mt-1">No results found for this query.</p>
-        </div>
-      )} */}
     </div>
   );
 };

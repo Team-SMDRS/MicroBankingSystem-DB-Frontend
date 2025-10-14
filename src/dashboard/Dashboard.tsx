@@ -29,7 +29,7 @@ const Dashboard = () => {
 
   const handleMainTabChange = (tabId: MainTab) => {
     setActiveMainTab(tabId);
-    // Set default sub tab based on main tab
+    // Set default sub tab based on main tab, but none for customer-details
     const defaultSubTabs: Record<string, string> = {
       'transactions': 'bank-transfer',
       'summary': 'branch-summary',

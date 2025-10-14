@@ -28,7 +28,7 @@ const AccountNumberInput = ({
           onChange={(e) => onAccountNoChange(e.target.value)}
           required
           placeholder="Enter account number"
-          className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all outline-none"
+          className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:border-gray-800 focus:ring-2 focus:ring-gray-200 transition-all outline-none"
         />
         <button
           type="button"
