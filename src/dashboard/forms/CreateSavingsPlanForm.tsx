@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { savingsPlanApi } from '../../api/savingsPlans';
-import type { SavingsPlanCreateRequest } from '../../api/savingsPlans';
 import SubmitButton from '../../components/common/SubmitButton';
 import Alert from '../../components/common/Alert';
 
