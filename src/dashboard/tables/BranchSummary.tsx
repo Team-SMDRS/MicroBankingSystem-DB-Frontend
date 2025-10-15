@@ -338,11 +338,11 @@ const BranchSummary = () => {
           </div>
 
           {/* Top Accounts Section */}
-          {branchReport.top_accounts && branchReport.top_accounts.length > 0 && (
+          {branchReport.all_accounts && branchReport.all_accounts.length > 0 && (
             <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
               <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-blue-50 to-white">
-                <h3 className="text-xl font-bold text-slate-800">Top Active Accounts</h3>
-                <p className="text-sm text-slate-500">Most active accounts in this branch (Last 30 Days)</p>
+                <h3 className="text-xl font-bold text-slate-800">All Active Accounts</h3>
+                <p className="text-sm text-slate-500">All active accounts in this branch (Last 30 Days)</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -355,7 +355,7 @@ const BranchSummary = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {branchReport.top_accounts.map((account) => (
+                    {branchReport.all_accounts.map((account) => (
                       <tr key={account.acc_id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
                         <td className="px-6 py-4 text-sm font-medium text-slate-800">
                           {account.acc_holder_name || 'N/A'}

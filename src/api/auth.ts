@@ -98,6 +98,38 @@ export const authApi = {
   updateProfile: async (data: { email?: string; phone?: string }): Promise<LoginResponse['user']> => {
     const response = await api.put('/api/auth/profile', data);
     return response.data;
+  },
+
+  // Get user data (profile info)
+  getUserData: async (): Promise<any> => {
+    const response = await api.get('/api/auth/user_data');
+    return response.data;
+  },
+
+  // Get user transactions history
+  getUserTransactions: async (): Promise<any> => {
+    const response = await api.get('/api/auth/user/transactions_history');
+    return response.data;
+  },
+
+  // Update password
+  updatePassword: async (data: { old_password: string; new_password: string }): Promise<{ success: boolean; message: string }> => {
+    const response = await api.post('/api/auth/update_password', data);
+    return response.data;
+  },
+
+  // Get today's transactions
+  getTodayTransactions: async (): Promise<any> => {
+    const response = await api.get('/api/auth/user/today_transactions');
+    return response.data;
+  },
+
+  // Get transactions by date range
+  getTransactionsByDateRange: async (startDate: string, endDate: string): Promise<any> => {
+    const response = await api.get('/api/auth/user/transactions_by_date_range', {
+      params: { start_date: startDate, end_date: endDate }
+    });
+    return response.data;
   }
 };
 

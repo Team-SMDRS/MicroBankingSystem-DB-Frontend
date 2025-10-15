@@ -13,6 +13,8 @@ interface TransactionData {
   created_at: string;
   created_by: string;
   balance_after: number;
+  account_no: string;
+  username: string;
 }
 
 const TransactionSummary = () => {
@@ -121,6 +123,7 @@ const TransactionSummary = () => {
                 <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">To Account</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Amount</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Description</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Created by</th>
               </tr>
             </thead>
             <tbody>
@@ -133,16 +136,19 @@ const TransactionSummary = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-600">
-                    {transaction.type === 'Deposit' || transaction.type === 'BankTransfer-In' ? '-' : transaction.acc_id}
+                    {transaction.type === 'Deposit' || transaction.type === 'BankTransfer-In' ? '-' : transaction.account_no}
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-600">
-                    {transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out' ? '-' : transaction.acc_id}
+                    {transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out' ? '-' : transaction.account_no}
                   </td>
                   <td className="px-6 py-4 text-sm font-semibold text-blue-600">
                     {formatCurrency(transaction.amount)}
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-600">
                     {transaction.description || transaction.reference_no || '-'}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-600">
+                    {transaction.username || transaction.created_by || 'N/A'}
                   </td>
                 </tr>
               ))}

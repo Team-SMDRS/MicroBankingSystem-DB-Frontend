@@ -62,24 +62,36 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
         </nav>
 
         <div className="p-4 border-t border-slate-200 bg-white flex-shrink-0">
-          <div className="flex items-center gap-3 px-4 py-3 bg-slate-50 rounded-xl">
-            <div className="w-10 h-10 bg-gradient-to-br from-slate-300 to-slate-400 rounded-full flex items-center justify-center text-slate-700 font-semibold">
+          <button
+            onClick={() => onMainTabChange('my-profile' as MainTab)}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeMainTab === 'my-profile'
+              ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-600/30'
+              : 'bg-slate-50 hover:bg-slate-100 text-slate-800 hover:text-slate-900'
+            }`}
+          >
+            <div className="w-10 h-10 bg-gradient-to-br from-slate-300 to-slate-400 rounded-full flex items-center justify-center text-slate-700 font-semibold flex-shrink-0">
               {user?.username?.slice(0, 2).toUpperCase() || 'JD'}
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-slate-800">
+            <div className="flex-1 text-left">
+              <p className={`text-sm font-semibold ${activeMainTab === 'my-profile' ? 'text-white' : 'text-slate-800'}`}>
                 {user?.username || 'John Doe'}
               </p>
-              <p className="text-xs text-slate-500">Administrator</p>
+              <p className={`text-xs ${activeMainTab === 'my-profile' ? 'text-white/70' : 'text-slate-500'}`}>View Profile</p>
             </div>
             <button
-              onClick={onLogout}
-              className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                onLogout();
+              }}
+              className={`p-2 rounded-lg transition-colors ${activeMainTab === 'my-profile'
+                ? 'text-white/70 hover:text-white hover:bg-white/10'
+                : 'text-slate-500 hover:text-red-600 hover:bg-red-50'
+              }`}
               title="Logout"
             >
               <LogOut className="w-4 h-4" />
             </button>
-          </div>
+          </button>
         </div>
       </aside>
 

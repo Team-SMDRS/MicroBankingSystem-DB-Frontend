@@ -23,7 +23,7 @@ export interface BranchTransactionReport {
     start_date: string;
     end_date: string;
   };
-  top_accounts?: Array<{
+  all_accounts?: Array<{
     acc_id: string;
     acc_holder_name: string;
     transaction_count: number;
