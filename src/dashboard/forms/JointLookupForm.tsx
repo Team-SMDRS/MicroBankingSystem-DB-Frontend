@@ -94,8 +94,8 @@ const JointLookupForm: React.FC = () => {
     setNic1('');
     setNic2('');
     setFound1(null);
-    setFound2(null);
-    setErrors([]);
+    // setFound2(null);
+    // setErrors([]);
     setFound2(null);
     setErrors([]);
   };
