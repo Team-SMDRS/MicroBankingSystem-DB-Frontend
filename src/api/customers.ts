@@ -7,9 +7,10 @@ export interface CustomerDetails {
   address: string;
   phone_number: string;
   dob: string;
-  created_at: string;
+  created_at?: string;
   updated_at?: string;
   created_by?: string;
+  created_by_user_name?: string;
   updated_by?: string;
 }
 
@@ -20,7 +21,7 @@ export interface UpdateCustomerData {
 }
 
 export const fetchCustomerDetailsByNIC = async (nic: string): Promise<CustomerDetails> => {
-  const response = await api.get(`api/account-management/customer/by-nic/${nic}`);
+  const response = await api.get(`customer_data/details/by-nic/${nic}`);
   return response.data;
 };
 

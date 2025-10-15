@@ -58,7 +58,7 @@ const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess, isLoadin
                         <div className="text-sm text-slate-800">{createdBranch.address}</div>
                         
                         <div className="text-sm font-medium text-slate-600">Branch ID:</div>
-                        <div className="text-sm text-slate-700 font-mono text-xs">{createdBranch.branch_id}</div>
+                        <div className="text-sm text-slate-700 font-mono">{createdBranch.branch_id}</div>
                         
                         <div className="text-sm font-medium text-slate-600">Created At:</div>
                         <div className="text-sm text-slate-700">

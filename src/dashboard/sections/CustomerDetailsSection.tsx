@@ -52,7 +52,7 @@ const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetai
                 address: details.address,
                 phone_number: details.phone_number,
                 dob: details.dob,
-                created_by_user_name: details.created_by || "N/A"
+                created_by_user_name: details.created_by_user_name || "N/A"
             });
         } catch (err) {
             setError("Customer not found or error fetching details.");
