@@ -1,4 +1,3 @@
-import React from 'react';
 import { Users, CreditCard, Trash2 } from 'lucide-react';
 import SavingsLookupForm from '../forms/SavingsLookupForm';
 import JointLookupForm from '../forms/JointLookupForm';
