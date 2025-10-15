@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { LayoutDashboard, Users, Wallet, UserPlus, ArrowLeftRight, Building2, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, Wallet, UserPlus, ArrowLeftRight, Building2, LogOut, PiggyBank } from 'lucide-react';
 import type { MainTab } from '../../dashboard/Dashboard';
 
 interface MainLayoutProps {
@@ -19,6 +19,7 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
     { id: 'users' as MainTab, label: 'Users', icon: Users },
     { id: 'customer-details' as MainTab, label: 'Customer Details', icon: Users },
     { id: 'branches' as MainTab, label: 'Branch Management', icon: Building2 },
+    { id: 'savings-plans' as MainTab, label: 'Savings Plans', icon: PiggyBank },
   ];
 
   return (

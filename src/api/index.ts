@@ -5,6 +5,7 @@ export { accountApi, type AccountDetails, type CreateAccountRequest } from './ac
 export { transactionApi, type WithdrawalRequest, type DepositRequest, type TransactionResponse } from './transactions';
 export { userApi, type User, type CreateUserRequest } from './users';
 export { reportsApi, type ReportParams, type TransactionReport } from './reports';
+export { savingsPlanApi, type SavingsPlanCreateRequest, type SavingsPlanCreateResponse, type SavingsPlan } from './savingsPlans';
 export { 
   jointAccountApi, 
   type JointAccountCreateRequest, 
