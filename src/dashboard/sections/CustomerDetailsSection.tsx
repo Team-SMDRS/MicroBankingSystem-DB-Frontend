@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { User, Wallet } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+import { User } from 'lucide-react';
 import SubTabGrid from '../../components/layout/SubTabGrid';
 import SectionHeader from "../../components/layout/SectionHeader";
 import CustomerInfoBlock from "../../components/customer/CustomerInfoBlock";
@@ -13,7 +13,6 @@ interface CustomerDetailsSectionProps {
 
 const subTabs = [
   { id: 'customer-info', label: 'Customer Details', icon: User },
-  { id: 'customer-accounts', label: 'Update Customer Details', icon: Wallet },
 ];
 
 const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetailsSectionProps) => {
@@ -34,9 +33,22 @@ const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetai
     // State for Update Customer Details tab
     const [customerIdInput, setCustomerIdInput] = useState("");
     const [showUpdateForm, setShowUpdateForm] = useState(false);
+    
+    // Ref for update form section for auto-scrolling
+    const updateFormRef = useRef<HTMLDivElement>(null);
 
     // Only show content if a tab is selected
     const showContent = !!activeSubTab;
+    
+    // Effect to scroll to the update form when it becomes visible
+    useEffect(() => {
+        if (showUpdateForm && updateFormRef.current) {
+            // Smooth scroll to the update form with a slight delay to ensure render is complete
+            setTimeout(() => {
+                updateFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    }, [showUpdateForm]);
 
     const handleFetchDetails = async () => {
         setIsLoading(true);
@@ -79,7 +91,7 @@ const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetai
                 }}
             />
 
-            {/* Customer Details Tab (existing) */}
+            {/* Customer Details Tab with Update functionality */}
             {showContent && activeSubTab === "customer-info" && (
                 <CustomerInfoBlock
                     activeSubTab={activeSubTab}
@@ -90,38 +102,24 @@ const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetai
                     error={error}
                     customerDetails={customerDetails}
                     onCloseDetails={() => setCustomerDetails(null)}
-                />
-            )}
-
-            {/* Update Customer Details Tab */}
-            {showContent && activeSubTab === "customer-accounts" && !showUpdateForm && (
-                <div className="mt-8 w-full max-w-6xl mx-auto p-4 border rounded bg-white">
-                    <h2 className="text-lg font-bold mb-2">Enter Customer ID</h2>
-                    <input
-                        type="text"
-                        value={customerIdInput}
-                        onChange={e => setCustomerIdInput(e.target.value)}
-                        placeholder="Customer ID"
-                        className="w-full p-2 border rounded mb-2"
-                    />
-                    <button
-                        className="bg-blue-600 text-white px-4 py-2 rounded"
-                        disabled={!customerIdInput}
-                        onClick={() => setShowUpdateForm(true)}
-                    >
-                        Fetch Details
-                    </button>
-                </div>
-            )}
-
-            {showContent && activeSubTab === "customer-accounts" && showUpdateForm && (
-                <UpdateCustomerForm
-                    customerId={customerIdInput}
-                    onClose={() => {
-                        setShowUpdateForm(false);
-                        setCustomerIdInput("");
+                    onUpdateDetails={(customerId) => {
+                        setCustomerIdInput(customerId);
+                        setShowUpdateForm(true);
                     }}
                 />
+            )}
+
+            {/* Update Customer Form (shown when update button is clicked) */}
+            {showContent && showUpdateForm && (
+                <div ref={updateFormRef}>
+                    <UpdateCustomerForm
+                        customerId={customerIdInput}
+                        onClose={() => {
+                            setShowUpdateForm(false);
+                            setCustomerIdInput("");
+                        }}
+                    />
+                </div>
             )}
         </div>
     );

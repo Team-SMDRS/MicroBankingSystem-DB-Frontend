@@ -18,6 +18,7 @@ interface CustomerInfoBlockProps {
     created_by_user_name: string;
   } | null;
   onCloseDetails?: () => void;
+  onUpdateDetails?: (customerId: string) => void;
 }
 
 const CustomerInfoBlock: React.FC<CustomerInfoBlockProps> = ({
@@ -29,6 +30,7 @@ const CustomerInfoBlock: React.FC<CustomerInfoBlockProps> = ({
   error,
   customerDetails,
   onCloseDetails,
+  onUpdateDetails,
 }) => {
   return (
     <div className="mt-6 bg-white p-6 rounded-lg shadow-sm">
@@ -45,14 +47,6 @@ const CustomerInfoBlock: React.FC<CustomerInfoBlockProps> = ({
           {error && <div className="mt-4 text-red-600">{error}</div>}
           {customerDetails && (
             <div className="mt-6 border rounded-xl p-6 bg-blue-50 shadow-md relative">
-              <button
-                className="absolute top-3 right-3 text-slate-600 hover:text-white hover:bg-red-600 font-semibold px-4 py-2 rounded-full border border-red-200 bg-red-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-red-400"
-                onClick={onCloseDetails}
-                title="Close"
-                aria-label="Close details"
-              >
-                Close
-              </button>
               <div className="flex items-center mb-4 gap-3">
                 <div className="bg-blue-100 rounded-full p-2">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
@@ -83,6 +77,26 @@ const CustomerInfoBlock: React.FC<CustomerInfoBlockProps> = ({
                   <span className="font-semibold text-slate-700 w-36">Created By:</span>
                   <span className="text-slate-900">{customerDetails.created_by_user_name}</span>
                 </div>
+              </div>
+              
+              {/* Action buttons moved to the bottom */}
+              <div className="mt-6 flex justify-end space-x-3">
+                <button
+                  className="text-white bg-blue-600 hover:bg-blue-700 font-semibold px-4 py-2 rounded-md border border-blue-200 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  onClick={() => onUpdateDetails && onUpdateDetails(customerDetails.customer_id)}
+                  title="Update Details"
+                  aria-label="Update customer details"
+                >
+                  Update Details
+                </button>
+                <button
+                  className="text-slate-600 hover:text-white hover:bg-red-600 font-semibold px-4 py-2 rounded-md border border-red-200 bg-red-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-red-400"
+                  onClick={onCloseDetails}
+                  title="Close"
+                  aria-label="Close details"
+                >
+                  Close
+                </button>
               </div>
             </div>
           )}
