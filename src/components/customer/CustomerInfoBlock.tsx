@@ -87,7 +87,7 @@ const CustomerInfoBlock: React.FC<CustomerInfoBlockProps> = ({
                   title="Update Details"
                   aria-label="Update customer details"
                 >
-                  Update Details
+                  Edit Details
                 </button>
                 <button
                   className="text-slate-600 hover:text-white hover:bg-red-600 font-semibold px-4 py-2 rounded-md border border-red-200 bg-red-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-red-400"
