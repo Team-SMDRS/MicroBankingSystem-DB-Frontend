@@ -8,7 +8,7 @@ import Alert from '../../components/common/Alert';
 interface SavingsPlanFormData {
   plan_name: string;
   interest_rate: string;
-  min_balance: string;
+  minimum_balance: string;
 }
 
 interface CreateSavingsPlanFormProps {
@@ -19,7 +19,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
   const [formData, setFormData] = useState<SavingsPlanFormData>({
     plan_name: '',
     interest_rate: '',
-    min_balance: ''
+    minimum_balance: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,7 +46,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
       return false;
     }
     
-    const minBalance = parseFloat(formData.min_balance);
+    const minBalance = parseFloat(formData.minimum_balance);
     if (isNaN(minBalance) || minBalance < 0) {
       setError('Minimum balance cannot be negative');
       return false;
@@ -71,7 +71,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
       const apiData = {
         plan_name: formData.plan_name,
         interest_rate: parseFloat(formData.interest_rate),
-        min_balance: parseFloat(formData.min_balance)
+        minimum_balance: parseFloat(formData.minimum_balance)
       };
       
       // Store original plan name before resetting form
@@ -87,7 +87,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
         setFormData({
           plan_name: '',
           interest_rate: '',
-          min_balance: ''
+          minimum_balance: ''
         });
         
         // Call onSuccess if provided
@@ -182,14 +182,14 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
         </div>
         
         <div>
-          <label htmlFor="min_balance" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="minimum_balance" className="block text-sm font-medium text-gray-700 mb-1">
             Minimum Balance
           </label>
           <input
             type="number"
-            id="min_balance"
-            name="min_balance"
-            value={formData.min_balance}
+            id="minimum_balance"
+            name="minimum_balance"
+            value={formData.minimum_balance}
             onChange={handleInputChange}
             className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
             step="0.01"

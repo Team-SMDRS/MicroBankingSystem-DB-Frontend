@@ -39,7 +39,7 @@ const Dashboard = () => {
       'users': 'customers',
       'customer-details': 'customer-info',
       'branches': 'summary',
-      'savings-plans': 'plans',
+      'savings-plans': 'create',
     };
     setActiveSubTab(defaultSubTabs[tabId]);
   };

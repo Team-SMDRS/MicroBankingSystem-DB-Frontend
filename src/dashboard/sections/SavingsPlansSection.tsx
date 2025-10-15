@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { PiggyBank, List } from 'lucide-react';
 import SubTabGrid from "../../components/layout/SubTabGrid";
 import SectionHeader from "../../components/layout/SectionHeader";
 import CreateSavingsPlanForm from "../forms/CreateSavingsPlanForm";
+import UpdateSavingsPlanForm from "../forms/UpdateSavingsPlanForm";
+import SavingsPlanList from "../components/SavingsPlanList";
 import Alert from "../../components/common/Alert";
+import type { SavingsPlan } from '../../api/savingsPlans';
 
 interface SavingsPlansSectionProps {
   activeSubTab: string;
@@ -18,17 +21,42 @@ const subTabs = [
 const SavingsPlansSection = ({ activeSubTab, setActiveSubTab }: SavingsPlansSectionProps) => {
   const showContent = !!activeSubTab;
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<SavingsPlan | null>(null);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const savingsPlanListRef = useRef<import("../components/SavingsPlanList").SavingsPlanListRef>(null);
 
   // Handler for when a savings plan is successfully created
   const handleSavingsPlanCreated = (savingsPlanId: string) => {
     setSuccessMessage(`Savings plan created successfully! ID: ${savingsPlanId}`);
     
-    // Optionally switch to plans tab after a delay
+    // Switch to plans tab after a delay to show the new plan
     setTimeout(() => {
       setSuccessMessage(null);
-      // Uncomment to auto-switch to plans tab
-      // setActiveSubTab("plans");
-    }, 5000);
+      setActiveSubTab("plans");
+    }, 3000);
+  };
+  
+  // Handler for when the update button is clicked on a plan
+  const handleUpdatePlanClick = (plan: SavingsPlan) => {
+    setSelectedPlan(plan);
+    setShowUpdateForm(true);
+  };
+  
+  // Handler for when a plan is successfully updated
+  const handleUpdateSuccess = () => {
+    setSuccessMessage("Interest rate updated successfully!");
+    setShowUpdateForm(false);
+    setSelectedPlan(null);
+    
+    // Refresh the plans list to show updated interest rate
+    if (savingsPlanListRef.current) {
+      savingsPlanListRef.current.refreshPlans();
+    }
+    
+    // Reset state after a delay to allow the user to see the success message
+    setTimeout(() => {
+      setSuccessMessage(null);
+    }, 2000);
   };
 
   return (
@@ -70,24 +98,46 @@ const SavingsPlansSection = ({ activeSubTab, setActiveSubTab }: SavingsPlansSect
 
       {showContent && activeSubTab === "plans" && (
         <div className="mt-4">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-bold mb-4">Savings Plans</h3>
-            <div className="flex justify-between items-center mb-4">
-              <p className="text-gray-600">
-                View all available savings plans
-              </p>
-              <button 
-                onClick={() => setActiveSubTab("create")}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-              >
-                Create New Plan
-              </button>
+          {showUpdateForm && selectedPlan ? (
+            <div className="bg-white p-6 rounded-lg shadow-md mb-4">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold">Update Savings Plan</h3>
+                <button 
+                  onClick={() => setShowUpdateForm(false)}
+                  className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition-colors"
+                >
+                  Back to Plans List
+                </button>
+              </div>
+              <UpdateSavingsPlanForm 
+                plan={selectedPlan} 
+                onSuccess={handleUpdateSuccess}
+                onCancel={() => {
+                  setShowUpdateForm(false);
+                  setSelectedPlan(null);
+                }}
+              />
             </div>
-            <div className="border-t pt-4 text-center text-gray-500">
-              <p>Available savings plans will be listed here.</p>
-              <p className="mt-2 text-sm">Click "Create New Plan" to add a new savings plan.</p>
+          ) : (
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold">Savings Plans</h3>
+                <button 
+                  onClick={() => setActiveSubTab("create")}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                >
+                  Create New Plan
+                </button>
+              </div>
+              <p className="text-gray-600 mb-4">View and manage all available savings plans</p>
+              <div className="mt-4">
+                <SavingsPlanList 
+                ref={savingsPlanListRef}
+                onUpdateClick={(plan) => handleUpdatePlanClick(plan)} 
+              />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
