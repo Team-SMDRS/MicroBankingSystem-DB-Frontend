@@ -33,8 +33,13 @@ const TransactionSummary = () => {
         const startDate = new Date();
         startDate.setDate(startDate.getDate() - 30);
         
-        // Format dates as YYYY-MM-DD
-        const formatDate = (date: Date) => date.toISOString().split('T')[0];
+        // Format dates as YYYY-MM-DD (local timezone)
+        const formatDate = (date: Date) => {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+        };
         
         const response = await transactionApi.getAllTransactions({
           start_date: formatDate(startDate),
