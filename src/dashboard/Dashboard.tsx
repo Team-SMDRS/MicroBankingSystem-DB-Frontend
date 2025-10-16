@@ -11,9 +11,8 @@ import CustomerDetailsSection from "./sections/CustomerDetailsSection";
 import BranchSection from "./sections/BranchSection";
 import SavingsPlansSection from "./sections/SavingsPlansSection";
 import FixedDepositSection from "./sections/FixedDepositSection";
-import FDPlanSection from "./sections/FDPlanSection";
 
-export type MainTab = 'transactions' | 'summary' | 'accounts' | 'create-account' | 'users' | 'customer-details' | 'branches' | 'savings-plans' | 'fixed-deposits' | 'fd-plans';
+export type MainTab = 'transactions' | 'summary' | 'accounts' | 'create-account' | 'users' | 'customer-details' | 'branches' | 'savings-plans' | 'fixed-deposits';
 
 const Dashboard = () => {
   const [activeMainTab, setActiveMainTab] = useState<MainTab>('transactions');
@@ -42,7 +41,6 @@ const Dashboard = () => {
       'customer-details': 'customer-info',
       'branches': 'summary',
       'savings-plans': 'create',
-      'fd-plans': 'create-fd-plan',
     };
     setActiveSubTab(defaultSubTabs[tabId]);
   };
@@ -67,8 +65,6 @@ const Dashboard = () => {
         return <SavingsPlansSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'fixed-deposits':
         return <FixedDepositSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
-      case 'fd-plans':
-        return <FDPlanSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       default:
         return <TransactionSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
     }
