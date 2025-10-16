@@ -16,9 +16,23 @@ const CreateFixedDepositForm: React.FC<CreateFixedDepositFormProps> = ({ onSubmi
         const fetchPlans = async () => {
             try {
                 const data = await fdApi.getPlans();
-                setPlans(data);
+                if (Array.isArray(data)) {
+                    setPlans(data);
+                } else if (data == null) {
+                    console.warn('fdApi.getPlans returned null/undefined, defaulting to empty list');
+                    setPlans([]);
+                } else {
+                    // if backend returns an object wrapper like { results: [] }
+                    if (Array.isArray((data as any).results)) {
+                        setPlans((data as any).results);
+                    } else {
+                        console.warn('Unexpected fdApi.getPlans response shape, defaulting to empty list', data);
+                        setPlans([]);
+                    }
+                }
             } catch (err) {
                 console.error('Error fetching FD plans:', err);
+                setPlans([]);
             } finally {
                 setLoading(false);
             }

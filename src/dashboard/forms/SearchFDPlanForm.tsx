@@ -14,7 +14,17 @@ const SearchFDPlanForm: React.FC<SearchFDPlanFormProps> = ({ onSelect }) => {
         const fetchPlans = async () => {
             try {
                 const data = await fdApi.getPlans();
-                setPlans(data);
+                if (Array.isArray(data)) {
+                    setPlans(data);
+                } else if (data == null) {
+                    console.warn('fdApi.getPlans returned null/undefined, defaulting to empty list');
+                    setPlans([]);
+                } else if (Array.isArray((data as any).results)) {
+                    setPlans((data as any).results);
+                } else {
+                    console.warn('Unexpected fdApi.getPlans response shape, defaulting to empty list', data);
+                    setPlans([]);
+                }
             } catch (err: any) {
                 setError(err.message || 'Failed to fetch FD plans');
             } finally {
