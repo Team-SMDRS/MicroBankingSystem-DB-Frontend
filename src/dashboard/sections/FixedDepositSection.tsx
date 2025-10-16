@@ -97,7 +97,8 @@ const FixedDepositSection = ({
   };
 
   const renderContent = () => {
-    const baseClasses = "max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6";
+    const baseClasses = "max-w-3xl mx-auto bg-white rounded-lg shadow-sm p-8";
+    const headerClasses = "text-2xl font-semibold text-slate-800 mb-6";
 
     try {
       if (error) {
@@ -112,47 +113,59 @@ const FixedDepositSection = ({
         case 'create':
           return (
             <div className={baseClasses}>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Create New Fixed Deposit</h3>
+              <h3 className={headerClasses}>Create New Fixed Deposit</h3>
               <CreateFixedDepositForm onSubmit={handleCreateFD} isLoading={loading} />
             </div>
           );
         case 'list':
           return (
             <div className={baseClasses}>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Your Fixed Deposits</h3>
+              <h3 className={headerClasses}>Your Fixed Deposits</h3>
               <FixedDepositList />
             </div>
           );
         case 'create-fd-plan':
           return (
             <div className={baseClasses}>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Create New FD Plan</h3>
-              <CreateFDPlanForm onSuccess={handleCreateFDPlan} isLoading={loading} createdPlan={createdPlan} />
+              <h3 className={headerClasses}>Create New FD Plan</h3>
+              <div className="bg-slate-50 rounded-lg p-6">
+                <CreateFDPlanForm onSuccess={handleCreateFDPlan} isLoading={loading} createdPlan={createdPlan} />
+              </div>
             </div>
           );
         case 'search-fd-plan':
           return (
             <div className={baseClasses}>
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">Search FD Plans</h3>
-              <SearchFDPlanForm onSelect={handleSelectPlan} />
+              <h3 className={headerClasses}>Search FD Plans</h3>
+              <div className="bg-slate-50 rounded-lg p-6 mb-6">
+                <SearchFDPlanForm onSelect={handleSelectPlan} />
+              </div>
               {selectedPlan && (
-                <div className="mt-6 p-4 border rounded-lg bg-white shadow-sm">
-                  <h3 className="text-lg font-semibold mb-2">Selected Plan Details</h3>
-                  <div className="text-sm text-slate-700 mb-2">
-                    Duration: <span className="font-medium">{selectedPlan.duration} months</span>
+                <div className="p-6 border rounded-lg bg-white shadow-md">
+                  <h3 className="text-xl font-semibold mb-4">Selected Plan Details</h3>
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="p-4 bg-slate-50 rounded-lg">
+                      <div className="text-sm text-slate-600 mb-1">Duration</div>
+                      <div className="text-lg font-medium text-slate-800">{selectedPlan.duration} months</div>
+                    </div>
+                    <div className="p-4 bg-slate-50 rounded-lg">
+                      <div className="text-sm text-slate-600 mb-1">Interest Rate</div>
+                      <div className="text-lg font-medium text-slate-800">{selectedPlan.interest_rate}%</div>
+                    </div>
                   </div>
-                  <div className="text-sm text-slate-700 mb-2">
-                    Interest Rate: <span className="font-medium">{selectedPlan.interest_rate}%</span>
+                  <div className="flex justify-between items-center border-t pt-4">
+                    <div>
+                      <div className="text-sm text-slate-600">Status: <span className="font-medium text-slate-800">{selectedPlan.status}</span></div>
+                      <div className="text-sm text-slate-500">ID: {selectedPlan.fd_plan_id}</div>
+                    </div>
+                    <button
+                      type="button"
+                      className="px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors"
+                      onClick={() => setSelectedPlan(null)}
+                    >
+                      Clear Selection
+                    </button>
                   </div>
-                  <div className="text-sm text-slate-600 mb-2">Status: {selectedPlan.status}</div>
-                  <div className="text-sm text-slate-500 mb-4">ID: {selectedPlan.fd_plan_id}</div>
-                  <button
-                    type="button"
-                    className="px-3 py-1 border rounded text-sm text-slate-700 hover:bg-slate-50"
-                    onClick={() => setSelectedPlan(null)}
-                  >
-                    Clear
-                  </button>
                 </div>
               )}
             </div>

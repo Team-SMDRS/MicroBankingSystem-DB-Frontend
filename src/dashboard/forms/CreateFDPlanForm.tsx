@@ -24,7 +24,7 @@ const CreateFDPlanForm: React.FC<CreateFDPlanFormProps> = ({ onSuccess, isLoadin
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label htmlFor="duration" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="duration" className="block text-sm font-medium text-slate-700 mb-2">
                     Duration (months)
                 </label>
                 <input
@@ -32,7 +32,7 @@ const CreateFDPlanForm: React.FC<CreateFDPlanFormProps> = ({ onSuccess, isLoadin
                     id="duration"
                     value={duration}
                     onChange={(e) => setDuration(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-lg border-slate-200 bg-white px-4 py-2.5 text-slate-800 shadow-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:text-sm"
                     required
                     min="1"
                     placeholder="Enter duration in months"
@@ -40,7 +40,7 @@ const CreateFDPlanForm: React.FC<CreateFDPlanFormProps> = ({ onSuccess, isLoadin
             </div>
 
             <div>
-                <label htmlFor="interestRate" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="interestRate" className="block text-sm font-medium text-slate-700 mb-2">
                     Interest Rate (%)
                 </label>
                 <input
@@ -48,7 +48,7 @@ const CreateFDPlanForm: React.FC<CreateFDPlanFormProps> = ({ onSuccess, isLoadin
                     id="interestRate"
                     value={interestRate}
                     onChange={(e) => setInterestRate(e.target.value)}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full rounded-lg border-slate-200 bg-white px-4 py-2.5 text-slate-800 shadow-sm transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-200 sm:text-sm"
                     required
                     step="0.01"
                     min="0"
@@ -59,18 +59,31 @@ const CreateFDPlanForm: React.FC<CreateFDPlanFormProps> = ({ onSuccess, isLoadin
             <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400"
+                className="w-full flex justify-center py-3 px-4 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:bg-slate-300 disabled:cursor-not-allowed shadow-sm"
             >
                 {isLoading ? 'Creating...' : 'Create FD Plan'}
             </button>
 
             {createdPlan && (
-                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-md">
-                    <h4 className="text-sm font-medium text-green-800">Plan Created Successfully</h4>
-                    <div className="mt-2 text-sm text-green-700">
-                        <p>Duration: {createdPlan.duration} months</p>
-                        <p>Interest Rate: {createdPlan.interest_rate}%</p>
-                        <p>Plan ID: {createdPlan.fd_plan_id}</p>
+                <div className="mt-6 p-6 bg-white border border-blue-100 rounded-lg shadow-sm">
+                    <div className="flex items-center text-blue-600 mb-4">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <h4 className="font-medium">Plan Created Successfully</h4>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="p-3 bg-slate-50 rounded-lg">
+                            <div className="text-sm text-slate-600 mb-1">Duration</div>
+                            <div className="font-medium text-slate-800">{createdPlan.duration} months</div>
+                        </div>
+                        <div className="p-3 bg-slate-50 rounded-lg">
+                            <div className="text-sm text-slate-600 mb-1">Interest Rate</div>
+                            <div className="font-medium text-slate-800">{createdPlan.interest_rate}%</div>
+                        </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-slate-100">
+                        <div className="text-sm text-slate-500">Plan ID: {createdPlan.fd_plan_id}</div>
                     </div>
                 </div>
             )}

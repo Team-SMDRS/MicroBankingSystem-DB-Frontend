@@ -52,64 +52,88 @@ const CreateFixedDepositForm: React.FC<CreateFixedDepositFormProps> = ({ onSubmi
     };
 
     if (loading) {
-        return <div className="text-center py-4">Loading FD plans...</div>;
+        return (
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+                <div className="text-center text-slate-600">Loading FD plans...</div>
+            </div>
+        );
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-                <label htmlFor="plan" className="block text-sm font-medium text-gray-700 mb-2">
-                    Select FD Plan
-                </label>
-                <select
-                    id="plan"
-                    value={selectedPlanId}
-                    onChange={(e) => setSelectedPlanId(e.target.value)}
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                    required
-                >
-                    <option value="">Select a plan</option>
-                    {plans.map((plan) => (
-                        <option key={plan.fd_plan_id} value={plan.fd_plan_id}>
-                            {plan.duration} months @ {plan.interest_rate}% interest
-                        </option>
-                    ))}
-                </select>
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
+            <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 className="text-2xl font-bold text-slate-800">Create Fixed Deposit</h3>
+                    <p className="text-sm text-slate-500">Create a new fixed deposit with selected plan</p>
+                </div>
             </div>
 
-            <div>
-                <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
-                    Amount (in Rs.)
-                </label>
-                <input
-                    type="number"
-                    id="amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                    required
-                    min="1000"
-                    placeholder="Enter deposit amount"
-                />
-                <p className="mt-1 text-sm text-gray-500">Minimum amount: Rs. 1,000</p>
-            </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                    <label htmlFor="plan" className="block text-sm font-semibold text-slate-700 mb-2">
+                        Select FD Plan
+                    </label>
+                    <select
+                        id="plan"
+                        value={selectedPlanId}
+                        onChange={(e) => setSelectedPlanId(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                        required
+                    >
+                        <option value="">Select a plan</option>
+                        {plans.map((plan) => (
+                            <option key={plan.fd_plan_id} value={plan.fd_plan_id}>
+                                {plan.duration} months @ {plan.interest_rate}% interest
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
+                    <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+                        Amount (in Rs.)
+                    </label>
+                    <input
+                        type="number"
+                        id="amount"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+                        required
+                        min="1000"
+                        placeholder="Enter deposit amount"
+                    />
+                    <p className="mt-2 text-sm text-slate-500">Minimum amount: Rs. 1,000</p>
+                </div>
 
             {selectedPlanId && plans.find(p => p.fd_plan_id === selectedPlanId) && (
-                <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="text-sm font-medium text-gray-900">Selected Plan Details</h4>
-                    <div className="mt-2 text-sm text-gray-600">
+                <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
+                    <h4 className="text-lg font-medium text-slate-800 mb-4">Selected Plan Details</h4>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
                         {(() => {
                             const plan = plans.find(p => p.fd_plan_id === selectedPlanId)!;
                             return (
                                 <>
-                                    <p>Duration: {plan.duration} months</p>
-                                    <p>Interest Rate: {plan.interest_rate}%</p>
+                                    <div className="p-4 bg-slate-50 rounded-lg">
+                                        <div className="text-sm text-slate-600 mb-1">Duration</div>
+                                        <div className="text-lg font-medium text-slate-800">{plan.duration} months</div>
+                                    </div>
+                                    <div className="p-4 bg-slate-50 rounded-lg">
+                                        <div className="text-sm text-slate-600 mb-1">Interest Rate</div>
+                                        <div className="text-lg font-medium text-slate-800">{plan.interest_rate}%</div>
+                                    </div>
                                     {amount && (
-                                        <p>
-                                            Maturity Amount (approx.): Rs. {
-                                                (Number(amount) * (1 + (Number(plan.interest_rate) / 100) * (plan.duration / 12))).toFixed(2)
-                                            }
-                                        </p>
+                                        <div className="col-span-2 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                                            <div className="text-sm text-blue-600 mb-1">Maturity Amount (approx.)</div>
+                                            <div className="text-lg font-medium text-blue-700">
+                                                Rs. {(Number(amount) * (1 + (Number(plan.interest_rate) / 100) * (plan.duration / 12))).toFixed(2)}
+                                            </div>
+                                        </div>
                                     )}
                                 </>
                             );
@@ -121,11 +145,12 @@ const CreateFixedDepositForm: React.FC<CreateFixedDepositFormProps> = ({ onSubmi
             <button
                 type="submit"
                 disabled={isLoading || !amount || !selectedPlanId}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400"
+                className="w-full flex justify-center py-3 px-6 rounded-lg text-base font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:bg-slate-300 disabled:cursor-not-allowed shadow-sm"
             >
                 {isLoading ? 'Creating...' : 'Create Fixed Deposit'}
             </button>
-        </form>
+            </form>
+        </div>
     );
 };
 
