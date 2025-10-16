@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { PlusSquare, Search, Wallet } from 'lucide-react';
+import { PlusSquare, Search, List, FileStack } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
+import SubTabGrid from '../../components/layout/SubTabGrid';
 import CreateFixedDepositForm from '../forms/CreateFixedDepositForm';
 import FixedDepositList from '../forms/FixedDepositList';
 import CreateFDPlanForm from '../forms/CreateFDPlanForm';
@@ -23,6 +24,13 @@ const FixedDepositSection: React.FC<FixedDepositSectionProps> = ({
   const [selectedPlan, setSelectedPlan] = useState<FDPlanDetails | null>(null);
   const [createdPlan, setCreatedPlan] = useState<FDPlanDetails | null>(null);
 
+  const subTabs = [
+    { id: 'create', label: 'Create Fixed Deposit', icon: PlusSquare },
+    { id: 'list', label: 'View Deposits', icon: List },
+    { id: 'create-plan', label: 'Create FD Plan', icon: FileStack },
+    { id: 'search-plan', label: 'Search FD Plans', icon: Search },
+  ];
+
   const handleCreateFD = async (data: { amount: number; planId: string }) => {
     setLoading(true);
     setError(null);
@@ -34,7 +42,7 @@ const FixedDepositSection: React.FC<FixedDepositSectionProps> = ({
       });
 
       setSuccess('Fixed Deposit created successfully');
-      setActiveSubTab('list'); // Switch to list view after successful creation
+      setActiveSubTab('list');
     } catch (err: any) {
       setError(err.message || 'Failed to create fixed deposit');
     } finally {
@@ -64,86 +72,34 @@ const FixedDepositSection: React.FC<FixedDepositSectionProps> = ({
     setSelectedPlan(plan);
   };
 
-  return (
-    <div className="p-8">
-      <SectionHeader
-        title="Fixed Deposits"
-        description="Create and manage fixed deposit accounts"
-      />
-      
-      <div className="mt-6 space-y-4">
-        <div className="flex space-x-4">
-          <button
-            onClick={() => setActiveSubTab('create')}
-            className={`px-4 py-2 rounded-lg transition-all ${
-              activeSubTab === 'create'
-                ? 'bg-amber-100 text-amber-700'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            Create Fixed Deposit
-          </button>
-          <button
-            onClick={() => setActiveSubTab('list')}
-            className={`px-4 py-2 rounded-lg transition-all ${
-              activeSubTab === 'list'
-                ? 'bg-amber-100 text-amber-700'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            View Fixed Deposits
-          </button>
-          <button
-            onClick={() => setActiveSubTab('create-plan')}
-            className={`px-4 py-2 rounded-lg transition-all ${
-              activeSubTab === 'create-plan'
-                ? 'bg-amber-100 text-amber-700'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            Create FD Plan
-          </button>
-          <button
-            onClick={() => setActiveSubTab('search-plan')}
-            className={`px-4 py-2 rounded-lg transition-all ${
-              activeSubTab === 'search-plan'
-                ? 'bg-amber-100 text-amber-700'
-                : 'text-slate-600 hover:bg-slate-100'
-            }`}
-          >
-            Search FD Plans
-          </button>
-        </div>
-
-        {success && <Alert type="success">{success}</Alert>}
-        {error && <Alert type="error">{error}</Alert>}
-
-        {activeSubTab === 'create' && (
+  const renderContent = () => {
+    switch (activeSubTab) {
+      case 'create':
+        return (
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-xl font-semibold text-slate-800 mb-4">Create New Fixed Deposit</h3>
             <CreateFixedDepositForm onSubmit={handleCreateFD} isLoading={loading} />
           </div>
-        )}
-
-        {activeSubTab === 'list' && (
+        );
+      case 'list':
+        return (
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-xl font-semibold text-slate-800 mb-4">Your Fixed Deposits</h3>
             <FixedDepositList />
           </div>
-        )}
-
-        {activeSubTab === 'create-plan' && (
+        );
+      case 'create-plan':
+        return (
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-xl font-semibold text-slate-800 mb-4">Create New FD Plan</h3>
             <CreateFDPlanForm onSuccess={handleCreateFDPlan} isLoading={loading} createdPlan={createdPlan} />
           </div>
-        )}
-
-        {activeSubTab === 'search-plan' && (
+        );
+      case 'search-plan':
+        return (
           <div className="bg-white rounded-xl shadow-md p-6">
             <h3 className="text-xl font-semibold text-slate-800 mb-4">Search FD Plans</h3>
             <SearchFDPlanForm onSelect={handleSelectPlan} />
-            
             {selectedPlan && (
               <div className="mt-6 p-4 border rounded-lg bg-white shadow-sm">
                 <h3 className="text-lg font-semibold mb-2">Selected Plan Details</h3>
@@ -161,8 +117,29 @@ const FixedDepositSection: React.FC<FixedDepositSectionProps> = ({
               </div>
             )}
           </div>
-        )}
-      </div>
+        );
+      default:
+        return <CreateFixedDepositForm onSubmit={handleCreateFD} isLoading={loading} />;
+    }
+  };
+
+  return (
+    <div className="p-8">
+      <SectionHeader
+        title="Fixed Deposits"
+        description="Create and manage fixed deposit accounts"
+      />
+      
+      <SubTabGrid 
+        subTabs={subTabs}
+        activeSubTab={activeSubTab}
+        onSubTabChange={setActiveSubTab}
+      />
+
+      {success && <Alert type="success">{success}</Alert>}
+      {error && <Alert type="error">{error}</Alert>}
+
+      {renderContent()}
     </div>
   );
 };
