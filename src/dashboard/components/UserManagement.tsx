@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { Pencil, X } from 'lucide-react';
 import Alert from '../../components/common/Alert';
+// Ensuring we're using the updated form component
 import { UpdateUserForm, UserRoleManagement } from '../forms';
 
 interface Role {
@@ -104,6 +105,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
           </div>
           <div className="space-y-6">
             <UpdateUserForm 
+              key={selectedUser.user_id} // Force re-render on user change
               user={selectedUser}
               onUpdateSuccess={handleUpdateSuccess} 
             />

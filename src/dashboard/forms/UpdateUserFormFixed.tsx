@@ -1,7 +1,6 @@
-// Updated on October 17, 2025 - Fixed API endpoint for user updates
+// Brand new UpdateUserForm - Created on October 17, 2025 to fix API endpoint issues
 import React, { useState } from 'react';
-// Removed unused api import
-import { updateUserDetails } from '../../api/userUpdate';
+import api from '../../api/axios';
 import SubmitButton from '../../components/common/SubmitButton';
 import Alert from '../../components/common/Alert';
 
@@ -28,7 +27,7 @@ interface UpdateUserFormProps {
   onUpdateSuccess?: () => void;
 }
 
-const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ user, onUpdateSuccess }) => {
+const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSuccess }) => {
   const [formData, setFormData] = useState<Partial<User>>(
     user ? {
       first_name: user.first_name || '',
@@ -68,27 +67,23 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ user, onUpdateSuccess }
     }));
   };
 
-  // UPDATED WITH CORRECT ENDPOINT - October 17, 2025
+  // Updated to use PUT method which is what the API requires
   const handleSubmit = async (e: React.FormEvent) => {
-    // Prevent default form submission
     e.preventDefault();
     
-    // Add a very distinct log message to confirm this code is running
-    console.log('🔴 UPDATED FIX RUNNING - Using PUT to /api/auth/user/update_details - Oct 17, 2025 🔴');
+    console.log('UPDATED VERSION - Using PUT to /api/auth/users/{userId} endpoint - Oct 17, 2025');
     
     if (!user?.user_id) {
       setError('No user selected for update');
       return;
     }
 
-    // Standard loading state management
     setLoading(true);
     setError(null);
     setSuccess(null);
 
     try {
-      // Create data object with only the fields that can be updated
-      // Ensure all required fields have non-undefined values
+      // Prepare data for the API endpoint
       const updateData = {
         user_id: user.user_id,
         first_name: formData.first_name || user.first_name,
@@ -98,24 +93,19 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ user, onUpdateSuccess }
         email: formData.email
       };
 
-      // Log the payload for debugging
-      console.log('🔵 Submitting user update with data:', updateData);
+      console.log('Submitting user update with data:', updateData);
 
-      // Using our dedicated function to ensure correct API endpoint
-      // This function now uses PUT to the correct endpoint
-      const response = await updateUserDetails(updateData);
+      // Use the correct API endpoint with PUT method as required by the API
+      const response = await api.put('/api/auth/user/update_details', updateData);
       
-      // Log success response
-      console.log('✅ Update successful:', response);
+      console.log('Update successful:', response);
       setSuccess('User details updated successfully');
       
       if (onUpdateSuccess) {
         onUpdateSuccess();
       }
     } catch (err: any) {
-      // Enhanced error logging
-      console.error('❌ Update failed with error:', err);
-      console.error('Error response:', err.response);
+      console.error('Update failed:', err);
       setError(err.response?.data?.detail || 'Failed to update user');
     } finally {
       setLoading(false);
@@ -245,4 +235,4 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ user, onUpdateSuccess }
   );
 };
 
-export default UpdateUserForm;
+export default UpdateUserFormFixed;

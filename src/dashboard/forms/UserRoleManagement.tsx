@@ -94,6 +94,9 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
     const role = allRoles.find(r => r.role_id === roleId);
     return role ? role.role_name : 'Unknown Role';
   };
+  
+  // We don't need this function since we're filtering roles directly in the JSX
+  // Removing to resolve unused function warning
 
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
