@@ -130,6 +130,12 @@ export const authApi = {
       params: { start_date: startDate, end_date: endDate }
     });
     return response.data;
+  },
+  
+  // Get user's branch information
+  getUserBranch: async (userId: string): Promise<{user_id: string, branch_id: string, branch_name: string}> => {
+    const response = await api.get(`/api/auth/user/branch/${userId}`);
+    return response.data;
   }
 };
 

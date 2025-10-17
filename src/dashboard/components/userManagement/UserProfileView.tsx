@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Pencil, XCircle, CheckCircle, Key } from 'lucide-react';
 import type { User, UserStatus } from './types';
+import { authApi } from '../../../api/auth';
 
 interface UserProfileViewProps {
   user: User;
@@ -23,6 +24,27 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
   onToggleStatus,
   onResetPassword
 }) => {
+  const [branchName, setBranchName] = useState<string>("");
+  const [isLoadingBranch, setIsLoadingBranch] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchBranchInfo = async () => {
+      if (user && user.user_id) {
+        setIsLoadingBranch(true);
+        try {
+          const branchInfo = await authApi.getUserBranch(user.user_id);
+          setBranchName(branchInfo.branch_name);
+        } catch (error) {
+          console.error("Error fetching branch information:", error);
+        } finally {
+          setIsLoadingBranch(false);
+        }
+      }
+    };
+
+    fetchBranchInfo();
+  }, [user]);
+
   return (
     <div className="p-4">
       <div className="mb-4 flex justify-between items-center">
@@ -181,6 +203,16 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                   <dt className="text-sm font-medium text-gray-500">Date of birth</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {user.dob ? new Date(user.dob).toLocaleDateString() : '-'}
+                  </dd>
+                </div>
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
+                  <dt className="text-sm font-medium text-gray-500">Branch</dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {isLoadingBranch ? (
+                      <span className="text-gray-500">Loading...</span>
+                    ) : (
+                      branchName || '-'
+                    )}
                   </dd>
                 </div>
               </dl>
