@@ -18,6 +18,7 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
     { id: 'create-account' as MainTab, label: 'Account Management', icon: UserPlus },
     { id: 'users' as MainTab, label: 'Users', icon: Users },
     { id: 'customer-details' as MainTab, label: 'Customer Details', icon: Users },
+    { id: 'branch-overview' as MainTab, label: 'Branch Overview', icon: Building2 },
     { id: 'branches' as MainTab, label: 'Branch Management', icon: Building2 },
     { id: 'savings-plans' as MainTab, label: 'Savings Plans', icon: PiggyBank },
   ];

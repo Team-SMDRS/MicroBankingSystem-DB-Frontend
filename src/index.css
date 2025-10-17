@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fix for branch select dropdown visibility - AGGRESSIVE OVERRIDE */
+select#branch-select,
+select#branch-select * {
+  color: #000 !important;
+  background-color: #fff !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+
+select#branch-select option {
+  color: #000 !important;
+  background-color: #fff !important;
+  padding: 10px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  display: block !important;
+}
+
+select#branch-select option:hover {
+  background-color: #e0e7ff !important;
+  color: #000 !important;
+}
+
+select#branch-select option:checked,
+select#branch-select option:focus {
+  background-color: #3b82f6 !important;
+  color: #fff !important;
+}
+
+/* Ensure text is visible on all browsers */
+select#branch-select::-ms-expand {
+  color: #000 !important;
+}
+
+select#branch-select:-webkit-autofill,
+select#branch-select:-webkit-autofill:hover,
+select#branch-select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+}
