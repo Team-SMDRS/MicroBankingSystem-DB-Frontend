@@ -14,8 +14,8 @@ const UsersSection = ({ activeSubTab, setActiveSubTab }: UsersSectionProps) => {
   const subTabs = [
     { id: 'create-user', label: 'Create User', icon: UserPlus },
     { id: 'user-management', label: 'User Management', icon: ClipboardList },
-    { id: 'deposit-withdrawal-agent', label: 'Deposit/Withdrawal Agent', icon: UserCog },
-    { id: 'account-agent', label: 'Account Agent', icon: Users },
+    // { id: 'deposit-withdrawal-agent', label: 'Deposit/Withdrawal Agent', icon: UserCog },
+    // { id: 'account-agent', label: 'Account Agent', icon: Users },
   ];
 
   return (
