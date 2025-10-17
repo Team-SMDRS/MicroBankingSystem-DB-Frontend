@@ -17,7 +17,7 @@ const DescriptionInput = ({
 }: DescriptionInputProps) => {
   return (
     <div>
-      <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-2">
+      <label htmlFor="description" className="block text-sm font-medium text-[#6C757D] mb-2">
         {label}
       </label>
       <textarea
@@ -27,7 +27,7 @@ const DescriptionInput = ({
         required={required}
         rows={rows}
         placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all outline-none resize-none"
+        className="w-full px-4 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] resize-none"
       />
     </div>
   );

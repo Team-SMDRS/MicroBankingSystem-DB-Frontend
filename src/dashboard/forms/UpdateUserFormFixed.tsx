@@ -117,11 +117,11 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
+    <div className="bg-white shadow-md rounded-lg p-6 border border-[#DEE2E6] border-t-4 border-t-[#2A9D8F]">
       <div className="mb-4">
-        <h3 className="text-lg font-medium">Update User Details</h3>
-        <p className="text-sm text-gray-500">Editing information for {user.first_name} {user.last_name}</p>
-        <p className="text-xs text-blue-600 mt-1">You can edit the first name, last name, address, phone number, and email</p>
+        <h3 className="text-lg font-medium text-[#264653]">Update User Details</h3>
+        <p className="text-sm text-[#6C757D]">Editing information for {user.first_name} {user.last_name}</p>
+        <p className="text-xs text-[#2A9D8F] mt-1">You can edit the first name, last name, address, phone number, and email</p>
       </div>
 
       {error && <Alert type="error">{error}</Alert>}
@@ -130,7 +130,7 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#264653] mb-1">
               First Name
             </label>
             <input
@@ -139,12 +139,12 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
               value={formData.first_name || ''}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#264653] mb-1">
               Last Name
             </label>
             <input
@@ -153,12 +153,12 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
               value={formData.last_name || ''}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#264653] mb-1">
               NIC Number
             </label>
             <input
@@ -166,13 +166,13 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
               name="nic"
               value={formData.nic || ''}
               disabled
-              className="w-full px-3 py-2 border border-gray-200 bg-gray-100 rounded-md shadow-sm text-gray-600"
+              className="w-full px-3 py-2 border border-[#DEE2E6] bg-[#F8F9FA] rounded-lg shadow-sm text-[#6C757D]"
             />
-            <p className="text-xs text-gray-500 mt-1">NIC number cannot be modified</p>
+            <p className="text-xs text-[#6C757D] mt-1">NIC number cannot be modified</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#264653] mb-1">
               Phone Number
             </label>
             <input
@@ -180,12 +180,12 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
               name="phone_number"
               value={formData.phone_number || ''}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#264653] mb-1">
               Address
             </label>
             <input
@@ -193,12 +193,12 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
               name="address"
               value={formData.address || ''}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#264653] mb-1">
               Date of Birth
             </label>
             <input
@@ -206,13 +206,13 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
               name="dob"
               value={formData.dob || ''}
               disabled
-              className="w-full px-3 py-2 border border-gray-200 bg-gray-100 rounded-md shadow-sm text-gray-600"
+              className="w-full px-3 py-2 border border-[#DEE2E6] bg-[#F8F9FA] rounded-lg shadow-sm text-[#6C757D]"
             />
-            <p className="text-xs text-gray-500 mt-1">Date of birth cannot be modified</p>
+            <p className="text-xs text-[#6C757D] mt-1">Date of birth cannot be modified</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-[#264653] mb-1">
               Email
             </label>
             <input
@@ -220,7 +220,7 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
               name="email"
               value={formData.email || ''}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
             />
           </div>
         </div>

@@ -99,17 +99,17 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
   // Removing to resolve unused function warning
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
+    <div className="bg-white shadow-md rounded-lg p-6 border border-[#DEE2E6] border-t-4 border-t-[#2A9D8F]">
       <div className="mb-4">
-        <h3 className="text-lg font-medium">Manage User Roles</h3>
-        <p className="text-sm text-gray-500">Assign roles to {user.first_name} {user.last_name}</p>
+        <h3 className="text-lg font-medium text-[#264653]">Manage User Roles</h3>
+        <p className="text-sm text-[#6C757D]">Assign roles to {user.first_name} {user.last_name}</p>
       </div>
 
       {error && <Alert type="error">{error}</Alert>}
       {success && <Alert type="success">{success}</Alert>}
 
-      <div className="mb-4 p-4 bg-blue-50 border border-blue-100 rounded-md">
-        <p className="text-sm text-blue-800">
+      <div className="mb-4 p-4 bg-[#2A9D8F] bg-opacity-5 border border-[#2A9D8F] border-opacity-20 rounded-lg">
+        <p className="text-sm text-[#264653]">
           <strong>Instructions:</strong> Click on the role boxes below to select or deselect permissions for this user. 
           Selected roles will appear in the "Selected Roles" section. If you want to remove all roles from this user, 
           deselect all roles and click "Remove All Roles".
@@ -118,18 +118,18 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
 
       {fetchingRoles ? (
         <div className="py-4 text-center">
-          <p className="text-gray-500">Loading roles...</p>
+          <p className="text-[#6C757D]">Loading roles...</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
-            <h4 className="text-sm font-medium text-gray-700 mb-3">Available Roles:</h4>
+            <h4 className="text-sm font-medium text-[#264653] mb-3">Available Roles:</h4>
             
             {/* Group roles into categories */}
             <div className="space-y-6">
               {/* Account Management Roles */}
               <div className="mb-4">
-                <h5 className="text-xs uppercase tracking-wider text-gray-500 mb-2 border-b pb-1">Account Management</h5>
+                <h5 className="text-xs uppercase tracking-wider text-[#6C757D] mb-2 border-b border-[#E9ECEF] pb-1">Account Management</h5>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {allRoles.filter(role => role.role_name.includes('account')).map((role) => {
                     const isSelected = selectedRoles.includes(role.role_id);
@@ -138,8 +138,8 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
                         key={role.role_id} 
                         className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${
                           isSelected 
-                            ? 'bg-blue-50 border-blue-200 shadow-sm' 
-                            : 'border-gray-200 hover:bg-gray-50'
+                            ? 'bg-[#2A9D8F] bg-opacity-5 border-[#2A9D8F] border-opacity-30 shadow-sm' 
+                            : 'border-[#DEE2E6] hover:bg-[#F8F9FA]'
                         }`}
                         onClick={() => handleRoleToggle(role.role_id)}
                       >
@@ -167,7 +167,7 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
               
               {/* Transaction Roles */}
               <div className="mb-4">
-                <h5 className="text-xs uppercase tracking-wider text-gray-500 mb-2 border-b pb-1">Transaction Management</h5>
+                <h5 className="text-xs uppercase tracking-wider text-[#6C757D] mb-2 border-b border-[#E9ECEF] pb-1">Transaction Management</h5>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {allRoles.filter(role => 
                     ['deposit', 'withdrawal', 'transaction'].some(term => role.role_name.includes(term))
@@ -178,8 +178,8 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
                         key={role.role_id} 
                         className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${
                           isSelected 
-                            ? 'bg-blue-50 border-blue-200 shadow-sm' 
-                            : 'border-gray-200 hover:bg-gray-50'
+                            ? 'bg-[#2A9D8F] bg-opacity-5 border-[#2A9D8F] border-opacity-30 shadow-sm' 
+                            : 'border-[#DEE2E6] hover:bg-[#F8F9FA]'
                         }`}
                         onClick={() => handleRoleToggle(role.role_id)}
                       >
@@ -207,7 +207,7 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
               
               {/* Other Roles */}
               <div className="mb-4">
-                <h5 className="text-xs uppercase tracking-wider text-gray-500 mb-2 border-b pb-1">Other Roles</h5>
+                <h5 className="text-xs uppercase tracking-wider text-[#6C757D] mb-2 border-b border-[#E9ECEF] pb-1">Other Roles</h5>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {allRoles.filter(role => 
                     !role.role_name.includes('account') && 
@@ -219,8 +219,8 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
                         key={role.role_id} 
                         className={`flex items-center p-3 rounded-lg border cursor-pointer transition-all ${
                           isSelected 
-                            ? 'bg-blue-50 border-blue-200 shadow-sm' 
-                            : 'border-gray-200 hover:bg-gray-50'
+                            ? 'bg-[#2A9D8F] bg-opacity-5 border-[#2A9D8F] border-opacity-30 shadow-sm' 
+                            : 'border-[#DEE2E6] hover:bg-[#F8F9FA]'
                         }`}
                         onClick={() => handleRoleToggle(role.role_id)}
                       >
@@ -250,24 +250,24 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
 
           <div className="mb-6">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-sm font-medium text-gray-700">Selected Roles:</h4>
+              <h4 className="text-sm font-medium text-[#264653]">Selected Roles:</h4>
               {selectedRoles.length > 0 && (
-                <span className="text-xs bg-blue-100 text-blue-800 py-1 px-2 rounded-full">
+                <span className="text-xs bg-[#2A9D8F] bg-opacity-10 text-[#2A9D8F] py-1 px-2 rounded-full">
                   {selectedRoles.length} role{selectedRoles.length !== 1 ? 's' : ''} selected
                 </span>
               )}
             </div>
             
             {selectedRoles.length > 0 ? (
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <div className="bg-[#F8F9FA] p-4 rounded-lg border border-[#DEE2E6]">
                 <div className="flex flex-wrap gap-2">
                   {selectedRoles.map((roleId) => (
-                    <span key={roleId} className="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium bg-blue-100 text-blue-800 border border-blue-200">
+                    <span key={roleId} className="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium bg-[#2A9D8F] bg-opacity-10 text-[#264653] border border-[#2A9D8F] border-opacity-20">
                       {getRoleName(roleId).replace(/-/g, ' ')}
                       <button
                         type="button"
                         onClick={() => handleRoleToggle(roleId)}
-                        className="ml-2 h-5 w-5 rounded-full inline-flex items-center justify-center text-blue-600 hover:text-blue-800 hover:bg-blue-200 focus:outline-none focus:bg-blue-200"
+                        className="ml-2 h-5 w-5 rounded-full inline-flex items-center justify-center text-[#2A9D8F] hover:text-[#264653] hover:bg-[#2A9D8F] hover:bg-opacity-20 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]"
                         title="Remove role"
                       >
                         <span className="sr-only">Remove {getRoleName(roleId)}</span>
@@ -278,8 +278,8 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
                 </div>
               </div>
             ) : (
-              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200 text-center">
-                <p className="text-sm text-amber-700">
+              <div className="bg-[#E63946] bg-opacity-5 p-4 rounded-lg border border-[#E63946] border-opacity-20 text-center">
+                <p className="text-sm text-[#E63946]">
                   <strong>Warning:</strong> No roles selected. Submitting will remove all roles from this user.
                 </p>
               </div>
@@ -293,7 +293,7 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
               </SubmitButton>
             </div>
             {selectedRoles.length === 0 && (
-              <p className="text-xs text-center text-amber-600">
+              <p className="text-xs text-center text-[#E63946]">
                 No roles selected. Submitting will remove all roles from this user.
               </p>
             )}

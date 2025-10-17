@@ -88,7 +88,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
   };
 
   return (
-    <div className="overflow-hidden bg-white shadow-md rounded-lg">
+    <div className="overflow-hidden bg-white shadow-lg rounded-xl border-t-4 border-[#2A9D8F]">
       {error && <Alert type="error">{error}</Alert>}
       
       {/* Show update form when a user is selected */}
@@ -97,7 +97,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
           <div className="mb-4 flex justify-end">
             <button 
               onClick={handleCloseUpdateForm}
-              className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100"
+              className="text-[#6C757D] hover:text-[#264653] p-1 rounded-full hover:bg-[#F8F9FA]"
               title="Close"
             >
               <X size={20} />
@@ -117,58 +117,58 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
         </div>
       ) : loading ? (
         <div className="p-8 text-center">
-          <p className="text-gray-500">Loading users...</p>
+          <p className="text-[#6C757D]">Loading users...</p>
         </div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-[#E9ECEF]">
+            <thead className="bg-[#F8F9FA]">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#6C757D] uppercase tracking-wider">
                   Name
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#6C757D] uppercase tracking-wider">
                   NIC
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#6C757D] uppercase tracking-wider">
                   Contact
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#6C757D] uppercase tracking-wider">
                   Roles
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#6C757D] uppercase tracking-wider">
                   Joined
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[#6C757D] uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-[#E9ECEF]">
               {users.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td colSpan={6} className="px-6 py-4 text-center text-sm text-[#6C757D]">
                     No users found
                   </td>
                 </tr>
               ) : (
                 users.map((user) => (
-                  <tr key={user.user_id} className="hover:bg-gray-50">
+                  <tr key={user.user_id} className="hover:bg-[#F8F9FA]">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div>
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-[#264653]">
                             {user.first_name} {user.last_name}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.nic || '-'}</div>
+                      <div className="text-sm text-[#264653]">{user.nic || '-'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.phone_number || '-'}</div>
-                      {user.email && <div className="text-sm text-gray-500">{user.email}</div>}
+                      <div className="text-sm text-[#264653]">{user.phone_number || '-'}</div>
+                      {user.email && <div className="text-sm text-[#6C757D]">{user.email}</div>}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {user.roles && user.roles.length > 0 ? (
@@ -176,23 +176,23 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
                           {user.roles.map((role) => (
                             <span
                               key={role.role_id}
-                              className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800"
+                              className="px-2 py-1 text-xs font-medium rounded-lg bg-[#2A9D8F] bg-opacity-10 text-[#2A9D8F]"
                             >
                               {role.role_name}
                             </span>
                           ))}
                         </div>
                       ) : (
-                        <span className="text-sm text-gray-500">No roles</span>
+                        <span className="text-sm text-[#6C757D]">No roles</span>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[#6C757D]">
                       {formatDate(user.created_at)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <button
                         onClick={() => handleUpdateClick(user)}
-                        className="text-blue-600 hover:text-blue-900 flex items-center gap-1 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors"
+                        className="text-[#2A9D8F] hover:text-[#238579] flex items-center gap-1 bg-[#2A9D8F] bg-opacity-5 hover:bg-opacity-10 px-3 py-1 rounded-lg transition-colors"
                       >
                         <Pencil size={16} />
                         <span>Update</span>

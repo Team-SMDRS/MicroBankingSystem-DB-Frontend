@@ -179,7 +179,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
     if (loading) {
       return (
         <div className="flex items-center justify-center h-64">
-          <Loader className="w-8 h-8 animate-spin text-blue-600" />
+          <Loader className="w-8 h-8 animate-spin text-[#2A9D8F]" />
         </div>
       );
     }
@@ -190,7 +190,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
           <div className="space-y-6">
             {userDetails && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
+                <div className="bg-gradient-to-br from-[#F8F9FA] to-[#E9ECEF] p-6 rounded-xl border border-[#DEE2E6]">
                   <h3 className="text-sm font-semibold text-slate-600 mb-4">Personal Information</h3>
                   <div className="space-y-3">
                     <div>
@@ -285,9 +285,9 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
           <div className="space-y-4">
             {todaySummary && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200">
-                  <p className="text-xs text-blue-600 font-semibold mb-1">Total Transactions</p>
-                  <p className="text-2xl font-bold text-blue-900">{todaySummary.total_transactions}</p>
+                <div className="bg-gradient-to-br from-[#F8F9FA] to-[#E9ECEF] p-4 rounded-xl border border-[#DEE2E6]">
+                  <p className="text-xs text-[#2A9D8F] font-semibold mb-1">Total Transactions</p>
+                  <p className="text-2xl font-bold text-[#264653]">{todaySummary.total_transactions}</p>
                 </div>
                 <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl border border-green-200">
                   <p className="text-xs text-green-600 font-semibold mb-1">Total Deposits</p>
@@ -358,26 +358,26 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
       case 'report':
         return (
           <div className="space-y-4">
-            <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6">
-              <h3 className="text-sm font-semibold text-slate-700 mb-4">Select Date Range</h3>
+            <div className="bg-[#F8F9FA] p-6 rounded-xl border border-[#DEE2E6] mb-6">
+              <h3 className="text-sm font-semibold text-[#264653] mb-4">Select Date Range</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-600 mb-2">Start Date</label>
+                  <label className="block text-xs font-medium text-[#6C757D] mb-2">Start Date</label>
                   <input
                     type="date"
                     value={dateRangeForm.startDate}
                     onChange={(e) => setDateRangeForm({ ...dateRangeForm, startDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
+                    className="w-full px-3 py-2 border border-[#DEE2E6] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] text-sm"
                     disabled={loading}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-600 mb-2">End Date</label>
+                  <label className="block text-xs font-medium text-[#6C757D] mb-2">End Date</label>
                   <input
                     type="date"
                     value={dateRangeForm.endDate}
                     onChange={(e) => setDateRangeForm({ ...dateRangeForm, endDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
+                    className="w-full px-3 py-2 border border-[#DEE2E6] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] text-sm"
                     disabled={loading}
                   />
                 </div>
@@ -385,7 +385,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   <button
                     onClick={fetchTransactionsByDateRange}
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-2 rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="w-full bg-[#2A9D8F] text-white font-semibold py-2 rounded-lg hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     {loading ? 'Loading...' : 'Search'}
                   </button>
@@ -447,7 +447,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   type="password"
                   value={changePasswordForm.old_password}
                   onChange={(e) => setChangePasswordForm({ ...changePasswordForm, old_password: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-[#DEE2E6] rounded-lg focus:ring-2 focus:ring-[#2A9D8F] focus:border-transparent outline-none"
                   placeholder="Enter your current password"
                   disabled={loading}
                 />
@@ -461,7 +461,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   type="password"
                   value={changePasswordForm.new_password}
                   onChange={(e) => setChangePasswordForm({ ...changePasswordForm, new_password: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-[#DEE2E6] rounded-lg focus:ring-2 focus:ring-[#2A9D8F] focus:border-transparent outline-none"
                   placeholder="Enter new password"
                   disabled={loading}
                 />
@@ -475,7 +475,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   type="password"
                   value={changePasswordForm.confirm_password}
                   onChange={(e) => setChangePasswordForm({ ...changePasswordForm, confirm_password: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-[#DEE2E6] rounded-lg focus:ring-2 focus:ring-[#2A9D8F] focus:border-transparent outline-none"
                   placeholder="Confirm new password"
                   disabled={loading}
                 />
@@ -484,7 +484,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-2 rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="w-full bg-gradient-to-r from-[#2A9D8F] to-[#264653] text-white font-semibold py-2 rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {loading ? 'Updating...' : 'Change Password'}
               </button>
@@ -514,7 +514,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
 
       <SubTabGrid subTabs={subTabs} activeSubTab={activeSubTab} onSubTabChange={setActiveSubTab} />
 
-      <div className="bg-white rounded-xl border border-slate-200 p-6">
+      <div className="bg-white rounded-xl border border-[#DEE2E6] border-t-4 border-t-[#2A9D8F] p-6 shadow-sm">
         {renderContent()}
       </div>
     </div>

@@ -116,15 +116,15 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-bold mb-4">Create New Savings Plan</h3>
+    <div className="bg-[#FFFFFF] rounded-2xl shadow-lg border border-gray-200 p-6">
+      <h3 className="text-xl font-semibold text-[#1D3557] mb-4">Create New Savings Plan</h3>
       
       {error && (
-        <Alert type="error" className="mb-4">
+        <Alert type="error" className="mb-6">
           <div className="flex justify-between items-center">
             <div>{error}</div>
             <button 
-              className="ml-2 text-red-700 hover:text-red-900" 
+              className="ml-2 text-[#E63946] hover:text-red-800 transition-colors" 
               onClick={() => setError(null)}
             >
               ×
@@ -134,11 +134,11 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
       )}
       
       {success && (
-        <Alert type="success" className="mb-4">
+        <Alert type="success" className="mb-6">
           <div className="flex justify-between items-center">
             <div>{success}</div>
             <button 
-              className="ml-2 text-emerald-700 hover:text-emerald-900" 
+              className="ml-2 text-[#2ECC71] hover:text-green-800 transition-colors" 
               onClick={() => setSuccess(null)}
             >
               ×
@@ -147,9 +147,9 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
         </Alert>
       )}
       
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="plan_name" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="plan_name" className="block text-sm font-medium text-[#6C757D] mb-2">
             Plan Name
           </label>
           <input
@@ -158,13 +158,13 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
             name="plan_name"
             value={formData.plan_name}
             onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
             required
           />
         </div>
         
         <div>
-          <label htmlFor="interest_rate" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="interest_rate" className="block text-sm font-medium text-[#6C757D] mb-2">
             Interest Rate (%)
           </label>
           <input
@@ -173,7 +173,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
             name="interest_rate"
             value={formData.interest_rate}
             onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
             step="0.01"
             min="0"
             required
@@ -181,7 +181,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
         </div>
         
         <div>
-          <label htmlFor="minimum_balance" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="minimum_balance" className="block text-sm font-medium text-[#6C757D] mb-2">
             Minimum Balance
           </label>
           <input
@@ -190,16 +190,17 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
             name="minimum_balance"
             value={formData.minimum_balance}
             onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
             step="0.01"
             min="0"
             required
           />
         </div>
         
-        <div className="pt-2">
+        <div className="pt-4">
           <SubmitButton 
-            isSubmitting={isSubmitting} 
+            isSubmitting={isSubmitting}
+            className="bg-[#38B000] hover:bg-green-700 text-white font-semibold rounded-xl px-5 py-2 transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1"
           >
             Create Savings Plan
           </SubmitButton>

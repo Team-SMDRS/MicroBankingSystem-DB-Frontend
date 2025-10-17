@@ -32,7 +32,7 @@ const CreateAccountSection = ({ activeSubTab, setActiveSubTab }: CreateAccountSe
       />
 
       {/* Inline simple form: one input for savings, two for joint */}
-      <div className="mt-6 bg-white p-6 rounded-lg shadow-sm">
+      <div className="mt-6 bg-white p-6 rounded-lg shadow-sm border border-[#DEE2E6] border-t-4 border-t-[#2A9D8F]">
         {activeSubTab === 'savings-account-new' && (
           <SavingsLookupForm />
         )}

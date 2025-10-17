@@ -128,116 +128,116 @@ const MixedCustomerJointAccountForm: React.FC<MixedCustomerJointAccountFormProps
   };
 
   return (
-    <div className="mt-5 p-4 border rounded bg-white">
-      <h5 className="text-md font-medium mb-3">Create Joint Account with Existing and New Customer</h5>
+    <div className="mt-5 p-4 border rounded-lg border-t-4 border-t-[#2A9D8F] bg-white">
+      <h5 className="text-md font-medium mb-3 text-[#264653]">Create Joint Account with Existing and New Customer</h5>
       
       {!result && (
         <div className="space-y-5">
           {apiError && (
-            <div className="p-3 bg-red-50 text-red-800 rounded">
+            <div className="p-3 bg-[#E63946] bg-opacity-10 border border-[#E63946] border-opacity-20 text-[#E63946] rounded-lg">
               {apiError}
             </div>
           )}
           
           <div>
-            <h6 className="font-medium mb-2">Existing Customer</h6>
-            <div className="p-3 border rounded bg-slate-50">
+            <h6 className="font-medium mb-2 text-[#264653]">Existing Customer</h6>
+            <div className="p-3 border border-[#DEE2E6] rounded-lg bg-[#F8F9FA]">
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="font-semibold">{existingCustomer?.name}</div>
-                  <div className="text-sm text-slate-600">NIC: {existingCustomer?.nic}</div>
-                  <div className="text-sm text-slate-600">Customer ID: {existingCustomer?.customerId}</div>
+                  <div className="font-medium text-[#264653]">{existingCustomer?.name}</div>
+                  <div className="text-sm text-[#6C757D]">NIC: {existingCustomer?.nic}</div>
+                  <div className="text-sm text-[#6C757D]">Customer ID: {existingCustomer?.customerId}</div>
                 </div>
               </div>
             </div>
           </div>
           
           <div>
-            <h6 className="font-medium mb-2">New Customer Information</h6>
+            <h6 className="font-medium mb-2 text-[#264653]">New Customer Information</h6>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm text-slate-600 mb-1">NIC</label>
+                <label className="block text-sm text-[#6C757D] mb-1">NIC</label>
                 <input
                   type="text"
                   name="nic"
                   value={newCustomer.nic}
                   readOnly
-                  className="p-2 border rounded w-full bg-gray-100"
+                  className="p-2 border border-[#DEE2E6] rounded-lg w-full bg-[#F8F9FA]"
                 />
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Full Name</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Full Name</label>
                 <input
                   type="text"
                   name="full_name"
                   value={newCustomer.full_name}
                   onChange={handleNewCustomerChange}
-                  className={`p-2 border rounded w-full ${errors.new_customer_full_name ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.new_customer_full_name ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.new_customer_full_name && (
-                  <div className="text-sm text-red-600">{errors.new_customer_full_name}</div>
+                  <div className="text-sm text-[#E63946]">{errors.new_customer_full_name}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Address</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Address</label>
                 <input
                   type="text"
                   name="address"
                   value={newCustomer.address}
                   onChange={handleNewCustomerChange}
-                  className={`p-2 border rounded w-full ${errors.new_customer_address ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.new_customer_address ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.new_customer_address && (
-                  <div className="text-sm text-red-600">{errors.new_customer_address}</div>
+                  <div className="text-sm text-[#E63946]">{errors.new_customer_address}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Phone Number</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Phone Number</label>
                 <input
                   type="text"
                   name="phone_number"
                   value={newCustomer.phone_number}
                   onChange={handleNewCustomerChange}
-                  className={`p-2 border rounded w-full ${errors.new_customer_phone_number ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.new_customer_phone_number ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.new_customer_phone_number && (
-                  <div className="text-sm text-red-600">{errors.new_customer_phone_number}</div>
+                  <div className="text-sm text-[#E63946]">{errors.new_customer_phone_number}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Date of Birth</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Date of Birth</label>
                 <input
                   type="date"
                   name="dob"
                   value={newCustomer.dob}
                   onChange={handleNewCustomerChange}
-                  className={`p-2 border rounded w-full ${errors.new_customer_dob ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.new_customer_dob ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.new_customer_dob && (
-                  <div className="text-sm text-red-600">{errors.new_customer_dob}</div>
+                  <div className="text-sm text-[#E63946]">{errors.new_customer_dob}</div>
                 )}
               </div>
             </div>
           </div>
           
           <div>
-            <h6 className="font-medium mb-2">Account Information</h6>
+            <h6 className="font-medium mb-2 text-[#264653]">Account Information</h6>
             <div>
-              <label className="block text-sm text-slate-600 mb-1">Initial Balance (LKR)</label>
+              <label className="block text-sm text-[#6C757D] mb-1">Initial Balance (LKR)</label>
               <input
                 type="number"
                 name="balance"
                 value={balance as any}
                 onChange={e => setBalance(e.target.value === '' ? '' : Number(e.target.value))}
-                className={`p-2 border rounded w-full ${errors.balance ? 'border-red-500' : ''}`}
+                className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.balance ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                 disabled={createLoading}
               />
               {errors.balance && (
-                <div className="text-sm text-red-600">{errors.balance}</div>
+                <div className="text-sm text-[#E63946]">{errors.balance}</div>
               )}
             </div>
           </div>
@@ -246,7 +246,7 @@ const MixedCustomerJointAccountForm: React.FC<MixedCustomerJointAccountFormProps
             <button
               type="button"
               onClick={handleCreateJointAccount}
-              className="px-4 py-2 bg-green-600 text-white rounded"
+              className="px-4 py-2 bg-[#2A9D8F] text-white rounded-lg hover:bg-opacity-90 transition-all"
               disabled={createLoading}
             >
               {createLoading ? 'Creating...' : 'Create Joint Account'}
@@ -256,32 +256,32 @@ const MixedCustomerJointAccountForm: React.FC<MixedCustomerJointAccountFormProps
       )}
       
       {result && (
-        <div className="p-3 bg-green-50 text-green-800 rounded mt-3">
+        <div className="p-3 bg-[#38B000] bg-opacity-10 border border-[#38B000] border-opacity-20 text-[#264653] rounded-lg mt-3">
           <div className="font-medium">Joint account created successfully!</div>
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="p-3 border rounded bg-white">
-              <h6 className="font-medium">{existingCustomer?.name}</h6>
+            <div className="p-3 border border-[#DEE2E6] rounded-lg bg-white">
+              <h6 className="font-medium text-[#264653]">{existingCustomer?.name}</h6>
               <div className="text-sm mt-2">
-                <div>Customer ID: {result.existing_customer_id}</div>
-                <div>NIC: {existingCustomer?.nic}</div>
+                <div>Customer ID: <span className="text-[#2A9D8F]">{result.existing_customer_id}</span></div>
+                <div>NIC: <span className="text-[#6C757D]">{existingCustomer?.nic}</span></div>
               </div>
             </div>
             
-            <div className="p-3 border rounded bg-white">
-              <h6 className="font-medium">{newCustomer.full_name}</h6>
+            <div className="p-3 border border-[#DEE2E6] rounded-lg bg-white">
+              <h6 className="font-medium text-[#264653]">{newCustomer.full_name}</h6>
               <div className="text-sm mt-2">
-                <div>Customer ID: {result.new_customer_id}</div>
-                <div>NIC: {newCustomer.nic}</div>
-                <div>Username: {result.new_customer_login.username}</div>
-                <div>Password: {result.new_customer_login.password}</div>
+                <div>Customer ID: <span className="text-[#2A9D8F]">{result.new_customer_id}</span></div>
+                <div>NIC: <span className="text-[#6C757D]">{newCustomer.nic}</span></div>
+                <div>Username: <span className="text-[#2A9D8F] font-medium">{result.new_customer_login.username}</span></div>
+                <div>Password: <span className="text-[#2A9D8F] font-medium">{result.new_customer_login.password}</span></div>
               </div>
             </div>
           </div>
           
-          <div className="mt-3 p-3 border rounded bg-white">
-            <h6 className="font-medium">Account Details</h6>
+          <div className="mt-3 p-3 border border-[#DEE2E6] rounded-lg bg-white">
+            <h6 className="font-medium text-[#264653]">Account Details</h6>
             <div className="text-sm mt-2">
-              <div>Account Number: {result.account_no}</div>
+              <div>Account Number: <span className="text-[#2A9D8F] font-medium">{result.account_no}</span></div>
             </div>
           </div>
           
@@ -289,7 +289,7 @@ const MixedCustomerJointAccountForm: React.FC<MixedCustomerJointAccountFormProps
             <button
               type="button"
               onClick={handleReset}
-              className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded"
+              className="px-4 py-2 bg-[#6C757D] hover:bg-opacity-90 text-white rounded-lg transition-all"
             >
               Close & Reset Form
             </button>

@@ -122,19 +122,19 @@ const AccountSummary = () => {
   return (
     <div className="space-y-6">
       {/* Search Section */}
-      <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-        <div className="flex items-center gap-3 p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-            <FileText className="w-6 h-6 text-blue-600" />
+      <div className="bg-white rounded-2xl shadow-lg border-t-4 border-t-[#2A9D8F] overflow-hidden">
+        <div className="flex items-center gap-3 p-6 border-b border-[#DEE2E6] bg-gradient-to-r from-[#F8F9FA] to-white">
+          <div className="w-12 h-12 bg-[#2A9D8F] bg-opacity-10 rounded-xl flex items-center justify-center">
+            <FileText className="w-6 h-6 text-[#2A9D8F]" />
           </div>
           <div>
-            <h3 className="text-2xl font-bold text-slate-800">Account Summary</h3>
-            <p className="text-sm text-slate-500">Enter account number to view details and transactions (Last 30 Days)</p>
+            <h3 className="text-2xl font-bold text-[#264653]">Account Summary</h3>
+            <p className="text-sm text-[#6C757D]">Enter account number to view details and transactions (Last 30 Days)</p>
           </div>
         </div>
 
         {/* Search Bar */}
-        <div className="p-6 bg-slate-50">
+        <div className="p-6 bg-[#F8F9FA]">
           <div className="flex gap-3">
             <div className="flex-1">
               <input
@@ -143,13 +143,13 @@ const AccountSummary = () => {
                 onChange={(e) => setAccountNo(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                 placeholder="Enter account number (e.g. 123456789)"
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-[#DEE2E6] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-transparent"
               />
             </div>
             <button
               onClick={handleSearch}
               disabled={loading}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors"
+              className="px-6 py-3 bg-[#2A9D8F] text-white rounded-lg hover:bg-[#264653] focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors"
             >
               {loading ? (
                 <>
@@ -165,7 +165,7 @@ const AccountSummary = () => {
             </button>
           </div>
           {error && (
-            <div className="mt-3 flex items-center gap-2 text-red-600 bg-red-50 p-3 rounded-lg">
+            <div className="mt-3 flex items-center gap-2 text-[#E63946] bg-[#E63946]/10 p-3 rounded-lg">
               <AlertCircle className="w-5 h-5" />
               <span>{error}</span>
             </div>
@@ -175,48 +175,48 @@ const AccountSummary = () => {
 
       {/* Account Details Section */}
       {accountDetails && (
-        <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-          <div className="p-6 border-b border-slate-200 bg-gradient-to-r from-blue-50 to-white">
-            <h3 className="text-xl font-bold text-slate-800">Account Information</h3>
+        <div className="bg-white rounded-2xl shadow-lg border-t-4 border-t-[#2A9D8F] overflow-hidden">
+          <div className="p-6 border-b border-[#DEE2E6] bg-gradient-to-r from-[#F8F9FA] to-white">
+            <h3 className="text-xl font-bold text-[#264653]">Account Information</h3>
           </div>
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p className="text-sm text-slate-500">Account Number</p>
-              <p className="text-lg font-semibold text-slate-800">{accountDetails.account_no}</p>
+              <p className="text-sm text-[#6C757D]">Account Number</p>
+              <p className="text-lg font-semibold text-[#264653]">{accountDetails.account_no}</p>
             </div>
             <div>
-              <p className="text-sm text-slate-500">Account Type</p>
-              <p className="text-lg font-semibold text-slate-800">{accountDetails.account_type}</p>
+              <p className="text-sm text-[#6C757D]">Account Type</p>
+              <p className="text-lg font-semibold text-[#264653]">{accountDetails.account_type}</p>
             </div>
             <div>
-              <p className="text-sm text-slate-500">Account Holder</p>
-              <p className="text-lg font-semibold text-slate-800">{accountDetails.customer_names}</p>
+              <p className="text-sm text-[#6C757D]">Account Holder</p>
+              <p className="text-lg font-semibold text-[#264653]">{accountDetails.customer_names}</p>
             </div>
             <div>
-              <p className="text-sm text-slate-500">Balance</p>
-              <p className="text-lg font-semibold text-emerald-600">{formatAmount(accountDetails.balance)}</p>
+              <p className="text-sm text-[#6C757D]">Balance</p>
+              <p className="text-lg font-semibold text-[#38B000]">{formatAmount(accountDetails.balance)}</p>
             </div>
             <div>
-              <p className="text-sm text-slate-500">Branch</p>
-              <p className="text-lg font-semibold text-slate-800">{accountDetails.branch_name}</p>
+              <p className="text-sm text-[#6C757D]">Branch</p>
+              <p className="text-lg font-semibold text-[#264653]">{accountDetails.branch_name}</p>
             </div>
             <div>
-              <p className="text-sm text-slate-500">Status</p>
+              <p className="text-sm text-[#6C757D]">Status</p>
               <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                 accountDetails.status.toLowerCase() === 'active' 
-                  ? 'bg-emerald-100 text-emerald-700' 
-                  : 'bg-red-100 text-red-700'
+                  ? 'bg-[#38B000]/20 text-[#38B000]' 
+                  : 'bg-[#E63946]/20 text-[#E63946]'
               }`}>
                 {accountDetails.status}
               </span>
             </div>
             <div>
-              <p className="text-sm text-slate-500">Created Date</p>
-              <p className="text-lg font-semibold text-slate-800">{formatDate(accountDetails.created_date)}</p>
+              <p className="text-sm text-[#6C757D]">Created Date</p>
+              <p className="text-lg font-semibold text-[#264653]">{formatDate(accountDetails.created_date)}</p>
             </div>
             <div>
-              <p className="text-sm text-slate-500">Phone</p>
-              <p className="text-lg font-semibold text-slate-800">{accountDetails.customer_phone_numbers || 'N/A'}</p>
+              <p className="text-sm text-[#6C757D]">Phone</p>
+              <p className="text-lg font-semibold text-[#264653]">{accountDetails.customer_phone_numbers || 'N/A'}</p>
             </div>
           </div>
         </div>
@@ -224,64 +224,64 @@ const AccountSummary = () => {
 
       {/* Transaction History Section */}
       {transactions && (
-        <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-          <div className="flex items-center gap-3 p-6 border-b border-slate-200 bg-gradient-to-r from-blue-50 to-white">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-blue-600" />
+        <div className="bg-white rounded-2xl shadow-lg border-t-4 border-t-[#2A9D8F] overflow-hidden">
+          <div className="flex items-center gap-3 p-6 border-b border-[#DEE2E6] bg-gradient-to-r from-[#F8F9FA] to-white">
+            <div className="w-12 h-12 bg-[#2A9D8F] bg-opacity-10 rounded-xl flex items-center justify-center">
+              <TrendingUp className="w-6 h-6 text-[#2A9D8F]" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-800">Transaction History</h3>
-              <p className="text-sm text-slate-500">Last 30 days • {transactions.total_count} transactions</p>
+              <h3 className="text-xl font-bold text-[#264653]">Transaction History</h3>
+              <p className="text-sm text-[#6C757D]">Last 30 days • {transactions.total_count} transactions</p>
             </div>
           </div>
 
           <div className="overflow-x-auto">
             {transactions.transactions.length === 0 ? (
-              <div className="flex items-center justify-center p-12 text-slate-500">
+              <div className="flex items-center justify-center p-12 text-[#6C757D]">
                 <p>No transactions found in the last 30 days</p>
               </div>
             ) : (
               <table className="w-full">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200">
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Date</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Type</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Amount</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Balance After</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Description</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Reference</th>
+                  <tr className="bg-[#F8F9FA] border-b border-[#DEE2E6]">
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-[#264653]">Date</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-[#264653]">Type</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-[#264653]">Amount</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-[#264653]">Balance After</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-[#264653]">Description</th>
+                    <th className="px-6 py-4 text-left text-sm font-semibold text-[#264653]">Reference</th>
                   </tr>
                 </thead>
                 <tbody>
                   {transactions.transactions.map((transaction) => (
-                    <tr key={transaction.transaction_id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 text-sm text-slate-600">{formatDate(transaction.created_at)}</td>
+                    <tr key={transaction.transaction_id} className="border-b border-[#E9ECEF] hover:bg-[#F8F9FA] transition-colors">
+                      <td className="px-6 py-4 text-sm text-[#264653]">{formatDate(transaction.created_at)}</td>
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                           transaction.type === 'Deposit' 
-                            ? 'bg-emerald-100 text-emerald-700' 
+                            ? 'bg-[#38B000]/20 text-[#38B000]' 
                             : transaction.type === 'Withdrawal'
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-blue-100 text-blue-700'
+                            ? 'bg-[#E63946]/20 text-[#E63946]'
+                            : 'bg-[#2A9D8F]/20 text-[#2A9D8F]'
                         }`}>
                           {transaction.type}
                         </span>
                       </td>
                       <td className={`px-6 py-4 text-sm font-semibold ${
-                        transaction.type === 'Deposit' ? 'text-emerald-600' : 'text-red-600'
+                        transaction.type === 'Deposit' ? 'text-[#38B000]' : 'text-[#E63946]'
                       }`}>
                         {transaction.type === 'Deposit' ? '+' : '-'}{formatAmount(transaction.amount)}
                       </td>
-                      <td className="px-6 py-4 text-sm font-semibold text-slate-800">
+                      <td className="px-6 py-4 text-sm font-semibold text-[#264653]">
                         {transaction.balance_after !== undefined && transaction.balance_after !== null
                           ? formatAmount(transaction.balance_after)
                           : '-'
                         }
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-600">
+                      <td className="px-6 py-4 text-sm text-[#264653]">
                         {transaction.description || '-'}
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-500">
+                      <td className="px-6 py-4 text-sm text-[#6C757D]">
                         {transaction.reference_no || '-'}
                       </td>
                     </tr>

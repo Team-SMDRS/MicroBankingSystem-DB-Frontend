@@ -24,7 +24,7 @@ const SubmitButton = ({
       type={type}
       onClick={onClick}
       disabled={isDisabled}
-      className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30 ${className}`}
+      className={`w-full bg-[#2A9D8F] text-white font-medium py-3 rounded-lg hover:bg-opacity-90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
     >
       {isSubmitting ? loadingText : children}
     </button>

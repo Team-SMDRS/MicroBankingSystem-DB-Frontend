@@ -6,15 +6,15 @@ import NewCustomerJointAccountForm from './NewCustomerJointAccountForm';
 import MixedCustomerJointAccountForm from './MixedCustomerJointAccountForm';
 
 const CustomerSummary = ({ customer }: { customer: any }) => (
-  <div className="p-3 border rounded bg-slate-50">
+  <div className="p-3 border border-[#DEE2E6] rounded-lg bg-[#F8F9FA]">
     <div className="flex items-start justify-between">
       <div>
-        <div className="font-semibold">{customer.name}</div>
-        <div className="text-sm text-slate-600">NIC: {customer.nic}</div>
-        <div className="text-sm text-slate-600">Customer ID: {customer.customerId}</div>
+        <div className="font-medium text-[#264653]">{customer.name}</div>
+        <div className="text-sm text-[#6C757D]">NIC: {customer.nic}</div>
+        <div className="text-sm text-[#6C757D]">Customer ID: {customer.customerId}</div>
       </div>
       <div className="ml-4 flex-shrink-0">
-        <CheckCircle className="text-green-500" aria-label="Customer found" size={20} />
+        <CheckCircle className="text-[#38B000]" aria-label="Customer found" size={20} />
       </div>
     </div>
   </div>
@@ -102,16 +102,16 @@ const JointLookupForm: React.FC = () => {
 
   return (
     <div>
-      <h4 className="text-lg font-medium mb-3">Joint Account - Lookup Two Customers</h4>
+      <h4 className="text-lg font-medium mb-3 text-[#264653]">Joint Account - Lookup Two Customers</h4>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <input value={nic1} onChange={e => setNic1(e.target.value)} placeholder="Enter NIC for Customer 1" className="p-2 border rounded w-full" />
-        <input value={nic2} onChange={e => setNic2(e.target.value)} placeholder="Enter NIC for Customer 2" className="p-2 border rounded w-full" />
+        <input value={nic1} onChange={e => setNic1(e.target.value)} placeholder="Enter NIC for Customer 1" className="p-2 border border-[#DEE2E6] rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]" />
+        <input value={nic2} onChange={e => setNic2(e.target.value)} placeholder="Enter NIC for Customer 2" className="p-2 border border-[#DEE2E6] rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]" />
       </div>
       <div className="mt-3 flex gap-3">
         <button 
           type="button" 
           onClick={lookupBoth} 
-          className="px-4 py-2 bg-blue-600 text-white rounded"
+          className="px-4 py-2 bg-[#2A9D8F] text-white rounded-lg hover:bg-opacity-90 transition-all"
           disabled={loading}
         >
           {loading ? 'Searching...' : 'Find Both'}
@@ -120,12 +120,12 @@ const JointLookupForm: React.FC = () => {
 
       <div className="mt-3 space-y-2">
         {errors.length > 0 && errors.filter(err => !err.includes('No customer found with NIC')).map((er, idx) => (
-          <div key={idx} className="text-red-600">{er}</div>
+          <div key={idx} className="text-[#E63946]">{er}</div>
         ))}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>{found1 ? <CustomerSummary customer={found1} /> : <div className="text-slate-500">Customer 1 not found</div>}</div>
-          <div>{found2 ? <CustomerSummary customer={found2} /> : <div className="text-slate-500">Customer 2 not found</div>}</div>
+          <div>{found1 ? <CustomerSummary customer={found1} /> : <div className="text-[#6C757D]">Customer 1 not found</div>}</div>
+          <div>{found2 ? <CustomerSummary customer={found2} /> : <div className="text-[#6C757D]">Customer 2 not found</div>}</div>
         </div>
         
       </div>

@@ -60,7 +60,7 @@ const SavingsPlansSection = ({ activeSubTab, setActiveSubTab }: SavingsPlansSect
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 bg-[#F8F9FA]">
       <SectionHeader
         title="Savings Plans"
         description="Manage and view savings plans"
@@ -78,7 +78,7 @@ const SavingsPlansSection = ({ activeSubTab, setActiveSubTab }: SavingsPlansSect
             <div className="flex justify-between items-center">
               <div>{successMessage}</div>
               <button 
-                className="ml-2 text-emerald-700 hover:text-emerald-900" 
+                className="ml-2 text-[#2A9D8F] hover:text-[#1D3557] transition-colors" 
                 onClick={() => setSuccessMessage(null)}
               >
                 ×
@@ -89,7 +89,7 @@ const SavingsPlansSection = ({ activeSubTab, setActiveSubTab }: SavingsPlansSect
       )}
 
       {showContent && activeSubTab === "create" && (
-        <div className="mt-4">
+        <div className="mt-6">
           <div className="w-full">
             <CreateSavingsPlanForm onSuccess={handleSavingsPlanCreated} />
           </div>
@@ -97,14 +97,14 @@ const SavingsPlansSection = ({ activeSubTab, setActiveSubTab }: SavingsPlansSect
       )}
 
       {showContent && activeSubTab === "plans" && (
-        <div className="mt-4">
+        <div className="mt-6">
           {showUpdateForm && selectedPlan ? (
-            <div className="bg-white p-6 rounded-lg shadow-md mb-4">
+            <div className="bg-[#FFFFFF] p-6 rounded-2xl shadow-lg border border-gray-200 mb-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold">Update Savings Plan</h3>
+                <h3 className="text-[#1D3557] text-xl font-semibold">Update Savings Plan</h3>
                 <button 
                   onClick={() => setShowUpdateForm(false)}
-                  className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition-colors"
+                  className="bg-[#F8F9FA] hover:bg-gray-200 text-[#6C757D] px-5 py-2 rounded-xl transition-all duration-200 hover:shadow-md transform hover:-translate-y-1"
                 >
                   Back to Plans List
                 </button>
@@ -119,18 +119,18 @@ const SavingsPlansSection = ({ activeSubTab, setActiveSubTab }: SavingsPlansSect
               />
             </div>
           ) : (
-            <div className="bg-white p-6 rounded-lg shadow-md">
+            <div className="bg-[#FFFFFF] p-6 rounded-2xl shadow-md border border-gray-200">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold">Savings Plans</h3>
+                <h3 className="text-[#1D3557] text-xl font-semibold">Savings Plans</h3>
                 <button 
                   onClick={() => setActiveSubTab("create")}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  className="bg-[#38B000] hover:bg-green-700 text-white font-semibold px-5 py-2 rounded-xl transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1"
                 >
                   Create New Plan
                 </button>
               </div>
-              <p className="text-gray-600 mb-4">View and manage all available savings plans</p>
-              <div className="mt-4">
+              <p className="text-[#6C757D] mb-6">View and manage all available savings plans</p>
+              <div className="mt-6">
                 <SavingsPlanList 
                 ref={savingsPlanListRef}
                 onUpdateClick={(plan) => handleUpdatePlanClick(plan)} 

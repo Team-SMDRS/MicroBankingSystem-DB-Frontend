@@ -31,7 +31,7 @@ const TransactionSection = ({ activeSubTab, setActiveSubTab }: TransactionSectio
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 bg-[#F8F9FA]">
       <SectionHeader 
         title="Transactions"
         description="Manage your transactions efficiently and securely"

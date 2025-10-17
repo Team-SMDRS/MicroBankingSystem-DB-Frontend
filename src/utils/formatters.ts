@@ -27,18 +27,18 @@ export const formatTransactionType = (type: string): string => {
  */
 export const getTransactionTypeColor = (type: string): string => {
   const colorMap: Record<string, string> = {
-    'Deposit': 'bg-green-100 text-green-800',
-    'deposit': 'bg-green-100 text-green-800',
-    'BankTransfer-In': 'bg-green-100 text-green-800',
-    'Withdrawal': 'bg-red-100 text-red-800',
-    'withdrawal': 'bg-red-100 text-red-800',
-    'BankTransfer-Out': 'bg-red-100 text-red-800',
-    'Interest': 'bg-blue-100 text-blue-800',
-    'BankTransfer': 'bg-purple-100 text-purple-800',
-    'transfer': 'bg-purple-100 text-purple-800',
+    'Deposit': 'bg-[#38B000] bg-opacity-10 text-[#38B000]',
+    'deposit': 'bg-[#38B000] bg-opacity-10 text-[#38B000]',
+    'BankTransfer-In': 'bg-[#2A9D8F] bg-opacity-10 text-[#2A9D8F]',
+    'Withdrawal': 'bg-[#E63946] bg-opacity-10 text-[#E63946]',
+    'withdrawal': 'bg-[#E63946] bg-opacity-10 text-[#E63946]',
+    'BankTransfer-Out': 'bg-[#E9C46A] bg-opacity-10 text-[#E9C46A]',
+    'Interest': 'bg-[#2A9D8F] bg-opacity-10 text-[#2A9D8F]',
+    'BankTransfer': 'bg-[#264653] bg-opacity-10 text-[#264653]',
+    'transfer': 'bg-[#264653] bg-opacity-10 text-[#264653]',
   };
 
-  return colorMap[type] || 'bg-gray-100 text-gray-800';
+  return colorMap[type] || 'bg-[#6C757D] bg-opacity-10 text-[#6C757D]';
 };
 
 /**

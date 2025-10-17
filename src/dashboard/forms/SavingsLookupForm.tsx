@@ -5,15 +5,15 @@ import CreateAccountForExisting from './CreateAccountForExisting';
 import RegisterAndCreate from './RegisterAndCreate';
 
 const CustomerSummary = ({ customer }: { customer: any }) => (
-  <div className="p-3 border rounded bg-slate-50">
+  <div className="p-4 border border-[#E9ECEF] rounded-lg bg-[#F8F9FA] shadow-sm">
     <div className="flex items-start justify-between">
       <div>
-        <div className="font-semibold">{customer.name}</div>
-        <div className="text-sm text-slate-600">NIC: {customer.nic}</div>
-        <div className="text-sm text-slate-600">Customer ID: {customer.customerId}</div>
+        <div className="font-semibold text-[#264653]">{customer.name}</div>
+        <div className="text-sm text-[#6C757D]">NIC: {customer.nic}</div>
+        <div className="text-sm text-[#6C757D]">Customer ID: {customer.customerId}</div>
       </div>
       <div className="ml-4 flex-shrink-0">
-        <CheckCircle className="text-green-500" aria-label="Customer found" size={20} />
+        <CheckCircle className="text-[#38B000]" aria-label="Customer found" size={24} />
       </div>
     </div>
   </div>
@@ -69,30 +69,42 @@ const SavingsLookupForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h4 className="text-lg font-medium mb-3">Savings Account - Lookup Customer</h4>
-      <div className="flex gap-3">
-        <input value={nic} onChange={e => setNic(e.target.value)} placeholder="Enter NIC" className={`p-2 border rounded w-full ${nicError ? 'border-red-500' : ''}`} />
-        <button type="button" onClick={lookup} disabled={loading} className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-60">Find</button>
+    <div className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-[#2A9D8F]">
+      <h4 className="text-xl font-semibold text-[#264653] mb-6">Savings Account - Lookup Customer</h4>
+      <div className="flex gap-4">
+        <input 
+          value={nic} 
+          onChange={e => setNic(e.target.value)} 
+          placeholder="Enter NIC" 
+          className={`w-full px-4 py-2 border ${nicError ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]`} 
+        />
+        <button 
+          type="button" 
+          onClick={lookup} 
+          disabled={loading} 
+          className="px-5 py-2 bg-[#2A9D8F] text-white font-semibold rounded-xl transition-all duration-200 hover:bg-teal-700 hover:shadow-lg transform hover:-translate-y-1 disabled:opacity-60 disabled:hover:transform-none disabled:hover:shadow-none"
+        >
+          Find
+        </button>
       </div>
-      {nicError && <div className="text-sm text-red-600 mt-1">{nicError}</div>}
-      <div className="mt-3">
-        {loading && <div className="text-slate-500">Searching...</div>}
+      {nicError && <div className="text-sm text-red-600 mt-2">{nicError}</div>}
+      <div className="mt-6">
+        {loading && <div className="text-[#6C757D] font-medium">Searching...</div>}
         {found && <CustomerSummary customer={found} />}
-        {notFound && <div className="text-red-600">{notFound}</div>}
+        {notFound && <div className="text-red-600 font-medium">{notFound}</div>}
       </div>
       {/* Create account form shown when customer is found */}
       {found && (
-        <div className="mt-4 border-t pt-4">
-          <h5 className="font-semibold mb-3">Create Savings Account for {found.name}</h5>
+        <div className="mt-8 border-t border-[#E9ECEF] pt-6">
+          <h5 className="text-lg font-semibold text-[#264653] mb-4">Create Savings Account for {found.name}</h5>
           <CreateAccountForExisting customer={found} plans={plans} plansLoading={plansLoading} plansError={plansError} />
         </div>
       )}
 
       {/* If not found, show registration + create form */}
       {notFound && (
-        <div className="mt-4 border-t pt-4">
-          <h5 className="font-semibold mb-3">Register Customer and Create Savings Account</h5>
+        <div className="mt-8 border-t border-[#E9ECEF] pt-6">
+          <h5 className="text-lg font-semibold text-[#264653] mb-4">Register Customer and Create Savings Account</h5>
           <RegisterAndCreate defaultNic={nic} plans={plans} plansLoading={plansLoading} plansError={plansError} />
         </div>
       )}

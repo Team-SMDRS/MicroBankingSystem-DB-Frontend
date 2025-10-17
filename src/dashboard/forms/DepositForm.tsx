@@ -64,14 +64,14 @@ const DepositForm = ({ onSuccess }: DepositFormProps) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200">
-        <div className="w-12 h-12 bg-gradient-to-br from-green-50 to-green-100 rounded-xl flex items-center justify-center">
-          <ArrowUpToLine className="w-6 h-6 text-green-600" />
+    <div className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-[#2A9D8F]">
+      <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#E9ECEF]">
+        <div className="w-12 h-12 bg-[#38B000] bg-opacity-10 rounded-lg flex items-center justify-center">
+          <ArrowUpToLine className="w-6 h-6 text-[#38B000]" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-slate-800">Deposit</h3>
-          <p className="text-sm text-slate-500">Deposit funds to an account</p>
+          <h3 className="text-2xl font-semibold text-[#264653]">Deposit</h3>
+          <p className="text-sm text-[#6C757D]">Deposit funds to an account</p>
         </div>
       </div>
 
@@ -131,7 +131,6 @@ const DepositForm = ({ onSuccess }: DepositFormProps) => {
           isSubmitting={isSubmitting}
           disabled={!accountDetails}
           loadingText="Processing Deposit..."
-          className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-green-600/30"
         >
           Deposit Funds
         </SubmitButton>

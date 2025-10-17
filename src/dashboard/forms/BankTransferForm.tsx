@@ -49,20 +49,20 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200">
-        <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-          <ArrowLeftRight className="w-6 h-6 text-blue-600" />
+    <div className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-[#2A9D8F]">
+      <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#E9ECEF]">
+        <div className="w-12 h-12 bg-[#2A9D8F] bg-opacity-10 rounded-lg flex items-center justify-center">
+          <ArrowLeftRight className="w-6 h-6 text-[#2A9D8F]" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-slate-800">Bank Transfer</h3>
-          <p className="text-sm text-slate-500">Transfer funds between accounts</p>
+          <h3 className="text-2xl font-semibold text-[#264653]">Bank Transfer</h3>
+          <p className="text-sm text-[#6C757D]">Transfer funds between accounts</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="amount" className="block text-sm font-medium text-[#6C757D] mb-2">
             Amount
           </label>
           <input
@@ -74,12 +74,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             min="0.01"
             step="0.01"
             placeholder="0.00"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
           />
         </div>
 
         <div>
-          <label htmlFor="fromAccount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="fromAccount" className="block text-sm font-medium text-[#6C757D] mb-2">
             From Account No
           </label>
           <input
@@ -89,12 +89,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             onChange={(e) => setFromAccountNo(e.target.value)}
             required
             placeholder="Enter source account number"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="w-full px-4 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
           />
         </div>
 
         <div>
-          <label htmlFor="toAccount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="toAccount" className="block text-sm font-medium text-[#6C757D] mb-2">
             To Account No
           </label>
           <input
@@ -104,12 +104,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             onChange={(e) => setToAccountNo(e.target.value)}
             required
             placeholder="Enter destination account number"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="w-full px-4 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
           />
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="description" className="block text-sm font-medium text-[#6C757D] mb-2">
             Description
           </label>
           <textarea
@@ -119,18 +119,18 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             required
             rows={3}
             placeholder="Enter transaction description"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none resize-none"
+            className="w-full px-4 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] resize-none"
           />
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+          <div className="bg-[#E63946] bg-opacity-5 border border-[#E63946] border-opacity-20 text-[#E63946] px-4 py-3 rounded-lg">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl">
+          <div className="bg-[#38B000] bg-opacity-5 border border-[#38B000] border-opacity-20 text-[#38B000] px-4 py-3 rounded-lg">
             Transfer completed successfully!
           </div>
         )}
@@ -138,7 +138,7 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30"
+          className="w-full bg-[#2A9D8F] text-white font-medium py-3 rounded-lg hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? 'Processing...' : 'Transfer Funds'}
         </button>

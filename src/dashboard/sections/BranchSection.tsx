@@ -110,7 +110,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 {/* CREATE BRANCH */}
                 {activeSubTab === 'create-branch' && (
                     <div className="max-w-2xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Create New Branch</h2>
+                        <h2 className="text-xl font-semibold mb-4 text-[#264653]">Create New Branch</h2>
                         {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         <CreateBranchForm onSuccess={handleCreate} isLoading={loading} createdBranch={createdBranch} />
                     </div>
@@ -119,7 +119,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 {/* UPDATE BRANCH */}
                 {activeSubTab === 'update-branch' && (
                     <div className="max-w-2xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Update Branch</h2>
+                        <h2 className="text-xl font-semibold mb-4 text-[#264653]">Update Branch</h2>
                         {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         {selectedBranch ? (
                             <UpdateBranchForm
@@ -139,7 +139,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                 {/* SEARCH BRANCH */}
                 {activeSubTab === 'search-branch' && (
                     <div className="max-w-2xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Search Branches</h2>
+                        <h2 className="text-xl font-semibold mb-4 text-[#264653]">Search Branches</h2>
                         {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         <SearchBranchForm
                             // When selecting from the main Search tab we only set the selected branch
@@ -149,22 +149,22 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
 
                         {/* Inline details for the selected branch (visible on Search tab) */}
                         {selectedBranch && (
-                            <div className="mt-6 p-4 border rounded-lg bg-white shadow-sm">
-                                <h3 className="text-lg font-semibold mb-2">Selected Branch</h3>
-                                <div className="text-sm text-slate-700 mb-2">Name: <span className="font-medium">{selectedBranch.name}</span></div>
-                                <div className="text-sm text-slate-600 mb-2">Address: {selectedBranch.address || '—'}</div>
-                                <div className="text-sm text-slate-500 mb-4">ID: {selectedBranch.branch_id}</div>
+                            <div className="mt-6 p-4 border border-[#DEE2E6] rounded-lg bg-white shadow-sm border-t-4 border-t-[#2A9D8F]">
+                                <h3 className="text-lg font-semibold mb-2 text-[#264653]">Selected Branch</h3>
+                                <div className="text-sm text-[#264653] mb-2">Name: <span className="font-medium">{selectedBranch.name}</span></div>
+                                <div className="text-sm text-[#6C757D] mb-2">Address: {selectedBranch.address || '—'}</div>
+                                <div className="text-sm text-[#6C757D] mb-4">ID: {selectedBranch.branch_id}</div>
                                 <div className="flex gap-3">
                                     <button
                                         type="button"
-                                        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+                                        className="px-3 py-1 bg-[#2A9D8F] text-white rounded-lg text-sm hover:bg-opacity-90"
                                         onClick={() => setActiveSubTab('update-branch')}
                                     >
                                         Edit
                                     </button>
                                     <button
                                         type="button"
-                                        className="px-3 py-1 border rounded text-sm text-slate-700 hover:bg-slate-50"
+                                        className="px-3 py-1 border border-[#DEE2E6] rounded-lg text-sm text-[#6C757D] hover:bg-[#F8F9FA]"
                                         onClick={() => setSelectedBranch(null)}
                                     >
                                         Clear

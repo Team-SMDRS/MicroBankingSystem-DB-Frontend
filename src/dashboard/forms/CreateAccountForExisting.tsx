@@ -36,29 +36,43 @@ const CreateAccountForExisting: React.FC<{ customer: any; plans: Plan[]; plansLo
   };
 
   return (
-    <div className="mt-3">
+    <div className="mt-6">
       {successMsg ? (
-        <div className="p-3 bg-green-50 text-green-800 rounded">{successMsg}</div>
+        <div className="p-4 bg-[#38B000] bg-opacity-10 border border-[#38B000] text-[#264653] rounded-lg font-medium">{successMsg}</div>
       ) : (
-        <div className="space-y-3">
-          {errorMsg && <div className="text-red-600">{errorMsg}</div>}
+        <div className="space-y-6">
+          {errorMsg && <div className="p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg">{errorMsg}</div>}
           <div>
-            <label className="block text-sm text-slate-600 mb-1">Initial Balance (LKR)</label>
-            <input type="number" value={balance as any} onChange={e => setBalance(e.target.value === '' ? '' : Number(e.target.value))} className={`p-2 border rounded w-full ${fieldErrors.balance ? 'border-red-500' : ''}`} />
-            {fieldErrors.balance && <div className="text-sm text-red-600">{fieldErrors.balance}</div>}
+            <label className="block text-sm font-medium text-[#6C757D] mb-2">Initial Balance (LKR)</label>
+            <input 
+              type="number" 
+              value={balance as any} 
+              onChange={e => setBalance(e.target.value === '' ? '' : Number(e.target.value))} 
+              className={`w-full px-4 py-2 border ${fieldErrors.balance ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]`} 
+            />
+            {fieldErrors.balance && <div className="text-sm text-red-600 mt-2">{fieldErrors.balance}</div>}
           </div>
           <div>
-            <label className="block text-sm text-slate-600 mb-1">Savings Plan</label>
-            <select value={planId} onChange={e => setPlanId(e.target.value)} className="p-2 border rounded w-full">
+            <label className="block text-sm font-medium text-[#6C757D] mb-2">Savings Plan</label>
+            <select 
+              value={planId} 
+              onChange={e => setPlanId(e.target.value)} 
+              className={`w-full px-4 py-2 border ${fieldErrors.planId ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] bg-white`}
+            >
               <option value="">{plansLoading ? 'Loading plans...' : 'Select a plan'}</option>
               {plans.map((p: Plan) => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
-            {fieldErrors.planId && <div className="text-sm text-red-600">{fieldErrors.planId}</div>}
-            {plansError && <div className="text-sm text-red-600 mt-1">{plansError}</div>}
+            {fieldErrors.planId && <div className="text-sm text-red-600 mt-2">{fieldErrors.planId}</div>}
+            {plansError && <div className="text-sm text-red-600 mt-2">{plansError}</div>}
           </div>
 
           <div className="flex justify-end gap-3">
-            <button type="button" onClick={handleCreate} disabled={loadingCreate || plansLoading} className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-60">
+            <button 
+              type="button" 
+              onClick={handleCreate} 
+              disabled={loadingCreate || plansLoading} 
+              className="px-5 py-2 bg-[#38B000] hover:bg-green-700 text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-lg transform hover:-translate-y-1 disabled:opacity-60 disabled:hover:transform-none disabled:hover:shadow-none"
+            >
               {loadingCreate ? 'Creating...' : 'Create Account'}
             </button>
           </div>

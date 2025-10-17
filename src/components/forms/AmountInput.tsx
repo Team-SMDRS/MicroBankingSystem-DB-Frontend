@@ -17,7 +17,7 @@ const AmountInput = ({
 }: AmountInputProps) => {
   return (
     <div>
-      <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+      <label htmlFor="amount" className="block text-sm font-medium text-[#6C757D] mb-2">
         {label}
       </label>
       <input
@@ -30,9 +30,9 @@ const AmountInput = ({
         max={maxAmount}
         step="0.01"
         placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all outline-none"
+        className="w-full px-4 py-2 border border-[#DEE2E6] rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F]"
       />
-      <p className="text-xs text-slate-500 mt-1">
+      <p className="text-xs text-[#6C757D] mt-2">
         Maximum withdrawal: Rs. {maxAmount.toFixed(2)}
       </p>
     </div>

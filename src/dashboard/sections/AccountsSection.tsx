@@ -123,7 +123,7 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
         onSubTabChange={handleTabClick}
       />
       {prompt && (
-        <div className="mt-4 bg-white p-6 rounded-lg shadow-sm">
+        <div className="mt-4 bg-white p-6 rounded-lg shadow-sm border border-[#DEE2E6] border-t-4 border-t-[#2A9D8F]">
           {pendingTab === 'account-details' ? (
             <AccountNumberInput
               accountNo={accountInput}
@@ -157,10 +157,10 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
         </div>
       )}
       {loading && (
-        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="mt-6 p-4 bg-[#2A9D8F] bg-opacity-5 border border-[#2A9D8F] border-opacity-20 rounded-lg">
           <div className="flex items-center gap-3">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-            <p className="text-blue-700">Loading account details...</p>
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#2A9D8F]"></div>
+            <p className="text-[#264653]">Loading account details...</p>
           </div>
         </div>
       )}

@@ -158,175 +158,175 @@ const NewCustomerJointAccountForm: React.FC<NewCustomerJointAccountFormProps> = 
   };
 
   return (
-    <div className="mt-5 p-4 border rounded bg-white">
-      <h5 className="text-md font-medium mb-3">Create Joint Account with New Customers</h5>
+    <div className="mt-5 p-4 border rounded-lg bg-white border-t-4 border-t-[#2A9D8F]">
+      <h5 className="text-md font-medium mb-3 text-[#264653]">Create Joint Account with New Customers</h5>
       
       {!result && (
         <div className="space-y-5">
           {apiError && (
-            <div className="p-3 bg-red-50 text-red-800 rounded">
+            <div className="p-3 bg-[#E63946] bg-opacity-10 border border-[#E63946] border-opacity-20 text-[#E63946] rounded-lg">
               {apiError}
             </div>
           )}
           
           <div>
-            <h6 className="font-medium mb-2">Customer 1 Information</h6>
+            <h6 className="font-medium mb-2 text-[#264653]">Customer 1 Information</h6>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm text-slate-600 mb-1">NIC</label>
+                <label className="block text-sm text-[#6C757D] mb-1">NIC</label>
                 <input
                   type="text"
                   name="nic"
                   value={customer1.nic}
                   readOnly
-                  className="p-2 border rounded w-full bg-gray-100"
+                  className="p-2 border border-[#DEE2E6] rounded-lg w-full bg-[#F8F9FA]"
                 />
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Full Name</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Full Name</label>
                 <input
                   type="text"
                   name="full_name"
                   value={customer1.full_name}
                   onChange={handleCustomer1Change}
-                  className={`p-2 border rounded w-full ${errors.customer1_full_name ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.customer1_full_name ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.customer1_full_name && (
-                  <div className="text-sm text-red-600">{errors.customer1_full_name}</div>
+                  <div className="text-sm text-[#E63946]">{errors.customer1_full_name}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Address</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Address</label>
                 <input
                   type="text"
                   name="address"
                   value={customer1.address}
                   onChange={handleCustomer1Change}
-                  className={`p-2 border rounded w-full ${errors.customer1_address ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.customer1_address ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.customer1_address && (
-                  <div className="text-sm text-red-600">{errors.customer1_address}</div>
+                  <div className="text-sm text-[#E63946]">{errors.customer1_address}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Phone Number</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Phone Number</label>
                 <input
                   type="text"
                   name="phone_number"
                   value={customer1.phone_number}
                   onChange={handleCustomer1Change}
-                  className={`p-2 border rounded w-full ${errors.customer1_phone_number ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.customer1_phone_number ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.customer1_phone_number && (
-                  <div className="text-sm text-red-600">{errors.customer1_phone_number}</div>
+                  <div className="text-sm text-[#E63946]">{errors.customer1_phone_number}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Date of Birth</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Date of Birth</label>
                 <input
                   type="date"
                   name="dob"
                   value={customer1.dob}
                   onChange={handleCustomer1Change}
-                  className={`p-2 border rounded w-full ${errors.customer1_dob ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.customer1_dob ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.customer1_dob && (
-                  <div className="text-sm text-red-600">{errors.customer1_dob}</div>
+                  <div className="text-sm text-[#E63946]">{errors.customer1_dob}</div>
                 )}
               </div>
             </div>
           </div>
           
           <div>
-            <h6 className="font-medium mb-2">Customer 2 Information</h6>
+            <h6 className="font-medium mb-2 text-[#264653]">Customer 2 Information</h6>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <label className="block text-sm text-slate-600 mb-1">NIC</label>
+                <label className="block text-sm text-[#6C757D] mb-1">NIC</label>
                 <input
                   type="text"
                   name="nic"
                   value={customer2.nic}
                   readOnly
-                  className="p-2 border rounded w-full bg-gray-100"
+                  className="p-2 border border-[#DEE2E6] rounded-lg w-full bg-[#F8F9FA]"
                 />
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Full Name</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Full Name</label>
                 <input
                   type="text"
                   name="full_name"
                   value={customer2.full_name}
                   onChange={handleCustomer2Change}
-                  className={`p-2 border rounded w-full ${errors.customer2_full_name ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.customer2_full_name ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.customer2_full_name && (
-                  <div className="text-sm text-red-600">{errors.customer2_full_name}</div>
+                  <div className="text-sm text-[#E63946]">{errors.customer2_full_name}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Address</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Address</label>
                 <input
                   type="text"
                   name="address"
                   value={customer2.address}
                   onChange={handleCustomer2Change}
-                  className={`p-2 border rounded w-full ${errors.customer2_address ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.customer2_address ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.customer2_address && (
-                  <div className="text-sm text-red-600">{errors.customer2_address}</div>
+                  <div className="text-sm text-[#E63946]">{errors.customer2_address}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Phone Number</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Phone Number</label>
                 <input
                   type="text"
                   name="phone_number"
                   value={customer2.phone_number}
                   onChange={handleCustomer2Change}
-                  className={`p-2 border rounded w-full ${errors.customer2_phone_number ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.customer2_phone_number ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.customer2_phone_number && (
-                  <div className="text-sm text-red-600">{errors.customer2_phone_number}</div>
+                  <div className="text-sm text-[#E63946]">{errors.customer2_phone_number}</div>
                 )}
               </div>
               <div>
-                <label className="block text-sm text-slate-600 mb-1">Date of Birth</label>
+                <label className="block text-sm text-[#6C757D] mb-1">Date of Birth</label>
                 <input
                   type="date"
                   name="dob"
                   value={customer2.dob}
                   onChange={handleCustomer2Change}
-                  className={`p-2 border rounded w-full ${errors.customer2_dob ? 'border-red-500' : ''}`}
+                  className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.customer2_dob ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                   disabled={createLoading}
                 />
                 {errors.customer2_dob && (
-                  <div className="text-sm text-red-600">{errors.customer2_dob}</div>
+                  <div className="text-sm text-[#E63946]">{errors.customer2_dob}</div>
                 )}
               </div>
             </div>
           </div>
           
           <div>
-            <h6 className="font-medium mb-2">Account Information</h6>
+            <h6 className="font-medium mb-2 text-[#264653]">Account Information</h6>
             <div>
-              <label className="block text-sm text-slate-600 mb-1">Initial Balance (LKR)</label>
+              <label className="block text-sm text-[#6C757D] mb-1">Initial Balance (LKR)</label>
               <input
                 type="number"
                 name="balance"
                 value={balance as any}
                 onChange={e => setBalance(e.target.value === '' ? '' : Number(e.target.value))}
-                className={`p-2 border rounded w-full ${errors.balance ? 'border-red-500' : ''}`}
+                className={`p-2 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] ${errors.balance ? 'border-[#E63946]' : 'border-[#DEE2E6]'}`}
                 disabled={createLoading}
               />
               {errors.balance && (
-                <div className="text-sm text-red-600">{errors.balance}</div>
+                <div className="text-sm text-[#E63946]">{errors.balance}</div>
               )}
             </div>
           </div>
@@ -335,7 +335,7 @@ const NewCustomerJointAccountForm: React.FC<NewCustomerJointAccountFormProps> = 
             <button
               type="button"
               onClick={handleCreateJointAccount}
-              className="px-4 py-2 bg-green-600 text-white rounded"
+              className="px-4 py-2 bg-[#2A9D8F] hover:bg-opacity-90 text-white rounded-lg"
               disabled={createLoading}
             >
               {createLoading ? 'Creating...' : 'Create Joint Account'}
@@ -345,34 +345,34 @@ const NewCustomerJointAccountForm: React.FC<NewCustomerJointAccountFormProps> = 
       )}
       
       {result && (
-        <div className="p-3 bg-green-50 text-green-800 rounded mt-3">
-          <div className="font-medium">Joint account created successfully!</div>
+        <div className="p-3 bg-[#38B000] bg-opacity-10 text-[#264653] rounded-lg mt-3 border border-[#38B000] border-opacity-20">
+          <div className="font-medium text-[#38B000]">Joint account created successfully!</div>
           <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div className="p-3 border rounded bg-white">
-              <h6 className="font-medium">{customer1.full_name}</h6>
-              <div className="text-sm mt-2">
-                <div>Customer ID: {result.customer1.customer_id}</div>
-                <div>NIC: {result.customer1.nic}</div>
-                <div>Username: {result.customer1.username}</div>
-                <div>Password: {result.customer1.password}</div>
+            <div className="p-3 border border-[#DEE2E6] rounded-lg bg-white">
+              <h6 className="font-medium text-[#264653]">{customer1.full_name}</h6>
+              <div className="text-sm mt-2 text-[#6C757D]">
+                <div>Customer ID: <span className="text-[#264653]">{result.customer1.customer_id}</span></div>
+                <div>NIC: <span className="text-[#264653]">{result.customer1.nic}</span></div>
+                <div>Username: <span className="text-[#264653]">{result.customer1.username}</span></div>
+                <div>Password: <span className="text-[#264653]">{result.customer1.password}</span></div>
               </div>
             </div>
             
-            <div className="p-3 border rounded bg-white">
-              <h6 className="font-medium">{customer2.full_name}</h6>
-              <div className="text-sm mt-2">
-                <div>Customer ID: {result.customer2.customer_id}</div>
-                <div>NIC: {result.customer2.nic}</div>
-                <div>Username: {result.customer2.username}</div>
-                <div>Password: {result.customer2.password}</div>
+            <div className="p-3 border border-[#DEE2E6] rounded-lg bg-white">
+              <h6 className="font-medium text-[#264653]">{customer2.full_name}</h6>
+              <div className="text-sm mt-2 text-[#6C757D]">
+                <div>Customer ID: <span className="text-[#264653]">{result.customer2.customer_id}</span></div>
+                <div>NIC: <span className="text-[#264653]">{result.customer2.nic}</span></div>
+                <div>Username: <span className="text-[#264653]">{result.customer2.username}</span></div>
+                <div>Password: <span className="text-[#264653]">{result.customer2.password}</span></div>
               </div>
             </div>
           </div>
           
-          <div className="mt-3 p-3 border rounded bg-white">
-            <h6 className="font-medium">Account Details</h6>
-            <div className="text-sm mt-2">
-              <div>Account Number: {result.account_no}</div>
+          <div className="mt-3 p-3 border border-[#DEE2E6] rounded-lg bg-white">
+            <h6 className="font-medium text-[#264653]">Account Details</h6>
+            <div className="text-sm mt-2 text-[#6C757D]">
+              <div>Account Number: <span className="text-[#264653]">{result.account_no}</span></div>
             </div>
           </div>
           
@@ -380,7 +380,7 @@ const NewCustomerJointAccountForm: React.FC<NewCustomerJointAccountFormProps> = 
             <button
               type="button"
               onClick={handleReset}
-              className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded"
+              className="px-4 py-2 bg-[#6C757D] hover:bg-opacity-90 text-white rounded-lg"
             >
               Close & Reset Form
             </button>

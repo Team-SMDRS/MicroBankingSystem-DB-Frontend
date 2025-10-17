@@ -24,13 +24,13 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex">
+    <div className="min-h-screen bg-[#F8F9FA] flex">
       {/* Fixed Sidebar */}
-      <aside className="fixed left-0 top-0 w-72 h-screen bg-white shadow-xl border-r border-slate-200 flex flex-col">
-        <div className="p-6 border-b border-slate-200 flex-shrink-0">
+      <aside className="fixed left-0 top-0 w-72 h-screen bg-white shadow-lg border-r border-[#E9ECEF] flex flex-col">
+        <div className="p-6 border-b border-[#E9ECEF] flex-shrink-0">
           <div className="flex items-center gap-3">
             <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-white/0"
+              className="w-12 h-12 rounded-lg flex items-center justify-center shadow-md bg-white/0"
               style={{
                 backgroundImage: `url(${logo})`,
                 backgroundSize: 'cover',
@@ -39,8 +39,8 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
               }}
             />
             <div>
-              <h1 className="text-xl font-bold text-slate-800"><span className="text-blue-600">B</span>Trust Bank</h1>
-              <p className="text-xs text-slate-500">Management System</p>
+              <h1 className="text-xl font-bold text-[#264653]"><span className="text-[#2A9D8F]">B</span>Trust Bank</h1>
+              <p className="text-xs text-[#6C757D]">Management System</p>
             </div>
           </div>
         </div>
@@ -54,12 +54,12 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
                 <li key={tab.id}>
                   <button
                     onClick={() => onMainTabChange(tab.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 ${isActive
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-600/30'
-                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-lg transition-all duration-200 ${isActive
+                        ? 'bg-[#2A9D8F] text-white shadow-md'
+                        : 'text-[#6C757D] hover:bg-[#F8F9FA] hover:text-[#264653]'
                       }`}
                   >
-                    <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                    <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-[#6C757D]'}`} />
                     <span className="font-medium">{tab.label}</span>
                   </button>
                 </li>
@@ -68,22 +68,22 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
           </ul>
         </nav>
 
-        <div className="p-4 border-t border-slate-200 bg-white flex-shrink-0">
+        <div className="p-4 border-t border-[#E9ECEF] bg-white flex-shrink-0">
           <button
             onClick={() => onMainTabChange('my-profile' as MainTab)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeMainTab === 'my-profile'
-              ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-600/30'
-              : 'bg-slate-50 hover:bg-slate-100 text-slate-800 hover:text-slate-900'
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${activeMainTab === 'my-profile'
+              ? 'bg-[#2A9D8F] text-white shadow-md'
+              : 'bg-[#F8F9FA] hover:bg-gray-100 text-[#264653] hover:text-[#264653]'
             }`}
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-slate-300 to-slate-400 rounded-full flex items-center justify-center text-slate-700 font-semibold flex-shrink-0">
+            <div className="w-10 h-10 bg-[#264653] rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0">
               {user?.username?.slice(0, 2).toUpperCase() || 'JD'}
             </div>
             <div className="flex-1 text-left">
-              <p className={`text-sm font-semibold ${activeMainTab === 'my-profile' ? 'text-white' : 'text-slate-800'}`}>
+              <p className={`text-sm font-semibold ${activeMainTab === 'my-profile' ? 'text-white' : 'text-[#264653]'}`}>
                 {user?.username || 'John Doe'}
               </p>
-              <p className={`text-xs ${activeMainTab === 'my-profile' ? 'text-white/70' : 'text-slate-500'}`}>View Profile</p>
+              <p className={`text-xs ${activeMainTab === 'my-profile' ? 'text-white text-opacity-80' : 'text-[#6C757D]'}`}>View Profile</p>
             </div>
             <button
               onClick={(e) => {
@@ -91,8 +91,8 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
                 onLogout();
               }}
               className={`p-2 rounded-lg transition-colors ${activeMainTab === 'my-profile'
-                ? 'text-white/70 hover:text-white hover:bg-white/10'
-                : 'text-slate-500 hover:text-red-600 hover:bg-red-50'
+                ? 'text-white text-opacity-80 hover:text-white hover:bg-white/10'
+                : 'text-[#6C757D] hover:text-[#E63946] hover:bg-red-50'
               }`}
               title="Logout"
             >

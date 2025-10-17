@@ -62,7 +62,7 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                            className="w-full p-2 border border-[#DEE2E6] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] text-[#264653]"
                             placeholder={searchType === 'name' ? "Search by branch name..." : "Search by branch ID..."}
                         />
                     </div>
@@ -70,7 +70,7 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
                         <select
                             value={searchType}
                             onChange={(e) => setSearchType(e.target.value as 'name' | 'id')}
-                            className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                            className="p-2 border border-[#DEE2E6] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] text-[#264653]"
                         >
                             <option value="name">Search by Name</option>
                             <option value="id">Search by ID</option>
@@ -81,24 +81,24 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
 
             {filteredBranches && filteredBranches.length > 0 && (
                 <div className={`mt-4 ${pushResultsToBottom ? 'mt-auto' : ''}`}>
-                    <h3 className="text-lg font-semibold mb-2">
+                    <h3 className="text-lg font-semibold mb-2 text-[#264653]">
                         {searchQuery.trim() ? 'Search Results' : 'All Branches'} ({filteredBranches.length})
                     </h3>
                     <div className="space-y-2 max-h-96 overflow-y-auto">
                         {filteredBranches.map((branch: BranchDetails) => (
                             <div
                                 key={branch.branch_id}
-                                className="p-3 border rounded-lg hover:bg-blue-50 transition-colors duration-150 border-blue-100 flex items-center justify-between"
+                                className="p-3 border rounded-lg hover:bg-[#2A9D8F] hover:bg-opacity-5 transition-colors duration-150 border-[#DEE2E6] flex items-center justify-between"
                             >
                                 <div>
-                                    <div className="font-medium">{branch.name}</div>
-                                    <div className="text-sm text-gray-600">{branch.address}</div>
-                                    <div className="text-xs text-gray-400">ID: {branch.branch_id}</div>
+                                    <div className="font-medium text-[#264653]">{branch.name}</div>
+                                    <div className="text-sm text-[#6C757D]">{branch.address}</div>
+                                    <div className="text-xs text-[#6C757D] opacity-70">ID: {branch.branch_id}</div>
                                 </div>
                                 <div>
                                     <button
                                         type="button"
-                                        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+                                        className="px-3 py-1 bg-[#2A9D8F] text-white rounded-lg text-sm hover:bg-opacity-90"
                                         onClick={() => onSelect?.(branch)}
                                     >
                                         Select
@@ -112,13 +112,13 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
 
             {isLoading && (
                 <div className="flex justify-center items-center py-8">
-                    <div className="text-gray-500">Loading branches...</div>
+                    <div className="text-[#6C757D]">Loading branches...</div>
                 </div>
             )}
 
             {!isLoading && filteredBranches.length === 0 && searchQuery.trim() && (
                 <div className="flex justify-center items-center py-8">
-                    <div className="text-gray-500">No branches found matching "{searchQuery}"</div>
+                    <div className="text-[#6C757D]">No branches found matching "{searchQuery}"</div>
                 </div>
             )}
         </div>

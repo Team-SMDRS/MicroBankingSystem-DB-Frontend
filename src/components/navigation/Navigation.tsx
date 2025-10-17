@@ -7,14 +7,14 @@ const Navigation = () => {
 
   return (
     <Box className="fixed top-4 left-4 z-50">
-      <div className="flex gap-2">
+      <div className="flex gap-3">
         <Button
           variant="contained"
           onClick={() => navigate(-1)}
           startIcon={<ArrowBack />}
           size="small"
-          className="bg-gray-600 hover:bg-gray-700"
-          sx={{ bgcolor: 'gray.600', '&:hover': { bgcolor: 'gray.700' } }}
+          className="bg-[#6C757D] hover:bg-[#495057]"
+          sx={{ bgcolor: '#6C757D', '&:hover': { bgcolor: '#495057' }, borderRadius: '0.5rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
         >
           Back
         </Button>
@@ -23,8 +23,8 @@ const Navigation = () => {
           onClick={() => navigate("/")}
           startIcon={<Home />}
           size="small"
-          className="bg-blue-600 hover:bg-blue-700"
-          sx={{ bgcolor: 'blue.600', '&:hover': { bgcolor: 'blue.700' } }}
+          className="bg-[#2A9D8F] hover:bg-[#264653]"
+          sx={{ bgcolor: '#2A9D8F', '&:hover': { bgcolor: '#264653' }, borderRadius: '0.5rem', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}
         >
           Dashboard
         </Button>

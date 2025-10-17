@@ -47,19 +47,19 @@ const SavingsPlanList = forwardRef<SavingsPlanListRef, SavingsPlanListProps>(
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-8">
-        <Loader className="animate-spin h-8 w-8 text-blue-600" />
-        <span className="ml-2 text-blue-600">Loading savings plans...</span>
+        <Loader className="animate-spin h-8 w-8 text-[#2A9D8F]" />
+        <span className="ml-3 text-[#2A9D8F] font-medium">Loading savings plans...</span>
       </div>
     );
   }
 
   if (error) {
     return (
-      <Alert type="error" className="mb-4">
+      <Alert type="error" className="mb-6">
         <div className="flex justify-between items-center">
           <div>{error}</div>
           <button 
-            className="ml-2 text-red-700 hover:text-red-900" 
+            className="ml-2 text-[#E63946] hover:text-red-800 transition-colors" 
             onClick={() => setError(null)}
           >
             ×
@@ -71,7 +71,7 @@ const SavingsPlanList = forwardRef<SavingsPlanListRef, SavingsPlanListProps>(
 
   if (plans.length === 0) {
     return (
-      <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 p-4 rounded-lg text-center">
+      <div className="bg-[#F4A261] bg-opacity-10 border border-[#F4A261] text-[#1D3557] p-6 rounded-xl text-center">
         No savings plans found. Create a new plan to get started.
       </div>
     );
@@ -79,13 +79,13 @@ const SavingsPlanList = forwardRef<SavingsPlanListRef, SavingsPlanListProps>(
 
   return (
     <div>
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-6">
         <button 
           onClick={() => fetchSavingsPlans()}
-          className="inline-flex items-center px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-md transition-colors"
+          className="inline-flex items-center px-4 py-2 bg-[#1D3557] bg-opacity-5 hover:bg-opacity-10 text-[#1D3557] rounded-xl transition-all duration-200 hover:shadow-md transform hover:-translate-y-1"
           title="Refresh Plans"
         >
-          <RefreshCw className="h-4 w-4 mr-1" />
+          <RefreshCw className="h-4 w-4 mr-2" />
           <span>Refresh</span>
         </button>
       </div>
@@ -93,26 +93,26 @@ const SavingsPlanList = forwardRef<SavingsPlanListRef, SavingsPlanListProps>(
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="py-3 px-4 text-left font-semibold text-gray-700 border-b">Plan Name</th>
-              <th className="py-3 px-4 text-left font-semibold text-gray-700 border-b">Interest Rate (%)</th>
-              <th className="py-3 px-4 text-left font-semibold text-gray-700 border-b">Minimum Balance</th>
-              <th className="py-3 px-4 text-center font-semibold text-gray-700 border-b">Actions</th>
+            <tr className="bg-[#F8F9FA]">
+              <th className="py-4 px-6 text-left text-xs uppercase tracking-wider font-semibold text-[#6C757D] border-b">Plan Name</th>
+              <th className="py-4 px-6 text-left text-xs uppercase tracking-wider font-semibold text-[#6C757D] border-b">Interest Rate (%)</th>
+              <th className="py-4 px-6 text-left text-xs uppercase tracking-wider font-semibold text-[#6C757D] border-b">Minimum Balance</th>
+              <th className="py-4 px-6 text-center text-xs uppercase tracking-wider font-semibold text-[#6C757D] border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {plans.map((plan) => (
-              <tr key={plan.savings_plan_id} className="hover:bg-gray-50 border-b">
-                <td className="py-3 px-4 font-medium">{plan.plan_name}</td>
-                <td className="py-3 px-4">{plan.interest_rate}%</td>
-                <td className="py-3 px-4">Rs.{plan.minimum_balance.toFixed(2)}</td>
-                <td className="py-3 px-4 text-center">
+            {plans.map((plan, index) => (
+              <tr key={plan.savings_plan_id} className={`${index % 2 === 0 ? '' : 'bg-gray-50'} hover:bg-[#2A9D8F] hover:bg-opacity-5 border-b border-gray-200`}>
+                <td className="py-4 px-6 font-medium text-[#303030]">{plan.plan_name}</td>
+                <td className="py-4 px-6 text-[#303030]">{plan.interest_rate}%</td>
+                <td className="py-4 px-6 text-[#303030]">Rs.{plan.minimum_balance.toFixed(2)}</td>
+                <td className="py-4 px-6 text-center">
                   <button
                     onClick={() => onUpdateClick && onUpdateClick(plan)}
-                    className="inline-flex items-center px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-md transition-colors"
+                    className="inline-flex items-center px-5 py-2 bg-[#2A9D8F] hover:bg-[#1D3557] text-white font-medium rounded-xl transition-all duration-200 hover:shadow-md transform hover:-translate-y-1"
                     title="Update Plan"
                   >
-                    <Edit className="h-4 w-4 mr-1" />
+                    <Edit className="h-4 w-4 mr-2" />
                     <span>Update</span>
                   </button>
                 </td>

@@ -64,14 +64,14 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200">
-        <div className="w-12 h-12 bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl flex items-center justify-center">
-          <ArrowDownToLine className="w-6 h-6 text-amber-600" />
+    <div className="bg-white rounded-xl shadow-lg p-8 border-t-4 border-[#2A9D8F]">
+      <div className="flex items-center gap-4 mb-6 pb-6 border-b border-[#E9ECEF]">
+        <div className="w-12 h-12 bg-[#F4A261] bg-opacity-10 rounded-lg flex items-center justify-center">
+          <ArrowDownToLine className="w-6 h-6 text-[#F4A261]" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-slate-800">Withdrawal</h3>
-          <p className="text-sm text-slate-500">Withdraw funds from an account</p>
+          <h3 className="text-2xl font-semibold text-[#264653]">Withdrawal</h3>
+          <p className="text-sm text-[#6C757D]">Withdraw funds from an account</p>
         </div>
       </div>
 
