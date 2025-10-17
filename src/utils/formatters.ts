@@ -33,7 +33,7 @@ export const getTransactionTypeColor = (type: string): string => {
     'Withdrawal': 'bg-red-100 text-red-800',
     'withdrawal': 'bg-red-100 text-red-800',
     'BankTransfer-Out': 'bg-red-100 text-red-800',
-    'Interest': 'bg-blue-100 text-blue-800',
+    'Interest': 'bg-green-100 text-green-800',
     'BankTransfer': 'bg-purple-100 text-purple-800',
     'transfer': 'bg-purple-100 text-purple-800',
   };

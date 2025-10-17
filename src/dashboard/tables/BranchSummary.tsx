@@ -488,9 +488,9 @@ const BranchSummary = () => {
                               </span>
                             </td>
                             <td className={`px-4 py-3 text-xs font-semibold ${
-                              transaction.type === 'Deposit' ? 'text-emerald-600' : 'text-red-600'
+                              ['Deposit', 'Interest', 'BankTransfer-In'].includes(transaction.type) ? 'text-emerald-600' : 'text-red-600'
                             }`}>
-                              {transaction.type === 'Deposit' ? '+' : '-'}
+                              {['Deposit', 'Interest', 'BankTransfer-In'].includes(transaction.type) ? '+' : '-'}
                               {formatAmount(transaction.amount)}
                             </td>
                             <td className="px-4 py-3 text-xs text-slate-600">

@@ -273,9 +273,9 @@ const AccountSummary = () => {
                         </span>
                       </td>
                       <td className={`px-6 py-4 text-sm font-semibold ${
-                        transaction.type === 'Deposit' ? 'text-emerald-600' : 'text-red-600'
+                        ['Deposit', 'Interest', 'BankTransfer-In'].includes(transaction.type) ? 'text-emerald-600' : 'text-red-600'
                       }`}>
-                        {transaction.type === 'Deposit' ? '+' : '-'}{formatAmount(transaction.amount)}
+                        {['Deposit', 'Interest', 'BankTransfer-In'].includes(transaction.type) ? '+' : '-'}{formatAmount(transaction.amount)}
                       </td>
                       <td className="px-6 py-4 text-sm font-semibold text-slate-800">
                         {transaction.balance_after !== undefined && transaction.balance_after !== null
