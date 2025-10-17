@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
-import { Pencil, X, Search, Eye, ArrowLeft, CheckCircle, XCircle } from 'lucide-react';
+import { Pencil, X, Search, Eye, ArrowLeft, CheckCircle, XCircle, Key } from 'lucide-react';
 import Alert from '../../components/common/Alert';
 // Ensuring we're using the updated form component
 import { UpdateUserForm, UserRoleManagement } from '../forms';
@@ -45,6 +45,9 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
   const [isManagingRoles, setIsManagingRoles] = useState<boolean>(false);
   const [userStatus, setUserStatus] = useState<{[key: string]: UserStatus}>({});
   const [loadingStatus, setLoadingStatus] = useState<{[key: string]: boolean}>({});
+  const [showPasswordResetModal, setShowPasswordResetModal] = useState<boolean>(false);
+  const [newPassword, setNewPassword] = useState<string>('');
+  const [resetPasswordSuccess, setResetPasswordSuccess] = useState<boolean>(false);
 
   // Fetch all users when component mounts
   useEffect(() => {
@@ -169,6 +172,29 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
     }
   };
   
+  // Reset user password
+  const resetUserPassword = async (username: string, newPassword: string) => {
+    if (!username) return;
+    
+    try {
+      setLoading(true);
+      await api.post('/api/auth/users_password_reset', {
+        username: username,
+        new_password: newPassword
+      });
+      
+      // Show success message
+      setError(null);
+      return { success: true, message: "Password reset successfully" };
+    } catch (err: any) {
+      console.error(`Error resetting password for user ${username}:`, err);
+      setError(err.response?.data?.detail || 'Failed to reset password');
+      return { success: false, message: err.response?.data?.detail || 'Failed to reset password' };
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   // Close view details
   const handleCloseViewDetails = () => {
     setViewingUser(null);
@@ -181,6 +207,35 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
     setSelectedUser(user);
     setViewingUser(null); // Clear viewing user to show the role management UI
     setIsManagingRoles(true);
+  };
+  
+  // Open password reset modal
+  const handleOpenPasswordResetModal = () => {
+    setNewPassword('');
+    setResetPasswordSuccess(false);
+    setShowPasswordResetModal(true);
+  };
+  
+  // Close password reset modal
+  const handleClosePasswordResetModal = () => {
+    setShowPasswordResetModal(false);
+  };
+  
+  // Handle password reset submission
+  const handlePasswordResetSubmit = async () => {
+    if (!viewingUser || !newPassword.trim()) return;
+    
+    const result = await resetUserPassword(viewingUser.username, newPassword.trim());
+    if (result?.success) {
+      setResetPasswordSuccess(true);
+      // Reset form after success
+      setNewPassword('');
+      // Close modal after short delay
+      setTimeout(() => {
+        setShowPasswordResetModal(false);
+        setResetPasswordSuccess(false);
+      }, 1500);
+    }
   };
   
   // Fetch user status
@@ -331,27 +386,35 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
                       <span>Manage User Roles</span>
                     </button>
                     
-                    {!loadingStatus[viewingUser.user_id] && (
-                      userStatus[viewingUser.user_id]?.is_active ? (
-                        <button
-                          onClick={() => handleToggleUserStatus(viewingUser.user_id)}
-                          className="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
-                          disabled={loadingStatus[viewingUser.user_id]}
-                        >
-                          <XCircle size={16} />
-                          <span>{loadingStatus[viewingUser.user_id] ? 'Processing...' : 'Deactivate User'}</span>
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleToggleUserStatus(viewingUser.user_id)}
-                          className="w-full bg-green-50 hover:bg-green-100 text-green-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
-                          disabled={loadingStatus[viewingUser.user_id]}
-                        >
-                          <CheckCircle size={16} />
-                          <span>{loadingStatus[viewingUser.user_id] ? 'Processing...' : 'Activate User'}</span>
-                        </button>
-                      )
+                    {!loadingStatus[viewingUser.user_id] && userStatus[viewingUser.user_id]?.is_active && (
+                      <button
+                        onClick={() => handleToggleUserStatus(viewingUser.user_id)}
+                        className="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                        disabled={loadingStatus[viewingUser.user_id]}
+                      >
+                        <XCircle size={16} />
+                        <span>{loadingStatus[viewingUser.user_id] ? 'Processing...' : 'Deactivate User'}</span>
+                      </button>
                     )}
+                    
+                    {!loadingStatus[viewingUser.user_id] && userStatus[viewingUser.user_id] && !userStatus[viewingUser.user_id].is_active && (
+                      <button
+                        onClick={() => handleToggleUserStatus(viewingUser.user_id)}
+                        className="w-full bg-green-50 hover:bg-green-100 text-green-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                        disabled={loadingStatus[viewingUser.user_id]}
+                      >
+                        <CheckCircle size={16} />
+                        <span>{loadingStatus[viewingUser.user_id] ? 'Processing...' : 'Activate User'}</span>
+                      </button>
+                    )}
+                    
+                    <button
+                      onClick={handleOpenPasswordResetModal}
+                      className="w-full bg-yellow-50 hover:bg-yellow-100 text-yellow-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <Key size={16} />
+                      <span>Reset Password</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -519,6 +582,73 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
             </tbody>
           </table>
         </div>
+        </div>
+      )}
+
+      {/* Password Reset Modal */}
+      {showPasswordResetModal && viewingUser && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-medium text-gray-900">Reset Password</h3>
+              <button
+                onClick={handleClosePasswordResetModal}
+                className="text-gray-400 hover:text-gray-500"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {resetPasswordSuccess ? (
+              <div className="text-center py-4">
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900">Password Reset Successful</h3>
+                <p className="mt-2 text-sm text-gray-500">
+                  The password for {viewingUser.username} has been reset successfully.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="mb-4">
+                  <p className="text-sm text-gray-500 mb-4">
+                    Enter a new password for user <span className="font-medium">{viewingUser.username}</span>
+                  </p>
+                  <div className="mb-4">
+                    <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      id="newPassword"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      placeholder="Enter new password"
+                      autoComplete="new-password"
+                    />
+                  </div>
+                </div>
+                
+                <div className="flex justify-end space-x-3">
+                  <button
+                    onClick={handleClosePasswordResetModal}
+                    className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handlePasswordResetSubmit}
+                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    disabled={!newPassword.trim()}
+                  >
+                    Reset Password
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>
