@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
 import { Pencil, X } from 'lucide-react';
 import Alert from '../../components/common/Alert';
-import { UpdateUserForm } from '../forms';
+import { UpdateUserForm, UserRoleManagement } from '../forms';
 
 interface Role {
   role_id: string;
@@ -102,10 +102,16 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
               <X size={20} />
             </button>
           </div>
-          <UpdateUserForm 
-            user={selectedUser}
-            onUpdateSuccess={handleUpdateSuccess} 
-          />
+          <div className="space-y-6">
+            <UpdateUserForm 
+              user={selectedUser}
+              onUpdateSuccess={handleUpdateSuccess} 
+            />
+            <UserRoleManagement 
+              user={selectedUser}
+              onRolesUpdated={handleUpdateSuccess}
+            />
+          </div>
         </div>
       ) : loading ? (
         <div className="p-8 text-center">
