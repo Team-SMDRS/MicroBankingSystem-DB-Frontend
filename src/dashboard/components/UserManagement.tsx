@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
-import { Pencil, X, Search } from 'lucide-react';
+import { Pencil, X, Search, Eye, ArrowLeft } from 'lucide-react';
 import Alert from '../../components/common/Alert';
 // Ensuring we're using the updated form component
 import { UpdateUserForm, UserRoleManagement } from '../forms';
@@ -35,6 +35,8 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [viewingUser, setViewingUser] = useState<User | null>(null);
+  const [isManagingRoles, setIsManagingRoles] = useState<boolean>(false);
 
   // Fetch all users when component mounts
   useEffect(() => {
@@ -71,15 +73,12 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
     }
   }, [searchTerm, users]);
 
-  // Format date to a more readable form
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString();
-  };
+  // We're now formatting dates inline in the view details
 
-  // Handle click on update button
+  // Handle click on update button from the table
   const handleUpdateClick = (user: User) => {
     setSelectedUser(user);
+    setViewingUser(null);
     if (onSelectUserToUpdate) {
       onSelectUserToUpdate(user);
     }
@@ -92,46 +91,217 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
       setLoading(true);
       const response = await api.get('/api/auth/api/all_users');
       setUsers(response.data.users);
+      setFilteredUsers(response.data.users);
+      
+      // If we were viewing a user before, find the updated user and set it as the viewing user
+      if (selectedUser) {
+        const updatedUser = response.data.users.find(
+          (u: User) => u.user_id === selectedUser.user_id
+        );
+        if (updatedUser) {
+          setViewingUser(updatedUser);
+        }
+      }
+      
       // Close the update form
       setSelectedUser(null);
+      setIsManagingRoles(false);
     } catch (err: any) {
       console.error('Error refreshing users:', err);
     } finally {
       setLoading(false);
     }
   };
-
-  // Close update form
+  
+  // Close update form or role management
   const handleCloseUpdateForm = () => {
+    const currentUser = selectedUser;
+    
+    // Reset the form states
     setSelectedUser(null);
+    setIsManagingRoles(false);
+    
+    // If we came from viewing a user, go back to viewing that user
+    if (currentUser && (viewingUser?.user_id === currentUser.user_id || !viewingUser)) {
+      // Refresh the user data before showing the profile again
+      const refreshedUser = users.find(u => u.user_id === currentUser.user_id);
+      if (refreshedUser) {
+        setViewingUser(refreshedUser);
+      }
+    }
   };
-
-  return (
+  
+  // Handle click on view button
+  const handleViewClick = (user: User) => {
+    setViewingUser(user);
+    setSelectedUser(null);
+    setIsManagingRoles(false);
+  };
+  
+  // Close view details
+  const handleCloseViewDetails = () => {
+    setViewingUser(null);
+    setSelectedUser(null);
+    setIsManagingRoles(false);
+  };
+  
+  // Handle click on manage roles button
+  const handleManageRoles = (user: User) => {
+    setSelectedUser(user);
+    setViewingUser(null); // Clear viewing user to show the role management UI
+    setIsManagingRoles(true);
+  };  return (
     <div className="overflow-hidden bg-white shadow-md rounded-lg">
       {error && <Alert type="error">{error}</Alert>}
       
-      {/* Show update form when a user is selected */}
-      {selectedUser ? (
+      {/* Show user details when a user is selected for viewing */}
+      {viewingUser ? (
         <div className="p-4">
-          <div className="mb-4 flex justify-end">
+          <div className="mb-4 flex justify-between items-center">
+            <h2 className="text-lg font-semibold text-gray-700">User Profile</h2>
+            <button 
+              onClick={handleCloseViewDetails}
+              className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 flex items-center"
+              title="Back to list"
+            >
+              <ArrowLeft size={20} />
+              <span className="ml-1">Back</span>
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left column - User profile card */}
+            <div className="col-span-1">
+              <div className="bg-white shadow rounded-lg p-6">
+                <div className="text-center">
+                  <div className="h-24 w-24 rounded-full bg-blue-100 mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-blue-600 text-2xl font-bold">
+                      {viewingUser.first_name[0]}{viewingUser.last_name[0]}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-medium text-gray-900">{viewingUser.first_name} {viewingUser.last_name}</h3>
+                  <p className="text-gray-500 text-sm">@{viewingUser.username}</p>
+                  <p className="text-gray-500 text-sm mt-1">
+                    User since {viewingUser.created_at ? new Date(viewingUser.created_at).toLocaleDateString() : '-'}
+                  </p>
+                </div>
+                
+                <div className="mt-6">
+                  <div className="flex flex-wrap gap-2 justify-center mb-4">
+                    {viewingUser.roles && viewingUser.roles.length > 0 ? (
+                      viewingUser.roles.map((role) => (
+                        <span
+                          key={role.role_id}
+                          className="px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800"
+                        >
+                          {role.role_name}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-gray-500">No roles assigned</span>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2 mt-6">
+                    <button
+                      onClick={() => handleUpdateClick(viewingUser)}
+                      className="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <Pencil size={16} />
+                      <span>Update User Details</span>
+                    </button>
+                    
+                    <button
+                      onClick={() => handleManageRoles(viewingUser)}
+                      className="w-full bg-purple-50 hover:bg-purple-100 text-purple-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <span>Manage User Roles</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Right column - User details */}
+            <div className="col-span-1 lg:col-span-2">
+              <div className="bg-white shadow rounded-lg overflow-hidden">
+                <div className="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">Personal Information</h3>
+                  <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and user information.</p>
+                </div>
+                <div className="border-t border-gray-200">
+                  <dl>
+                    <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
+                      <dt className="text-sm font-medium text-gray-500">Full name</dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{viewingUser.first_name} {viewingUser.last_name}</dd>
+                    </div>
+                    <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
+                      <dt className="text-sm font-medium text-gray-500">Username</dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{viewingUser.username}</dd>
+                    </div>
+                    <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
+                      <dt className="text-sm font-medium text-gray-500">NIC</dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{viewingUser.nic || '-'}</dd>
+                    </div>
+                    <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
+                      <dt className="text-sm font-medium text-gray-500">Email address</dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{viewingUser.email || '-'}</dd>
+                    </div>
+                    <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
+                      <dt className="text-sm font-medium text-gray-500">Phone number</dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{viewingUser.phone_number || '-'}</dd>
+                    </div>
+                    <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
+                      <dt className="text-sm font-medium text-gray-500">Address</dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{viewingUser.address || '-'}</dd>
+                    </div>
+                    <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
+                      <dt className="text-sm font-medium text-gray-500">Date of birth</dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {viewingUser.dob ? new Date(viewingUser.dob).toLocaleDateString() : '-'}
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : selectedUser ? (
+        <div className="p-4">
+          <div className="mb-4 flex justify-between items-center">
+            <h2 className="text-lg font-semibold text-gray-700">
+              {isManagingRoles ? "Manage User Roles" : "Update User"}
+            </h2>
             <button 
               onClick={handleCloseUpdateForm}
-              className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100"
+              className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 flex items-center"
               title="Close"
             >
-              <X size={20} />
+              {users.some(u => u.user_id === selectedUser.user_id) ? (
+                <>
+                  <ArrowLeft size={20} />
+                  <span className="ml-1">Back to Profile</span>
+                </>
+              ) : (
+                <X size={20} />
+              )}
             </button>
           </div>
           <div className="space-y-6">
-            <UpdateUserForm 
-              key={selectedUser.user_id} // Force re-render on user change
-              user={selectedUser}
-              onUpdateSuccess={handleUpdateSuccess} 
-            />
-            <UserRoleManagement 
-              user={selectedUser}
-              onRolesUpdated={handleUpdateSuccess}
-            />
+            {!isManagingRoles ? (
+              <UpdateUserForm 
+                key={`update-${selectedUser.user_id}`} // Force re-render on user change
+                user={selectedUser}
+                onUpdateSuccess={handleUpdateSuccess} 
+              />
+            ) : (
+              <UserRoleManagement 
+                key={`roles-${selectedUser.user_id}`}
+                user={selectedUser}
+                onRolesUpdated={handleUpdateSuccess}
+              />
+            )}
           </div>
         </div>
       ) : loading ? (
@@ -168,15 +338,6 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
                   NIC
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Contact
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Roles
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Joined
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -184,7 +345,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-4 text-center text-sm text-gray-500">
+                  <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500">
                     {users.length === 0 ? 'No users found' : 'No users match your search'}
                   </td>
                 </tr>
@@ -206,37 +367,16 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">{user.nic || '-'}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.phone_number || '-'}</div>
-                      {user.email && <div className="text-sm text-gray-500">{user.email}</div>}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {user.roles && user.roles.length > 0 ? (
-                        <div className="flex flex-wrap gap-1">
-                          {user.roles.map((role) => (
-                            <span
-                              key={role.role_id}
-                              className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800"
-                            >
-                              {role.role_name}
-                            </span>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className="text-sm text-gray-500">No roles</span>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {formatDate(user.created_at)}
-                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <button
-                        onClick={() => handleUpdateClick(user)}
-                        className="text-blue-600 hover:text-blue-900 flex items-center gap-1 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors"
-                      >
-                        <Pencil size={16} />
-                        <span>Update</span>
-                      </button>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleViewClick(user)}
+                          className="text-green-600 hover:text-green-900 flex items-center gap-1 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-md transition-colors"
+                        >
+                          <Eye size={16} />
+                          <span>View Profile</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
