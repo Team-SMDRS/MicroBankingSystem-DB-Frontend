@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { LayoutDashboard, Users, Wallet, UserPlus, ArrowLeftRight, Building2, LogOut, PiggyBank } from 'lucide-react';
+import logo from '../../assets/logo1.png';
 import type { MainTab } from '../../dashboard/Dashboard';
 
 interface MainLayoutProps {
@@ -28,11 +29,17 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
       <aside className="fixed left-0 top-0 w-72 h-screen bg-white shadow-xl border-r border-slate-200 flex flex-col">
         <div className="p-6 border-b border-slate-200 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-lg">
-              <Building2 className="w-7 h-7 text-white" />
-            </div>
+            <div
+              className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-white/0"
+              style={{
+                backgroundImage: `url(${logo})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            />
             <div>
-              <h1 className="text-xl font-bold text-slate-800">BTrust Bank</h1>
+              <h1 className="text-xl font-bold text-slate-800"><span className="text-blue-600">B</span>Trust Bank</h1>
               <p className="text-xs text-slate-500">Management System</p>
             </div>
           </div>
