@@ -3,7 +3,8 @@ import api from './axios';
 // Types for branch API
 export interface BranchDetails {
   branch_id: string;
-  branch_name: string;
+  branch_name?: string;
+  name?: string; // Alternative field name from API
   branch_code?: string;
   city?: string;
   address?: string;
@@ -37,6 +38,18 @@ export interface BranchReportParams {
   transaction_type?: string;
 }
 
+export interface BranchAccountStatistics {
+  branch_id?: string;
+  branch_name?: string;
+  branch_address?: string | null;
+  total_joint_accounts?: number;
+  joint_accounts_balance?: number;
+  total_fixed_deposits?: number;
+  fixed_deposits_amount?: number;
+  total_savings_accounts?: number;
+  savings_accounts_balance?: number;
+}
+
 // Branch API service
 export const branchApi = {
   // Get all branches
@@ -68,6 +81,19 @@ export const branchApi = {
       { params }
     );
     return response.data;
+  },
+
+  // Get branch account statistics
+  getBranchAccountStatistics: async (branchId: string): Promise<BranchAccountStatistics> => {
+    try {
+      const response = await api.get(`/api/branches/${branchId}/statistics`);
+      console.log('API Response for branch statistics:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('API Error in getBranchAccountStatistics:', error);
+      console.error('Error response:', error.response?.data);
+      throw error;
+    }
   }
 };
 
