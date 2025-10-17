@@ -155,6 +155,22 @@ export const authApi = {
       branch_id: branchId
     });
     return response.data;
+  },
+
+  // Download today's transaction report as PDF
+  downloadTodayTransactionReport: async (): Promise<Blob> => {
+    const response = await api.get('/api/pdf-reports/users/transaction/today_report', {
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+
+  // Download all transactions report as PDF
+  downloadAllTransactionsReport: async (): Promise<Blob> => {
+    const response = await api.get('/api/pdf-reports/users/report/pdf', {
+      responseType: 'blob'
+    });
+    return response.data;
   }
 };
 

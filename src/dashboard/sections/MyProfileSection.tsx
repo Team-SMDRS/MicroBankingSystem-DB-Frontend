@@ -139,6 +139,68 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
     }
   };
 
+  const handleDownloadTodayReport = async () => {
+    try {
+      setLoading(true);
+      const blob = await authApi.downloadTodayTransactionReport();
+      
+      // Create a blob URL and trigger download
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'today_report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      
+      // Cleanup
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      setAlert({
+        type: 'success',
+        message: 'Report downloaded successfully'
+      });
+    } catch (error: any) {
+      setAlert({
+        type: 'error',
+        message: error.response?.data?.message || 'Failed to download report'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDownloadAllTransactionsReport = async () => {
+    try {
+      setLoading(true);
+      const blob = await authApi.downloadAllTransactionsReport();
+      
+      // Create a blob URL and trigger download
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'report.pdf');
+      document.body.appendChild(link);
+      link.click();
+      
+      // Cleanup
+      link.parentNode?.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      setAlert({
+        type: 'success',
+        message: 'Report downloaded successfully'
+      });
+    } catch (error: any) {
+      setAlert({
+        type: 'error',
+        message: error.response?.data?.message || 'Failed to download report'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -241,6 +303,20 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
       case 'transactions':
         return (
           <div className="space-y-4">
+            {transactions.length > 0 && (
+              <div className="mb-4">
+                <button
+                  onClick={handleDownloadAllTransactionsReport}
+                  disabled={loading}
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  {loading ? 'Downloading...' : 'Download Report'}
+                </button>
+              </div>
+            )}
             {transactions.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -315,6 +391,18 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
             )}
             {todayTransactions.length > 0 ? (
               <div className="overflow-x-auto">
+                <div className="mb-4">
+                  <button
+                    onClick={handleDownloadTodayReport}
+                    disabled={loading}
+                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    {loading ? 'Downloading...' : 'Download Report'}
+                  </button>
+                </div>
                 <table className="w-full">
                   <thead>
                     <tr className="bg-slate-100 border-b border-slate-200">
