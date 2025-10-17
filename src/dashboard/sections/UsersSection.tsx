@@ -1,8 +1,9 @@
-import { Users, ArrowLeftRight, UserCog, UserPlus } from 'lucide-react';
+import { Users, UserCog, UserPlus, ClipboardList } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import SubTabGrid from '../../components/layout/SubTabGrid';
 import GenericContentCard from '../../components/layout/GenericContentCard';
 import { CreateUserForm } from '../forms';
+import { UserManagement } from '../components';
 
 interface UsersSectionProps {
   activeSubTab: string;
@@ -12,7 +13,7 @@ interface UsersSectionProps {
 const UsersSection = ({ activeSubTab, setActiveSubTab }: UsersSectionProps) => {
   const subTabs = [
     { id: 'create-user', label: 'Create User', icon: UserPlus },
-    { id: 'transfer-agent', label: 'Transfer Agent', icon: ArrowLeftRight },
+    { id: 'user-management', label: 'User Management', icon: ClipboardList },
     { id: 'deposit-withdrawal-agent', label: 'Deposit/Withdrawal Agent', icon: UserCog },
     { id: 'account-agent', label: 'Account Agent', icon: Users },
   ];
@@ -36,6 +37,7 @@ const UsersSection = ({ activeSubTab, setActiveSubTab }: UsersSectionProps) => {
         description="View and manage"
       >
         {activeSubTab === 'create-user' && <CreateUserForm />}
+        {activeSubTab === 'user-management' && <UserManagement />}
       </GenericContentCard>
     </div>
   );
