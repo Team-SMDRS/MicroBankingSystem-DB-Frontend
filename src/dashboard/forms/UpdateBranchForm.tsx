@@ -53,7 +53,7 @@ const UpdateBranchForm: React.FC<UpdateBranchFormProps> = ({ branch, onSubmit, i
                         <div className="text-sm text-slate-800">{updatedBranch.address}</div>
 
                         <div className="text-sm font-medium text-slate-600">Branch ID:</div>
-                        <div className="text-sm text-slate-700 font-mono text-xs">{updatedBranch.branch_id}</div>
+                        <div className="text-slate-700 font-mono text-xs">{updatedBranch.branch_id}</div>
 
                         <div className="text-sm font-medium text-slate-600">Created At:</div>
                         <div className="text-sm text-slate-700">
