@@ -3,12 +3,17 @@ import api from './axios';
 // Types for branch API
 export interface BranchDetails {
   branch_id: string;
-  branch_name: string;
+  branch_name?: string; // API might return this in some endpoints
+  name?: string;        // API returns this for branch listing endpoint
   branch_code?: string;
   city?: string;
   address?: string;
   contact_number?: string;
   manager_name?: string;
+  created_at?: string;
+  updated_at?: string | null;
+  created_by?: string | null;
+  updated_by?: string | null;
 }
 
 export interface BranchTransactionReport {
