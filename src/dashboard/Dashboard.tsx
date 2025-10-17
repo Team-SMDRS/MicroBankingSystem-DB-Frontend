@@ -41,6 +41,7 @@ const Dashboard = () => {
       'customer-details': 'customer-info',
       'branches': 'summary',
       'savings-plans': 'create',
+      'fixed-deposits': 'fixed-deposit',
     };
     setActiveSubTab(defaultSubTabs[tabId]);
   };
@@ -64,7 +65,7 @@ const Dashboard = () => {
       case 'savings-plans':
         return <SavingsPlansSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'fixed-deposits':
-        return <FixedDepositSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
+        return <FixedDepositSection />;
       default:
         return <TransactionSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
     }
