@@ -68,6 +68,7 @@ const Dashboard = () => {
         return <MyProfileSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       default:
         return <TransactionSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
+
     }
   };
 
