@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../api/axios';
-import { Pencil, X, Search, Eye, ArrowLeft } from 'lucide-react';
+import { Pencil, X, Search, Eye, ArrowLeft, CheckCircle, XCircle } from 'lucide-react';
 import Alert from '../../components/common/Alert';
 // Ensuring we're using the updated form component
 import { UpdateUserForm, UserRoleManagement } from '../forms';
@@ -24,6 +24,12 @@ interface User {
   roles: Role[];
 }
 
+interface UserStatus {
+  user_id: string;
+  status: 'active' | 'inactive';
+  is_active: boolean;
+}
+
 interface UserManagementProps {
   onSelectUserToUpdate?: (user: User) => void;
 }
@@ -37,6 +43,8 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [viewingUser, setViewingUser] = useState<User | null>(null);
   const [isManagingRoles, setIsManagingRoles] = useState<boolean>(false);
+  const [userStatus, setUserStatus] = useState<{[key: string]: UserStatus}>({});
+  const [loadingStatus, setLoadingStatus] = useState<{[key: string]: boolean}>({});
 
   // Fetch all users when component mounts
   useEffect(() => {
@@ -47,6 +55,11 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
         setUsers(response.data.users);
         setFilteredUsers(response.data.users);
         setError(null);
+        
+        // If we're viewing a specific user, fetch their status immediately
+        if (viewingUser) {
+          await fetchUserStatus(viewingUser.user_id);
+        }
       } catch (err: any) {
         console.error('Error fetching users:', err);
         setError(err.response?.data?.detail || 'Failed to fetch users');
@@ -56,7 +69,7 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
     };
 
     fetchUsers();
-  }, []);
+  }, [viewingUser?.user_id]);
   
   // Filter users when search term changes
   useEffect(() => {
@@ -100,6 +113,8 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
         );
         if (updatedUser) {
           setViewingUser(updatedUser);
+          // Also refresh the user's status
+          await fetchUserStatus(updatedUser.user_id);
         }
       }
       
@@ -132,10 +147,26 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
   };
   
   // Handle click on view button
-  const handleViewClick = (user: User) => {
+  const handleViewClick = async (user: User) => {
     setViewingUser(user);
     setSelectedUser(null);
     setIsManagingRoles(false);
+    
+    // Fetch user status when viewing a user
+    await fetchUserStatus(user.user_id);
+  };
+  
+  // Toggle user status (activate/deactivate)
+  const handleToggleUserStatus = async (userId: string) => {
+    const currentStatus = userStatus[userId];
+    
+    if (currentStatus?.is_active) {
+      // User is active, deactivate them
+      await deactivateUser(userId);
+    } else {
+      // User is inactive, activate them
+      await activateUser(userId);
+    }
   };
   
   // Close view details
@@ -150,6 +181,64 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
     setSelectedUser(user);
     setViewingUser(null); // Clear viewing user to show the role management UI
     setIsManagingRoles(true);
+  };
+  
+  // Fetch user status
+  const fetchUserStatus = async (userId: string) => {
+    if (!userId) return;
+    
+    try {
+      setLoadingStatus(prev => ({ ...prev, [userId]: true }));
+      const response = await api.get(`/api/auth/user/status/${userId}`);
+      setUserStatus(prev => ({ ...prev, [userId]: response.data }));
+      return response.data;
+    } catch (err: any) {
+      console.error(`Error fetching status for user ${userId}:`, err);
+    } finally {
+      setLoadingStatus(prev => ({ ...prev, [userId]: false }));
+    }
+  };
+  
+  // Activate user
+  const activateUser = async (userId: string) => {
+    if (!userId) return;
+    
+    try {
+      setLoadingStatus(prev => ({ ...prev, [userId]: true }));
+      await api.put('/api/auth/user/activate', { user_id: userId });
+      // Update status after activation
+      const newStatus = await fetchUserStatus(userId);
+      
+      // Show success message
+      setError(null);
+      return newStatus;
+    } catch (err: any) {
+      console.error(`Error activating user ${userId}:`, err);
+      setError(err.response?.data?.detail || 'Failed to activate user');
+    } finally {
+      setLoadingStatus(prev => ({ ...prev, [userId]: false }));
+    }
+  };
+  
+  // Deactivate user
+  const deactivateUser = async (userId: string) => {
+    if (!userId) return;
+    
+    try {
+      setLoadingStatus(prev => ({ ...prev, [userId]: true }));
+      await api.put('/api/auth/user/deactivate', { user_id: userId });
+      // Update status after deactivation
+      const newStatus = await fetchUserStatus(userId);
+      
+      // Show success message
+      setError(null);
+      return newStatus;
+    } catch (err: any) {
+      console.error(`Error deactivating user ${userId}:`, err);
+      setError(err.response?.data?.detail || 'Failed to deactivate user');
+    } finally {
+      setLoadingStatus(prev => ({ ...prev, [userId]: false }));
+    }
   };  return (
     <div className="overflow-hidden bg-white shadow-md rounded-lg">
       {error && <Alert type="error">{error}</Alert>}
@@ -187,6 +276,30 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
                 </div>
                 
                 <div className="mt-6">
+                  {/* User Status */}
+                  <div className="mb-4 text-center">
+                    <p className="text-sm text-gray-500 mb-1">Status</p>
+                    {loadingStatus[viewingUser.user_id] ? (
+                      <div className="flex justify-center">
+                        <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-500">
+                          Loading...
+                        </span>
+                      </div>
+                    ) : userStatus[viewingUser.user_id]?.is_active ? (
+                      <div className="flex justify-center">
+                        <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                          Active
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex justify-center">
+                        <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800">
+                          Inactive
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  
                   <div className="flex flex-wrap gap-2 justify-center mb-4">
                     {viewingUser.roles && viewingUser.roles.length > 0 ? (
                       viewingUser.roles.map((role) => (
@@ -217,6 +330,28 @@ const UserManagement: React.FC<UserManagementProps> = ({ onSelectUserToUpdate })
                     >
                       <span>Manage User Roles</span>
                     </button>
+                    
+                    {!loadingStatus[viewingUser.user_id] && (
+                      userStatus[viewingUser.user_id]?.is_active ? (
+                        <button
+                          onClick={() => handleToggleUserStatus(viewingUser.user_id)}
+                          className="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                          disabled={loadingStatus[viewingUser.user_id]}
+                        >
+                          <XCircle size={16} />
+                          <span>{loadingStatus[viewingUser.user_id] ? 'Processing...' : 'Deactivate User'}</span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleToggleUserStatus(viewingUser.user_id)}
+                          className="w-full bg-green-50 hover:bg-green-100 text-green-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                          disabled={loadingStatus[viewingUser.user_id]}
+                        >
+                          <CheckCircle size={16} />
+                          <span>{loadingStatus[viewingUser.user_id] ? 'Processing...' : 'Activate User'}</span>
+                        </button>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
