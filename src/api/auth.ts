@@ -130,6 +130,31 @@ export const authApi = {
       params: { start_date: startDate, end_date: endDate }
     });
     return response.data;
+  },
+  
+  // Get user's branch information
+  getUserBranch: async (userId: string): Promise<{
+    user_id: string;
+    branch_id: string;
+    branch_name: string;
+  }> => {
+    const response = await api.get(`/api/auth/user/branch/${userId}`);
+    return response.data;
+  },
+
+  // Assign a branch to a user
+  assignBranchToUser: async (userId: string, branchId: string): Promise<{
+    success: boolean;
+    message: string;
+    user_id: string;
+    branch_id: string;
+    branch_name: string;
+  }> => {
+    const response = await api.put('/api/auth/user/assign-branch', {
+      user_id: userId,
+      branch_id: branchId
+    });
+    return response.data;
   }
 };
 

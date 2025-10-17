@@ -1,8 +1,14 @@
 export { default as BankTransferForm } from './BankTransferForm';
 export { default as CloseAccountAction } from './CloseAccountAction';
 export { default as CreateAccountForExisting } from './CreateAccountForExisting';
+
 export { CreateFixedDepositForm } from './CreateFixedDepositForm';
+
+export { default as CreateUserForm } from './CreateUserForm';
+
 export { default as DepositForm } from './DepositForm';
+export { default as UpdateUserForm } from './UpdateUserFormFixed';
+export { default as UserRoleManagement } from './UserRoleManagement';
 export { default as JointLookupForm } from './JointLookupForm';
 export { default as JointAccountCreateForm } from './JointAccountCreateForm';
 export { default as NewCustomerJointAccountForm } from './NewCustomerJointAccountForm';

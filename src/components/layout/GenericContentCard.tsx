@@ -10,9 +10,10 @@ interface GenericContentCardProps {
   activeSubTab: string;
   subTabs: SubTab[];
   description: string;
+  children?: React.ReactNode;
 }
 
-const GenericContentCard = ({ activeSubTab, subTabs, description }: GenericContentCardProps) => {
+const GenericContentCard = ({ activeSubTab, subTabs, description, children }: GenericContentCardProps) => {
   const currentTab = subTabs.find((t) => t.id === activeSubTab);
   const Icon = currentTab?.icon;
 
@@ -34,8 +35,12 @@ const GenericContentCard = ({ activeSubTab, subTabs, description }: GenericConte
         </div>
       </div>
       
-      <div className="mt-6 text-center py-12">
-        <p className="text-slate-500">Content for {currentTab?.label} will be implemented here.</p>
+      <div className="mt-6">
+        {children ? children : (
+          <div className="text-center py-12">
+            <p className="text-slate-500">Content for {currentTab?.label} will be implemented here.</p>
+          </div>
+        )}
       </div>
     </div>
   );
