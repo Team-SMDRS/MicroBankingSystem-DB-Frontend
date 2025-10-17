@@ -95,16 +95,6 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
     return role ? role.role_name : 'Unknown Role';
   };
 
-  // Group roles by category for better organization
-  const getRoleCategory = (roleName: string): string => {
-    if (roleName.includes('account')) return 'Account Management';
-    if (roleName.includes('customer')) return 'Customer Management';
-    if (roleName.includes('user')) return 'User Management';
-    if (roleName.includes('fd')) return 'Fixed Deposit';
-    if (roleName.includes('deposit') || roleName.includes('withdrawal') || roleName.includes('transaction')) return 'Transactions';
-    return 'Other Roles';
-  };
-
   return (
     <div className="bg-white shadow-md rounded-lg p-6">
       <div className="mb-4">
