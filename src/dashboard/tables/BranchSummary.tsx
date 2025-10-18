@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Building2, Search, Loader2, AlertCircle, TrendingUp, TrendingDown, ArrowRightLeft, X, ExternalLink } from 'lucide-react';
 import { branchApi, type BranchDetails, type BranchTransactionReport } from '../../api/branches';
 import { transactionApi } from '../../api/transactions';
@@ -16,10 +16,12 @@ interface TransactionDetail {
 }
 
 const BranchSummary = () => {
+  const [branches, setBranches] = useState<BranchDetails[]>([]);
   const [branchId, setBranchId] = useState('');
   const [branchDetails, setBranchDetails] = useState<BranchDetails | null>(null);
   const [branchReport, setBranchReport] = useState<BranchTransactionReport | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadingBranches, setLoadingBranches] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
   // Modal state for transaction details
@@ -29,6 +31,25 @@ const BranchSummary = () => {
   } | null>(null);
   const [accountTransactions, setAccountTransactions] = useState<TransactionDetail[]>([]);
   const [loadingTransactions, setLoadingTransactions] = useState(false);
+
+  // Fetch all branches on component mount
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        setLoadingBranches(true);
+        const branchList = await branchApi.getAll();
+        console.log('Branches loaded:', branchList);
+        setBranches(branchList);
+      } catch (err: any) {
+        console.error('Error fetching branches:', err);
+        setError('Failed to load branches');
+      } finally {
+        setLoadingBranches(false);
+      }
+    };
+
+    fetchBranches();
+  }, []);
 
   // Handle search
   const handleSearch = async () => {
@@ -147,7 +168,7 @@ const BranchSummary = () => {
           </div>
           <div>
             <h3 className="text-2xl font-bold text-slate-800">Branch Summary</h3>
-            <p className="text-sm text-slate-500">Enter branch ID to view transaction statistics (Last 30 Days)</p>
+            <p className="text-sm text-slate-500">Select a branch to view transaction statistics (Last 30 Days)</p>
           </div>
         </div>
 
@@ -155,29 +176,52 @@ const BranchSummary = () => {
         <div className="p-6 bg-slate-50">
           <div className="flex gap-3">
             <div className="flex-1">
-              <input
-                type="text"
-                value={branchId}
-                onChange={(e) => setBranchId(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                placeholder="Enter branch ID (e.g., BR001, b5c3a0d2-...)"
-                className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              {loadingBranches ? (
+                <div className="flex items-center justify-center py-3 bg-white border border-slate-300 rounded-lg">
+                  <Loader2 className="w-5 h-5 text-blue-600 animate-spin mr-2" />
+                  <span className="text-slate-600">Loading branches...</span>
+                </div>
+              ) : (
+                <select
+                  value={branchId}
+                  onChange={(e) => setBranchId(e.target.value)}
+                  className="w-full px-4 py-3 text-base font-medium border-2 border-slate-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  style={{ 
+                    color: '#000',
+                    backgroundColor: '#fff',
+                    fontSize: '16px',
+                    fontWeight: '500'
+                  }}
+                >
+                  <option value="" style={{ color: '#000', backgroundColor: '#fff', fontSize: '16px', fontWeight: '500' }}>
+                    -- Select a branch --
+                  </option>
+                  {branches.map((branch) => (
+                    <option 
+                      key={branch.branch_id} 
+                      value={branch.branch_id}
+                      style={{ color: '#000', backgroundColor: '#fff', fontSize: '16px', fontWeight: '500', padding: '10px' }}
+                    >
+                      {branch.branch_name || branch.name || 'Unnamed Branch'} {branch.branch_code ? `(${branch.branch_code})` : ''}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
             <button
               onClick={handleSearch}
-              disabled={loading}
+              disabled={loading || !branchId}
               className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors"
             >
               {loading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Searching...</span>
+                  <span>Loading...</span>
                 </>
               ) : (
                 <>
                   <Search className="w-5 h-5" />
-                  <span>Search</span>
+                  <span>Load Data</span>
                 </>
               )}
             </button>
