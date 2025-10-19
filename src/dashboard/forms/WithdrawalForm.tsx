@@ -9,6 +9,7 @@ import DescriptionInput from '../../components/forms/DescriptionInput';
 import Alert from '../../components/common/Alert';
 import TransactionResultDisplay from '../../components/common/TransactionResultDisplay';
 import SubmitButton from '../../components/common/SubmitButton';
+import ConfirmationModal from '../../components/common/ConfirmationModal';
 
 interface WithdrawalFormProps {
   onSuccess?: () => void;
@@ -18,7 +19,8 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
   const [accountNo, setAccountNo] = useState('');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
-  
+  const [pendingWithdrawal, setPendingWithdrawal] = useState<null | { amount: number; description: string; account_no: number }>(null);
+
   const {
     accountDetails,
     isLoadingAccount,
@@ -43,25 +45,32 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
     fetchAccountDetails(accountNo);
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (!accountDetails) {
       return;
     }
 
-    const success = await submitWithdrawal({
+    setPendingWithdrawal({
       amount: parseFloat(amount),
       description,
-      account_no: parseInt(accountNo),
+      account_no: parseInt(accountNo, 10),
     });
+  };
 
+  const confirmWithdrawal = async () => {
+    if (!pendingWithdrawal) return;
+    const success = await submitWithdrawal(pendingWithdrawal);
     if (success) {
       setAmount('');
       setDescription('');
+      setPendingWithdrawal(null);
       if (onSuccess) onSuccess();
     }
   };
+
+  const cancelWithdrawal = () => setPendingWithdrawal(null);
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
@@ -132,6 +141,20 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
           Withdraw Funds
         </SubmitButton>
       </form>
+      <ConfirmationModal
+        open={!!pendingWithdrawal}
+        title="Confirm Withdrawal"
+        details={pendingWithdrawal ? [
+          { label: 'Account No', value: pendingWithdrawal.account_no },
+          { label: 'Amount', value: pendingWithdrawal.amount.toFixed(2) },
+          { label: 'Description', value: pendingWithdrawal.description },
+        ] : []}
+        onConfirm={confirmWithdrawal}
+        onCancel={cancelWithdrawal}
+        isLoading={isSubmitting}
+        confirmText="Confirm Withdrawal"
+        cancelText="Edit"
+      />
     </div>
   );
 };
