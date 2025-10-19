@@ -49,14 +49,14 @@ const FixedDepositSection = () => {
       />
 
       {activeSubTab === 'create-fd' && (
-        <div className="max-w-2xl mx-auto">
+        <div>
           {error && (
             <div className="mb-4">
               <Alert type="error">{error}</Alert>
             </div>
           )}
 
-          <div className="bg-white rounded-lg shadow-sm p-6 space-y-4">
+          <div className="bg-white rounded-xl shadow-xl p-8 border border-slate-200 space-y-6">
             <h3 className="text-lg font-semibold text-slate-800">Create New Fixed Deposit Account</h3>
             <CreateFixedDepositForm onSuccess={handleSuccess} onError={handleError} />
           </div>
