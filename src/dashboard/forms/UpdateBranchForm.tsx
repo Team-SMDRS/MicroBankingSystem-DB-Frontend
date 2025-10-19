@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { SubmitButton } from '../../components/common';
 import type { BranchDetails, UpdateBranch } from '../../features/branch';
 
 interface UpdateBranchFormProps {
@@ -82,38 +81,40 @@ const UpdateBranchForm: React.FC<UpdateBranchFormProps> = ({ branch, onSubmit, i
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-                <label htmlFor="name" className="block text-sm text-blue-700 font-medium mb-1">Branch Name</label>
+                <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">Branch Name</label>
                 <input
                     type="text"
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white border-blue-200"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
                     placeholder="Enter branch name"
                 />
             </div>
 
             <div>
-                <label htmlFor="address" className="block text-sm text-blue-700 font-medium mb-1">Branch Address</label>
+                <label htmlFor="address" className="block text-sm font-semibold text-slate-700 mb-2">Branch Address</label>
                 <textarea
                     id="address"
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white border-blue-200"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none resize-none"
                     placeholder="Enter branch address"
                     rows={3}
                 />
             </div>
 
-            <div className="flex justify-end">
-                <SubmitButton isSubmitting={!!isLoading}>
-                    Update Branch
-                </SubmitButton>
-            </div>
+            <button
+                type="submit"
+                disabled={!!isLoading}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30"
+            >
+                {isLoading ? 'Updating...' : 'Update Branch'}
+            </button>
         </form>
     );
 };

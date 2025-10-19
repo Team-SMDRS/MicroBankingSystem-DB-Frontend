@@ -106,11 +106,10 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
 
             {/* Search results are rendered inside the Search subtab's form component. */}
 
-            <div className="mt-6 bg-white p-8 rounded-xl shadow-md border border-gray-100">
+            <div className="mt-6 bg-white p-8 rounded-xl shadow-xl border border-slate-200">
                 {/* CREATE BRANCH */}
                 {activeSubTab === 'create-branch' && (
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Create New Branch</h2>
+                    <div>
                         {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         <CreateBranchForm onSuccess={handleCreate} isLoading={loading} createdBranch={createdBranch} />
                     </div>
@@ -118,8 +117,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
 
                 {/* UPDATE BRANCH */}
                 {activeSubTab === 'update-branch' && (
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Update Branch</h2>
+                    <div>
                         {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         {selectedBranch ? (
                             <UpdateBranchForm
@@ -138,8 +136,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
 
                 {/* SEARCH BRANCH */}
                 {activeSubTab === 'search-branch' && (
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Search Branches</h2>
+                    <div>
                         {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
                         <SearchBranchForm
                             // When selecting from the main Search tab we only set the selected branch
