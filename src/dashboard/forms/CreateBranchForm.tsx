@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { SubmitButton } from '../../components/common';
 import type { CreateBranch, BranchDetails } from '../../features/branch';
 
 interface CreateBranchFormProps {
@@ -78,11 +77,11 @@ const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess, isLoadin
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
             {/* Parent handles API errors; this form shows local success state only */}
 
             <div>
-                <label htmlFor="name" className="block text-sm text-blue-700 font-medium mb-1">
+                <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
                     Branch Name
                 </label>
                 <input
@@ -92,13 +91,13 @@ const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess, isLoadin
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white border-blue-200"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
                     placeholder="Enter branch name"
                 />
             </div>
 
             <div>
-                <label htmlFor="address" className="block text-sm text-blue-700 font-medium mb-1">
+                <label htmlFor="address" className="block text-sm font-semibold text-slate-700 mb-2">
                     Branch Address
                 </label>
                 <textarea
@@ -108,16 +107,18 @@ const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess, isLoadin
                     onChange={handleChange}
                     required
                     rows={3}
-                    className="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white border-blue-200"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none resize-none"
                     placeholder="Enter branch address"
                 />
             </div>
 
-            <div className="flex justify-end">
-                <SubmitButton isSubmitting={!!isLoading}>
-                    Create Branch
-                </SubmitButton>
-            </div>
+            <button
+                type="submit"
+                disabled={!!isLoading}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30"
+            >
+                {isLoading ? 'Creating...' : 'Create Branch'}
+            </button>
         </form>
     );
 };

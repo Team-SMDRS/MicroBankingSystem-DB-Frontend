@@ -34,18 +34,18 @@ const Dashboard = () => {
 
   const handleMainTabChange = (tabId: MainTab) => {
     setActiveMainTab(tabId);
-    // Set default sub tab based on main tab, but none for customer-details
+    // Set default sub tab based on main tab - always first form
     const defaultSubTabs: Record<string, string> = {
       'transactions': 'bank-transfer',
       'summary': 'branch-summary',
-      'accounts': 'fixed-deposit',
-      'create-account': 'fixed-deposit-new',
-      'users': 'customers',
+      'accounts': 'account-details',
+      'create-account': 'joint-account-new',
+      'users': 'create-user',
       'customer-details': 'customer-info',
-      'branches': 'summary',
+      'branches': 'create-branch',
       'savings-plans': 'create',
       'my-profile': 'details',
-      'fixed-deposits': 'fixed-deposit',
+      'fixed-deposits': 'create-fd',
     };
     setActiveSubTab(defaultSubTabs[tabId]);
   };
