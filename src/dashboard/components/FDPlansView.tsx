@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getFDPlans, updateFDPlanStatus, type FDPlan } from '../../api/fd';
+import { getFDPlans, updateFDPlanStatus, createFDPlan, type FDPlan } from '../../api/fd';
 
 interface FDPlansViewProps {
   onError: (error: string) => void;
@@ -12,6 +12,12 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
   const [updatingPlanId, setUpdatingPlanId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState<'id' | 'duration'>('id');
+  
+  // Create FD Plan modal states
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [duration, setDuration] = useState<number>(12);
+  const [interestRate, setInterestRate] = useState<number>(5);
+  const [isCreating, setIsCreating] = useState(false);
 
   // Function to fetch FD plans
   const fetchFDPlans = async () => {
@@ -49,6 +55,29 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
       setUpdatingPlanId(null);
     }
   };
+  
+  // Function to handle creating a new FD plan
+  const handleCreateFDPlan = async () => {
+    try {
+      setIsCreating(true);
+      const result = await createFDPlan({
+        duration_months: duration,
+        interest_rate: interestRate
+      });
+      
+      // Add the new plan to the state
+      setFdPlans(currentPlans => [result.fd_plan, ...currentPlans]);
+      setShowCreateModal(false);
+      setDuration(12);
+      setInterestRate(5);
+      setLastUpdated(new Date());
+    } catch (err) {
+      console.error('Failed to create FD plan:', err);
+      onError('Failed to create FD plan. Please try again later.');
+    } finally {
+      setIsCreating(false);
+    }
+  };
 
   // Filter FD plans based on search term and search type
   const filteredPlans = fdPlans.filter(plan => {
@@ -71,20 +100,32 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
   return (
     <div className="w-full">
       <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-slate-800">Available Fixed Deposit Plans</h3>
+        <div className="flex justify-between items-center mb-5">
+          <div className="flex items-center">
+            <h3 className="text-lg font-semibold text-slate-800">Available Fixed Deposit Plans</h3>
+            <button 
+              onClick={fetchFDPlans}
+              disabled={loadingPlans}
+              className="ml-3 flex items-center px-2 py-1 text-xs bg-blue-50 text-blue-600 rounded border border-blue-200 hover:bg-blue-100 transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                <path d="M21 3v5h-5"></path>
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                <path d="M8 16H3v5"></path>
+              </svg>
+              {loadingPlans ? 'Refreshing...' : 'Refresh'}
+            </button>
+          </div>
           <button 
-            onClick={fetchFDPlans}
-            disabled={loadingPlans}
-            className="flex items-center px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded border border-blue-200 hover:bg-blue-100 transition-colors"
+            onClick={() => setShowCreateModal(true)}
+            className="flex items-center px-4 py-2 text-sm font-medium bg-green-600 text-white rounded-md shadow-md hover:bg-green-700 transition-colors focus:ring-2 focus:ring-green-500 focus:ring-offset-2 animate-pulse-subtle"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5">
-              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
-              <path d="M21 3v5h-5"></path>
-              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
-              <path d="M8 16H3v5"></path>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+              <path d="M12 5v14"></path>
+              <path d="M5 12h14"></path>
             </svg>
-            {loadingPlans ? 'Refreshing...' : 'Refresh Plans'}
+            <span className="font-semibold">Create FD Plan</span>
           </button>
         </div>
         
@@ -189,6 +230,73 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
           </div>
         )}
       </div>
+
+      {/* Create FD Plan Modal */}
+      {showCreateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md border-t-4 border-green-500">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold text-slate-800">Create New FD Plan</h3>
+              <button 
+                onClick={() => setShowCreateModal(false)}
+                className="text-slate-500 hover:text-slate-700"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 6L6 18"></path>
+                  <path d="M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="duration" className="block text-sm font-medium text-slate-700 mb-1">
+                  Duration (months)
+                </label>
+                <input
+                  id="duration"
+                  type="number"
+                  min="1"
+                  value={duration}
+                  onChange={(e) => setDuration(parseInt(e.target.value, 10) || 0)}
+                  className="w-full border border-slate-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="interestRate" className="block text-sm font-medium text-slate-700 mb-1">
+                  Interest Rate (%)
+                </label>
+                <input
+                  id="interestRate"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={interestRate}
+                  onChange={(e) => setInterestRate(parseFloat(e.target.value) || 0)}
+                  className="w-full border border-slate-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                />
+              </div>
+              
+              <div className="flex justify-end space-x-3 pt-5">
+                <button
+                  onClick={() => setShowCreateModal(false)}
+                  className="px-4 py-2 text-sm font-medium text-slate-600 border border-slate-300 rounded-md hover:bg-slate-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleCreateFDPlan}
+                  disabled={isCreating || duration <= 0 || interestRate <= 0}
+                  className="px-6 py-2 text-sm font-medium text-white bg-green-600 rounded-md shadow-sm hover:bg-green-700 transition-colors disabled:bg-green-400 focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
+                >
+                  {isCreating ? 'Creating...' : 'Create FD Plan'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

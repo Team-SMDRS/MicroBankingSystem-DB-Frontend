@@ -47,3 +47,13 @@ export const updateFDPlanStatus = async (planId: string, status: 'active' | 'ina
   const response = await api.put(`/api/fd/fd-plans/${planId}/status?status=${status}`);
   return response.data;
 };
+
+interface CreateFDPlanRequest {
+  duration_months: number;
+  interest_rate: number;
+}
+
+export const createFDPlan = async (data: CreateFDPlanRequest): Promise<{ message: string; fd_plan: FDPlan }> => {
+  const response = await api.post(`/api/fd/fd-plans?duration_months=${data.duration_months}&interest_rate=${data.interest_rate}`);
+  return response.data;
+};
