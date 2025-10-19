@@ -3,8 +3,9 @@ import SectionHeader from '../../components/layout/SectionHeader';
 import { CreateFixedDepositForm } from '../forms';
 import Alert from '../../components/common/Alert';
 import SubTabGrid from '../../components/layout/SubTabGrid';
-import { PiggyBank, X } from 'lucide-react';
+import { PiggyBank, X, AlignJustify } from 'lucide-react';
 import type { FixedDeposit } from '../../api/fd';
+import { FDPlansView } from '../components';
 
 const FixedDepositSection = () => {
   const [error, setError] = useState<string | null>(null);
@@ -14,6 +15,7 @@ const FixedDepositSection = () => {
 
   const subTabs = [
     { id: 'create-fd', label: 'Create New FD', icon: PiggyBank },
+    { id: 'view-plans', label: 'View FD Plans', icon: AlignJustify },
   ];
 
   const handleTabClick = (tabId: string) => {
@@ -53,14 +55,14 @@ const FixedDepositSection = () => {
         onSubTabChange={handleTabClick} 
       />
 
+      {error && (
+        <div className="mb-4">
+          <Alert type="error">{error}</Alert>
+        </div>
+      )}
+
       {activeSubTab === 'create-fd' && (
         <div className="w-full">
-          {error && (
-            <div className="mb-4">
-              <Alert type="error">{error}</Alert>
-            </div>
-          )}
-
           <div className="bg-white rounded-lg shadow-sm p-6 space-y-4">
             <h3 className="text-lg font-semibold text-slate-800">Create New Fixed Deposit Account</h3>
             <CreateFixedDepositForm onSuccess={handleSuccess} onError={handleError} />
@@ -114,6 +116,10 @@ const FixedDepositSection = () => {
             </div>
           )}
         </div>
+      )}
+
+      {activeSubTab === 'view-plans' && (
+        <FDPlansView onError={setError} />
       )}
     </div>
   );
