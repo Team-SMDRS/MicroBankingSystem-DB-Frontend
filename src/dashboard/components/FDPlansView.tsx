@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getFDPlans, type FDPlan } from '../../api/fd';
+import { getFDPlans, updateFDPlanStatus, type FDPlan } from '../../api/fd';
 
 interface FDPlansViewProps {
   onError: (error: string) => void;
@@ -9,6 +9,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
   const [fdPlans, setFdPlans] = useState<FDPlan[]>([]);
   const [loadingPlans, setLoadingPlans] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [updatingPlanId, setUpdatingPlanId] = useState<string | null>(null);
 
   // Function to fetch FD plans
   const fetchFDPlans = async () => {
@@ -22,6 +23,28 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
       onError('Failed to load FD plans. Please try again later.');
     } finally {
       setLoadingPlans(false);
+    }
+  };
+
+  // Function to toggle FD plan status (active/inactive)
+  const togglePlanStatus = async (plan: FDPlan) => {
+    const newStatus = plan.status === 'active' ? 'inactive' : 'active';
+    try {
+      setUpdatingPlanId(plan.fd_plan_id);
+      const updatedPlan = await updateFDPlanStatus(plan.fd_plan_id, newStatus);
+      
+      // Update the plan in the state
+      setFdPlans(currentPlans => 
+        currentPlans.map(p => 
+          p.fd_plan_id === updatedPlan.fd_plan_id ? updatedPlan : p
+        )
+      );
+      setLastUpdated(new Date());
+    } catch (err) {
+      console.error(`Failed to update plan status to ${newStatus}:`, err);
+      onError(`Failed to ${newStatus === 'active' ? 'activate' : 'deactivate'} the plan. Please try again later.`);
+    } finally {
+      setUpdatingPlanId(null);
     }
   };
 
@@ -61,6 +84,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Duration</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Interest Rate</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Status</th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
@@ -76,11 +100,32 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                         {plan.status}
                       </span>
                     </td>
+                    <td className="py-3 px-4">
+                      <button
+                        onClick={() => togglePlanStatus(plan)}
+                        disabled={updatingPlanId === plan.fd_plan_id}
+                        className={`px-3 py-1.5 text-xs font-medium rounded ${
+                          plan.status === 'active' 
+                            ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200' 
+                            : 'bg-green-50 text-green-600 hover:bg-green-100 border border-green-200'
+                        } transition-colors`}
+                      >
+                        {updatingPlanId === plan.fd_plan_id ? (
+                          <span className="inline-flex items-center">
+                            <svg className="animate-spin -ml-1 mr-2 h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Updating...
+                          </span>
+                        ) : plan.status === 'active' ? 'Deactivate' : 'Activate'}
+                      </button>
+                    </td>
                   </tr>
                 ))}
                 {fdPlans.length === 0 && !loadingPlans && (
                   <tr>
-                    <td colSpan={4} className="py-8 text-center text-slate-500">No FD plans found.</td>
+                    <td colSpan={5} className="py-8 text-center text-slate-500">No FD plans found.</td>
                   </tr>
                 )}
               </tbody>

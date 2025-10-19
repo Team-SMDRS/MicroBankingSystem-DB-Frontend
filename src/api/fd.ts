@@ -42,3 +42,8 @@ export const openFixedDeposit = async (data: OpenFixedDepositRequest): Promise<F
   const response = await api.post('/api/fd/fixed-deposits', data);
   return response.data;
 };
+
+export const updateFDPlanStatus = async (planId: string, status: 'active' | 'inactive'): Promise<FDPlan> => {
+  const response = await api.put(`/api/fd/fd-plans/${planId}/status?status=${status}`);
+  return response.data;
+};
