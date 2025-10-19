@@ -10,6 +10,8 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
   const [loadingPlans, setLoadingPlans] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [updatingPlanId, setUpdatingPlanId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchType, setSearchType] = useState<'id' | 'duration'>('id');
 
   // Function to fetch FD plans
   const fetchFDPlans = async () => {
@@ -48,6 +50,19 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
     }
   };
 
+  // Filter FD plans based on search term and search type
+  const filteredPlans = fdPlans.filter(plan => {
+    if (!searchTerm.trim()) return true;
+    const searchLower = searchTerm.toLowerCase();
+    
+    // Search by plan ID or duration based on selected search type
+    if (searchType === 'id') {
+      return plan.fd_plan_id.toLowerCase().includes(searchLower);
+    } else {
+      return plan.duration.toString().includes(searchTerm);
+    }
+  });
+
   // Load FD plans on component mount
   useEffect(() => {
     fetchFDPlans();
@@ -73,6 +88,36 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
           </button>
         </div>
         
+        <div className="mb-4 relative">
+          <div className="flex">
+            <div className="w-1/4 mr-2">
+              <select
+                value={searchType}
+                onChange={(e) => setSearchType(e.target.value as 'id' | 'duration')}
+                className="w-full border border-slate-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              >
+                <option value="id">FD Plan ID</option>
+                <option value="duration">Duration</option>
+              </select>
+            </div>
+            <div className="relative flex-1">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.3-4.3"></path>
+                </svg>
+              </div>
+              <input
+                type="text"
+                placeholder={searchType === 'id' ? "Search by FD Plan ID..." : "Search by duration (months)..."}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 w-full border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              />
+            </div>
+          </div>
+        </div>
+        
         {loadingPlans ? (
           <div className="text-center py-8 text-slate-500">Loading FD plans...</div>
         ) : (
@@ -88,7 +133,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
-                {fdPlans.map((plan) => (
+                {filteredPlans.map((plan) => (
                   <tr key={plan.fd_plan_id} className="hover:bg-slate-50">
                     <td className="py-3 px-4 text-sm text-slate-800 font-mono">{plan.fd_plan_id.substring(0, 8)}...</td>
                     <td className="py-3 px-4 text-sm text-slate-800">{plan.duration} months</td>
@@ -123,9 +168,14 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                     </td>
                   </tr>
                 ))}
-                {fdPlans.length === 0 && !loadingPlans && (
+                {filteredPlans.length === 0 && !loadingPlans && (
                   <tr>
-                    <td colSpan={5} className="py-8 text-center text-slate-500">No FD plans found.</td>
+                    <td colSpan={5} className="py-8 text-center text-slate-500">
+                      {fdPlans.length === 0 
+                        ? 'No FD plans found.' 
+                        : `No plans match your ${searchType === 'id' ? 'FD Plan ID' : 'duration'} search criteria.`
+                      }
+                    </td>
                   </tr>
                 )}
               </tbody>
