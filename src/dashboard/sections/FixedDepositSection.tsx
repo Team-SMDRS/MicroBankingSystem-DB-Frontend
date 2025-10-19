@@ -3,7 +3,7 @@ import SectionHeader from '../../components/layout/SectionHeader';
 import { CreateFixedDepositForm } from '../forms';
 import Alert from '../../components/common/Alert';
 import SubTabGrid from '../../components/layout/SubTabGrid';
-import { PiggyBank } from 'lucide-react';
+import { PiggyBank, X } from 'lucide-react';
 import type { FixedDeposit } from '../../api/fd';
 
 const FixedDepositSection = () => {
@@ -34,6 +34,11 @@ const FixedDepositSection = () => {
     setSuccess(null);
     setCreatedFD(null);
   };
+  
+  const handleCloseSuccess = () => {
+    setSuccess(null);
+    setCreatedFD(null);
+  };
 
   return (
     <div className="p-8 space-y-6">
@@ -49,7 +54,7 @@ const FixedDepositSection = () => {
       />
 
       {activeSubTab === 'create-fd' && (
-        <div className="max-w-2xl mx-auto">
+        <div className="w-full">
           {error && (
             <div className="mb-4">
               <Alert type="error">{error}</Alert>
@@ -62,17 +67,49 @@ const FixedDepositSection = () => {
           </div>
 
           {success && createdFD && (
-            <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-lg">
-              <h4 className="font-semibold text-green-800 mb-4">✓ {success}</h4>
-              <div className="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                <div><strong>FD Account No:</strong> {createdFD.fd_account_no}</div>
-                <div><strong>Balance:</strong> Rs. {createdFD.balance}</div>
-                <div><strong>Account No:</strong> {createdFD.account_no}</div>
-                <div><strong>Branch:</strong> {createdFD.branch_name}</div>
-                <div><strong>Opened:</strong> {new Date(createdFD.opened_date).toLocaleDateString()}</div>
-                <div><strong>Maturity:</strong> {new Date(createdFD.maturity_date).toLocaleDateString()}</div>
-                <div><strong>Duration:</strong> {createdFD.plan_duration} months</div>
-                <div><strong>Rate:</strong> {createdFD.plan_interest_rate}% p.a.</div>
+            <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-lg relative">
+              <button 
+                onClick={handleCloseSuccess}
+                className="absolute top-4 right-4 bg-white rounded-full p-1.5 hover:bg-slate-100 shadow-sm transition-colors border border-slate-200"
+                title="Close"
+                aria-label="Close fixed deposit details"
+              >
+                <X size={20} className="text-slate-600" />
+              </button>
+              <h4 className="font-semibold text-green-800 mb-5">✓ {success}</h4>
+              <div className="space-y-4 max-w-2xl">
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>FD Account No:</strong> 
+                  <span>{createdFD.fd_account_no}</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Balance:</strong> 
+                  <span>Rs. {createdFD.balance}</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Account No:</strong> 
+                  <span>{createdFD.account_no}</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Branch:</strong> 
+                  <span>{createdFD.branch_name}</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Opened:</strong> 
+                  <span>{new Date(createdFD.opened_date).toLocaleDateString()}</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Maturity:</strong> 
+                  <span>{new Date(createdFD.maturity_date).toLocaleDateString()}</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Duration:</strong> 
+                  <span>{createdFD.plan_duration} months</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Rate:</strong> 
+                  <span>{createdFD.plan_interest_rate}% p.a.</span>
+                </div>
               </div>
             </div>
           )}

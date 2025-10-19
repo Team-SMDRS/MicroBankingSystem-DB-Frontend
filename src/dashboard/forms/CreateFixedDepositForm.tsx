@@ -68,88 +68,96 @@ const CreateFixedDepositForm = ({ onSuccess, onError }: CreateFixedDepositFormPr
 
   return (
     <div className="space-y-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="savingsAccountNo" className="block text-sm font-semibold text-slate-700 mb-2">
-            Savings Account Number
-          </label>
-          <input
-            type="text"
-            id="savingsAccountNo"
-            value={savingsAccountNo}
-            onChange={(e) => setSavingsAccountNo(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
-            required
-            placeholder="Enter savings account number"
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-5">
+          <div>
+            <label htmlFor="savingsAccountNo" className="block text-sm font-semibold text-slate-700 mb-2">
+              Savings Account Number
+            </label>
+            <input
+              type="text"
+              id="savingsAccountNo"
+              value={savingsAccountNo}
+              onChange={(e) => setSavingsAccountNo(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+              required
+              placeholder="Enter savings account number"
+            />
+          </div>
 
-        <div>
-          <label htmlFor="plan" className="block text-sm font-semibold text-slate-700 mb-2">
-            Select FD Plan
-          </label>
-          <select
-            id="plan"
-            value={selectedPlanId}
-            onChange={(e) => setSelectedPlanId(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
-            required
-          >
-            <option value="">-- Select a plan --</option>
-            {plans.map((plan) => (
-              <option key={plan.fd_plan_id} value={plan.fd_plan_id}>
-                {plan.duration} months @ {plan.interest_rate}% p.a.
-              </option>
-            ))}
-          </select>
-        </div>
+          <div>
+            <label htmlFor="plan" className="block text-sm font-semibold text-slate-700 mb-2">
+              Select FD Plan
+            </label>
+            <select
+              id="plan"
+              value={selectedPlanId}
+              onChange={(e) => setSelectedPlanId(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+              required
+            >
+              <option value="">-- Select a plan --</option>
+              {plans.map((plan) => (
+                <option key={plan.fd_plan_id} value={plan.fd_plan_id}>
+                  {plan.duration} months @ {plan.interest_rate}% p.a.
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div>
-          <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
-            Deposit Amount (Rs.)
-          </label>
-          <input
-            type="number"
-            id="amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
-            required
-            min="1000"
-            placeholder="Enter amount"
-          />
-          <p className="mt-1 text-xs text-slate-500">Minimum: Rs. 1,000</p>
+          <div>
+            <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+              Deposit Amount (Rs.)
+            </label>
+            <input
+              type="number"
+              id="amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+              required
+              min="1000"
+              placeholder="Enter amount"
+            />
+            <p className="mt-1 text-xs text-slate-500">Minimum: Rs. 1,000</p>
+          </div>
         </div>
 
         {selectedPlan && (
-          <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
-            <h4 className="font-semibold text-slate-800">Plan Details</h4>
-            <div className="grid grid-cols-3 gap-3 text-sm">
-              <div>
-                <div className="text-slate-600">Duration</div>
-                <div className="font-semibold text-slate-800">{selectedPlan.duration} months</div>
+          <div className="p-6 bg-blue-50 border border-blue-200 rounded-lg space-y-4">
+            <h4 className="font-semibold text-slate-800 text-lg">Plan Details</h4>
+            <div className="space-y-4">
+              <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                <div className="text-slate-600">Duration:</div>
+                <div className="font-semibold text-slate-800 text-lg">{selectedPlan.duration} months</div>
               </div>
-              <div>
-                <div className="text-slate-600">Rate</div>
-                <div className="font-semibold text-slate-800">{selectedPlan.interest_rate}%</div>
+              <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                <div className="text-slate-600">Interest Rate:</div>
+                <div className="font-semibold text-slate-800 text-lg">{selectedPlan.interest_rate}% p.a.</div>
+              </div>
+              <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                <div className="text-slate-600">Deposit Amount:</div>
+                <div className="font-semibold text-slate-800 text-lg">{amount ? `Rs. ${Number(amount).toFixed(2)}` : '-'}</div>
               </div>
               {amount && (
-                <div>
-                  <div className="text-slate-600">Maturity Amount</div>
-                  <div className="font-semibold text-blue-700">Rs. {maturityAmount.toFixed(2)}</div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <div className="text-slate-600">Maturity Amount:</div>
+                  <div className="font-semibold text-blue-700 text-lg">Rs. {maturityAmount.toFixed(2)}</div>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        <button
-          type="submit"
-          disabled={loading || !savingsAccountNo || !amount || !selectedPlanId}
-          className="w-full py-2 px-4 rounded-lg font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
-        >
-          {loading ? 'Creating...' : 'Create Fixed Deposit'}
-        </button>
+        <div className="mt-6">
+          <button
+            type="submit"
+            disabled={loading || !savingsAccountNo || !amount || !selectedPlanId}
+            className="w-full py-3 rounded-lg font-medium text-white text-lg bg-blue-600 hover:bg-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Creating Fixed Deposit...' : 'Create Fixed Deposit'}
+          </button>
+        </div>
       </form>
     </div>
   );
