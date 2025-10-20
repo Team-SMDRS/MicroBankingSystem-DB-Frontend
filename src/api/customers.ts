@@ -44,6 +44,6 @@ export const updateCustomer = async (customerId: string, data: UpdateCustomerDat
 };
 
 export const searchCustomersByName = async (name: string): Promise<CustomerSearchResult[]> => {
-  const response = await api.get(`api/customer-branch/customers/search?name=${name}`);
+  const response = await api.get('api/customer-branch/customers/search', { params: { name } });
   return response.data;
 };
