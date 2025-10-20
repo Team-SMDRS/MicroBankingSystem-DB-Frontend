@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Building2, Edit, Search } from 'lucide-react';
+import { Building2, Edit } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import SubTabGrid from '../../components/layout/SubTabGrid';
 import Alert from '../../components/common/Alert';
@@ -24,8 +24,7 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
 
     const subTabs = [
         { id: 'create-branch', label: 'Create Branch', icon: Building2 },
-        { id: 'update-branch', label: 'Update Branch', icon: Edit },
-        { id: 'search-branch', label: 'Search Branch', icon: Search },
+        { id: 'update-branch', label: 'View Branches', icon: Edit },
     ];
 
     const handleTabClick = (tabId: string) => {
@@ -132,45 +131,6 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
                             <SearchBranchForm
                                 onSelect={handleSelectBranch}
                             />
-                        )}
-                    </div>
-                )}
-
-                {/* SEARCH BRANCH */}
-                {activeSubTab === 'search-branch' && (
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Search Branches</h2>
-                        {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
-                        <SearchBranchForm
-                            // When selecting from the main Search tab we only set the selected branch
-                            // without automatically navigating to the Update tab.
-                            onSelect={(b) => setSelectedBranch(b)}
-                        />
-
-                        {/* Inline details for the selected branch (visible on Search tab) */}
-                        {selectedBranch && (
-                            <div className="mt-6 p-4 border rounded-lg bg-white shadow-sm">
-                                <h3 className="text-lg font-semibold mb-2">Selected Branch</h3>
-                                <div className="text-sm text-slate-700 mb-2">Name: <span className="font-medium">{selectedBranch.name}</span></div>
-                                <div className="text-sm text-slate-600 mb-2">Address: {selectedBranch.address || '—'}</div>
-                                <div className="text-sm text-slate-500 mb-4">ID: {selectedBranch.branch_id}</div>
-                                <div className="flex gap-3">
-                                    <button
-                                        type="button"
-                                        className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
-                                        onClick={() => setActiveSubTab('update-branch')}
-                                    >
-                                        Edit
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="px-3 py-1 border rounded text-sm text-slate-700 hover:bg-slate-50"
-                                        onClick={() => setSelectedBranch(null)}
-                                    >
-                                        Clear
-                                    </button>
-                                </div>
-                            </div>
                         )}
                     </div>
                 )}
