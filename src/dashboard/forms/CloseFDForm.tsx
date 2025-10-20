@@ -28,10 +28,10 @@ const CloseFDForm = ({ onSuccess, onError }: CloseFDFormProps) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="fdAccountNo" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="fdAccountNo" className="label-text">
             Fixed Deposit Account Number
           </label>
           <input
@@ -39,14 +39,14 @@ const CloseFDForm = ({ onSuccess, onError }: CloseFDFormProps) => {
             id="fdAccountNo"
             value={fdAccountNo}
             onChange={(e) => setFdAccountNo(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="input-field w-full"
             required
             placeholder="Enter fixed deposit account number"
           />
         </div>
 
-        <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <p className="text-yellow-800 font-medium">
+        <div className="p-6 bg-amber-50 border border-amber-200 rounded-2xl">
+          <p className="text-amber-800 font-medium">
             Warning: Closing a fixed deposit before maturity may result in reduced interest earnings.
             Please confirm that you want to proceed with closing this fixed deposit account.
           </p>
@@ -56,7 +56,7 @@ const CloseFDForm = ({ onSuccess, onError }: CloseFDFormProps) => {
           <button
             type="submit"
             disabled={loading || !fdAccountNo}
-            className="w-full py-3 rounded-lg font-medium text-white text-lg bg-red-600 hover:bg-red-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
+            className="button-primary w-full py-3"
           >
             {loading ? 'Closing Fixed Deposit...' : 'Close Fixed Deposit'}
           </button>

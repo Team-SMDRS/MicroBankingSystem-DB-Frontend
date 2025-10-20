@@ -52,121 +52,125 @@ const FixedDepositSection = () => {
   };
 
   return (
-    <div className="p-8 space-y-6">
-      <SectionHeader
-        title="Fixed Deposit Management"
-        description="Create and manage fixed deposits with attractive interest rates"
-      />
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <SectionHeader
+          title="Fixed Deposit Management"
+          description="Create and manage fixed deposits with attractive interest rates"
+        />
 
-      <SubTabGrid 
-        subTabs={subTabs} 
-        activeSubTab={activeSubTab} 
-        onSubTabChange={handleTabClick} 
-      />
+        <SubTabGrid 
+          subTabs={subTabs} 
+          activeSubTab={activeSubTab} 
+          onSubTabChange={handleTabClick} 
+        />
 
-      {error && (
-        <div className="mb-4">
-          <Alert type="error">{error}</Alert>
-        </div>
-      )}
-
-      {activeSubTab === 'create-fd' && (
-        <div className="w-full">
-          <div className="bg-white rounded-lg shadow-sm p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-slate-800">Create New Fixed Deposit Account</h3>
-            <CreateFixedDepositForm onSuccess={handleSuccess} onError={handleError} />
+        {error && (
+          <div className="mb-4 animate-slide-down">
+            <Alert type="error">{error}</Alert>
           </div>
+        )}
 
-          {success && createdFD && (
-            <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-lg relative">
-              <button 
-                onClick={handleCloseSuccess}
-                className="absolute top-4 right-4 bg-white rounded-full p-1.5 hover:bg-slate-100 shadow-sm transition-colors border border-slate-200"
-                title="Close"
-                aria-label="Close fixed deposit details"
-              >
-                <X size={20} className="text-slate-600" />
-              </button>
-              <h4 className="font-semibold text-green-800 mb-5">✓ {success}</h4>
-              <div className="space-y-4 max-w-2xl">
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>FD Account No:</strong> 
-                  <span>{createdFD.fd_account_no}</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Balance:</strong> 
-                  <span>Rs. {createdFD.balance}</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Account No:</strong> 
-                  <span>{createdFD.account_no}</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Branch:</strong> 
-                  <span>{createdFD.branch_name}</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Opened:</strong> 
-                  <span>{new Date(createdFD.opened_date).toLocaleDateString()}</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Maturity:</strong> 
-                  <span>{new Date(createdFD.maturity_date).toLocaleDateString()}</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Duration:</strong> 
-                  <span>{createdFD.plan_duration} months</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Rate:</strong> 
-                  <span>{createdFD.plan_interest_rate}% p.a.</span>
+        {activeSubTab === 'create-fd' && (
+          <div className="w-full animate-slide-in-right">
+            <div className="bg-white rounded-2xl shadow-md p-6 space-y-4 border border-borderLight">
+              <h3 className="text-lg font-bold text-primary">Create New Fixed Deposit Account</h3>
+              <CreateFixedDepositForm onSuccess={handleSuccess} onError={handleError} />
+            </div>
+
+            {success && createdFD && (
+              <div className="mt-6 p-6 bg-emerald-50 border border-emerald-400 rounded-2xl relative animate-slide-down">
+                <button 
+                  onClick={handleCloseSuccess}
+                  className="absolute top-4 right-4 bg-white rounded-full p-1.5 hover:bg-emerald-100 shadow-sm transition-colors border border-emerald-200"
+                  title="Close"
+                  aria-label="Close fixed deposit details"
+                >
+                  <X size={20} className="text-emerald-600" />
+                </button>
+                <h4 className="font-bold text-emerald-700 mb-5">✓ {success}</h4>
+                <div className="space-y-4 max-w-2xl">
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">FD Account No:</strong> 
+                    <span className="text-secondary">{createdFD.fd_account_no}</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Balance:</strong> 
+                    <span className="text-secondary">Rs. {createdFD.balance}</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Account No:</strong> 
+                    <span className="text-secondary">{createdFD.account_no}</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Branch:</strong> 
+                    <span className="text-secondary">{createdFD.branch_name}</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Opened:</strong> 
+                    <span className="text-secondary">{new Date(createdFD.opened_date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Maturity:</strong> 
+                    <span className="text-secondary">{new Date(createdFD.maturity_date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Duration:</strong> 
+                    <span className="text-secondary">{createdFD.plan_duration} months</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Rate:</strong> 
+                    <span className="text-secondary">{createdFD.plan_interest_rate}% p.a.</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {activeSubTab === 'view-plans' && (
-        <FDPlansView onError={setError} />
-      )}
-      
-      {activeSubTab === 'close-fd' && (
-        <div className="w-full">
-          <div className="bg-white rounded-lg shadow-sm p-6 space-y-4">
-            <h3 className="text-lg font-semibold text-slate-800">Close Fixed Deposit Account</h3>
-            <CloseFDForm onSuccess={handleCloseFDSuccess} onError={handleError} />
+            )}
           </div>
+        )}
 
-          {success && closedFD && (
-            <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-lg relative">
-              <button 
-                onClick={handleCloseSuccess}
-                className="absolute top-4 right-4 bg-white rounded-full p-1.5 hover:bg-slate-100 shadow-sm transition-colors border border-slate-200"
-                title="Close"
-                aria-label="Close fixed deposit details"
-              >
-                <X size={20} className="text-slate-600" />
-              </button>
-              <h4 className="font-semibold text-green-800 mb-5">✓ {success}</h4>
-              <div className="space-y-4 max-w-2xl">
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>FD Account No:</strong> 
-                  <span>{closedFD.fd_account_no}</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Status:</strong> 
-                  <span className="font-semibold text-red-600">{closedFD.status.toUpperCase()}</span>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <strong>Withdrawn Amount:</strong> 
-                  <span>Rs. {parseFloat(closedFD.withdrawn_amount).toFixed(2)}</span>
+        {activeSubTab === 'view-plans' && (
+          <div className="animate-slide-in-right">
+            <FDPlansView onError={setError} />
+          </div>
+        )}
+        
+        {activeSubTab === 'close-fd' && (
+          <div className="w-full animate-slide-in-right">
+            <div className="bg-white rounded-2xl shadow-md p-6 space-y-4 border border-borderLight">
+              <h3 className="text-lg font-bold text-primary">Close Fixed Deposit Account</h3>
+              <CloseFDForm onSuccess={handleCloseFDSuccess} onError={handleError} />
+            </div>
+
+            {success && closedFD && (
+              <div className="mt-6 p-6 bg-emerald-50 border border-emerald-400 rounded-2xl relative animate-slide-down">
+                <button 
+                  onClick={handleCloseSuccess}
+                  className="absolute top-4 right-4 bg-white rounded-full p-1.5 hover:bg-emerald-100 shadow-sm transition-colors border border-emerald-200"
+                  title="Close"
+                  aria-label="Close fixed deposit details"
+                >
+                  <X size={20} className="text-emerald-600" />
+                </button>
+                <h4 className="font-bold text-emerald-700 mb-5">✓ {success}</h4>
+                <div className="space-y-4 max-w-2xl">
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">FD Account No:</strong> 
+                    <span className="text-secondary">{closedFD.fd_account_no}</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Status:</strong> 
+                    <span className="font-bold text-red-600">{closedFD.status.toUpperCase()}</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
+                    <strong className="text-primary">Withdrawn Amount:</strong> 
+                    <span className="text-secondary">Rs. {parseFloat(closedFD.withdrawn_amount).toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

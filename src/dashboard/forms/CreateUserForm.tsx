@@ -81,17 +81,17 @@ const CreateUserForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <h3 className="text-lg font-medium mb-4">Create New User</h3>
-      <p className="text-sm text-gray-500 mb-4">Add a new user to the system.</p>
+    <div className="bg-white shadow-md rounded-2xl p-8 border border-borderLight animate-slide-in-right">
+      <h3 className="text-2xl font-bold text-primary mb-2">Create New User</h3>
+      <p className="text-sm text-secondary mb-6">Add a new user to the system.</p>
       
       {error && <Alert type="error">{error}</Alert>}
       {success && <Alert type="success">{success}</Alert>}
       
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               NIC Number
             </label>
             <input
@@ -101,12 +101,12 @@ const CreateUserForm: React.FC = () => {
               onChange={handleChange}
               required
               placeholder="e.g., 200211453382"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="input-field w-full"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               First Name
             </label>
             <input
@@ -115,12 +115,12 @@ const CreateUserForm: React.FC = () => {
               value={formData.first_name}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="input-field w-full"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               Last Name
             </label>
             <input
@@ -129,12 +129,12 @@ const CreateUserForm: React.FC = () => {
               value={formData.last_name}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="input-field w-full"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               Address
             </label>
             <input
@@ -143,12 +143,12 @@ const CreateUserForm: React.FC = () => {
               value={formData.address}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="input-field w-full"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               Phone Number
             </label>
             <input
@@ -158,12 +158,12 @@ const CreateUserForm: React.FC = () => {
               onChange={handleChange}
               required
               placeholder="e.g., 0772233194"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="input-field w-full"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               Date of Birth
             </label>
             <input
@@ -172,12 +172,12 @@ const CreateUserForm: React.FC = () => {
               value={formData.dob}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="input-field w-full"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               Username
             </label>
             <input
@@ -188,12 +188,12 @@ const CreateUserForm: React.FC = () => {
               required
               placeholder="Enter new username"
               autoComplete="off"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="input-field w-full"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               Password
             </label>
             <input
@@ -204,7 +204,7 @@ const CreateUserForm: React.FC = () => {
               required
               placeholder="Enter new password"
               autoComplete="new-password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="input-field w-full"
             />
           </div>
         </div>

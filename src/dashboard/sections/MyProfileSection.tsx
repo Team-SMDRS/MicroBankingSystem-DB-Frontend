@@ -241,7 +241,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
     if (loading) {
       return (
         <div className="flex items-center justify-center h-64">
-          <Loader className="w-8 h-8 animate-spin text-blue-600" />
+          <Loader className="w-8 h-8 animate-spin text-secondary" />
         </div>
       );
     }
@@ -252,46 +252,46 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
           <div className="space-y-6">
             {userDetails && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
-                  <h3 className="text-sm font-semibold text-slate-600 mb-4">Personal Information</h3>
-                  <div className="space-y-3">
+                <div className="bg-gradient-to-br from-highlight/10 to-highlight/5 p-6 rounded-2xl border border-borderLight hover:shadow-md transition-all">
+                  <h3 className="text-sm font-bold text-primary mb-4">Personal Information</h3>
+                  <div className="space-y-4">
                     <div>
-                      <p className="text-xs text-slate-500">Full Name</p>
-                      <p className="font-semibold text-slate-800">{userDetails.first_name} {userDetails.last_name}</p>
+                      <p className="text-xs text-tertiary font-medium mb-1">Full Name</p>
+                      <p className="font-semibold text-primary">{userDetails.first_name} {userDetails.last_name}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500">NIC Number</p>
-                      <p className="font-semibold text-slate-800">{userDetails.nic}</p>
+                      <p className="text-xs text-tertiary font-medium mb-1">NIC Number</p>
+                      <p className="font-semibold text-primary font-mono">{userDetails.nic}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500">Date of Birth</p>
-                      <p className="font-semibold text-slate-800">{new Date(userDetails.dob).toLocaleDateString()}</p>
+                      <p className="text-xs text-tertiary font-medium mb-1">Date of Birth</p>
+                      <p className="font-semibold text-primary">{new Date(userDetails.dob).toLocaleDateString()}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500">Address</p>
-                      <p className="font-semibold text-slate-800">{userDetails.address}</p>
+                      <p className="text-xs text-tertiary font-medium mb-1">Address</p>
+                      <p className="font-semibold text-primary">{userDetails.address}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-xl border border-emerald-100">
-                  <h3 className="text-sm font-semibold text-slate-600 mb-4">Account Information</h3>
-                  <div className="space-y-3">
+                <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 p-6 rounded-2xl border border-borderLight hover:shadow-md transition-all">
+                  <h3 className="text-sm font-bold text-primary mb-4">Account Information</h3>
+                  <div className="space-y-4">
                     <div>
-                      <p className="text-xs text-slate-500">Username</p>
-                      <p className="font-semibold text-slate-800">{userDetails.username}</p>
+                      <p className="text-xs text-tertiary font-medium mb-1">Username</p>
+                      <p className="font-semibold text-primary">{userDetails.username}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500">Email</p>
-                      <p className="font-semibold text-slate-800">{userDetails.email}</p>
+                      <p className="text-xs text-tertiary font-medium mb-1">Email</p>
+                      <p className="font-semibold text-primary">{userDetails.email}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500">Phone Number</p>
-                      <p className="font-semibold text-slate-800">{userDetails.phone_number}</p>
+                      <p className="text-xs text-tertiary font-medium mb-1">Phone Number</p>
+                      <p className="font-semibold text-primary">{userDetails.phone_number}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500">Branch</p>
-                      <p className="font-semibold text-slate-800">{userDetails.branch_name}</p>
+                      <p className="text-xs text-tertiary font-medium mb-1">Branch</p>
+                      <p className="font-semibold text-primary">{userDetails.branch_name}</p>
                     </div>
                   </div>
                 </div>
@@ -308,7 +308,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                 <button
                   onClick={handleDownloadAllTransactionsReport}
                   disabled={loading}
-                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="button-secondary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -318,38 +318,38 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
               </div>
             )}
             {transactions.length > 0 ? (
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto rounded-2xl border border-borderLight">
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-slate-100 border-b border-slate-200">
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Date</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Type</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Amount</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Description</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Reference</th>
+                    <tr className="bg-background border-b border-borderLight">
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Type</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Amount</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Description</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Reference</th>
                     </tr>
                   </thead>
                   <tbody>
                     {transactions.map((txn) => (
-                      <tr key={txn.transaction_id} className="border-b border-slate-100 hover:bg-slate-50">
-                        <td className="px-4 py-3 text-sm text-slate-700">{new Date(txn.created_at).toLocaleDateString()}</td>
-                        <td className="px-4 py-3 text-sm">
-                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            txn.type === 'Deposit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
+                        <td className="px-6 py-3 text-sm text-secondary font-medium">{new Date(txn.created_at).toLocaleDateString()}</td>
+                        <td className="px-6 py-3 text-sm">
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
                           }`}>
                             {txn.type}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-sm font-semibold text-slate-800">Rs. {txn.amount.toFixed(2)}</td>
-                        <td className="px-4 py-3 text-sm text-slate-700">{txn.description}</td>
-                        <td className="px-4 py-3 text-sm text-slate-600">{txn.reference_no}</td>
+                        <td className="px-6 py-3 text-sm font-bold text-primary">Rs. {txn.amount.toFixed(2)}</td>
+                        <td className="px-6 py-3 text-sm text-secondary">{txn.description}</td>
+                        <td className="px-6 py-3 text-sm text-tertiary">{txn.reference_no}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             ) : (
-              <div className="text-center py-8 text-slate-500">
+              <div className="text-center py-12 text-tertiary font-medium">
                 <p>No transactions found</p>
               </div>
             )}
@@ -361,29 +361,29 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
           <div className="space-y-4">
             {todaySummary && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200">
-                  <p className="text-xs text-blue-600 font-semibold mb-1">Total Transactions</p>
-                  <p className="text-2xl font-bold text-blue-900">{todaySummary.total_transactions}</p>
+                <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 p-5 rounded-xl border border-borderLight hover:shadow-md transition-all">
+                  <p className="text-xs text-secondary font-bold mb-2">Total Transactions</p>
+                  <p className="text-3xl font-bold text-primary">{todaySummary.total_transactions}</p>
                 </div>
-                <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl border border-green-200">
-                  <p className="text-xs text-green-600 font-semibold mb-1">Total Deposits</p>
-                  <p className="text-2xl font-bold text-green-900">Rs. {todaySummary.total_deposit.toFixed(2)}</p>
+                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 p-5 rounded-xl border border-emerald-200 hover:shadow-md transition-all">
+                  <p className="text-xs text-emerald-700 font-bold mb-2">Total Deposits</p>
+                  <p className="text-3xl font-bold text-emerald-900">Rs. {todaySummary.total_deposit.toFixed(2)}</p>
                 </div>
-                <div className="bg-gradient-to-br from-red-50 to-red-100 p-4 rounded-xl border border-red-200">
-                  <p className="text-xs text-red-600 font-semibold mb-1">Total Withdrawals</p>
-                  <p className="text-2xl font-bold text-red-900">Rs. {todaySummary.total_withdrawal.toFixed(2)}</p>
+                <div className="bg-gradient-to-br from-red-50 to-red-100/50 p-5 rounded-xl border border-red-200 hover:shadow-md transition-all">
+                  <p className="text-xs text-red-700 font-bold mb-2">Total Withdrawals</p>
+                  <p className="text-3xl font-bold text-red-900">Rs. {todaySummary.total_withdrawal.toFixed(2)}</p>
                 </div>
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
-                  <p className="text-xs text-purple-600 font-semibold mb-1">Bank Transfer In</p>
-                  <p className="text-2xl font-bold text-purple-900">Rs. {todaySummary.total_banktransfer_in.toFixed(2)}</p>
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100/50 p-5 rounded-xl border border-purple-200 hover:shadow-md transition-all">
+                  <p className="text-xs text-purple-700 font-bold mb-2">Bank Transfer In</p>
+                  <p className="text-3xl font-bold text-purple-900">Rs. {todaySummary.total_banktransfer_in.toFixed(2)}</p>
                 </div>
-                <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-xl border border-orange-200">
-                  <p className="text-xs text-orange-600 font-semibold mb-1">Bank Transfer Out</p>
-                  <p className="text-2xl font-bold text-orange-900">Rs. {todaySummary.total_banktransfer_out.toFixed(2)}</p>
+                <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 p-5 rounded-xl border border-orange-200 hover:shadow-md transition-all">
+                  <p className="text-xs text-orange-700 font-bold mb-2">Bank Transfer Out</p>
+                  <p className="text-3xl font-bold text-orange-900">Rs. {todaySummary.total_banktransfer_out.toFixed(2)}</p>
                 </div>
-                <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-4 rounded-xl border border-slate-200">
-                  <p className="text-xs text-slate-600 font-semibold mb-1">Net Change</p>
-                  <p className={`text-2xl font-bold ${todaySummary.numeric_sum >= 0 ? 'text-green-900' : 'text-red-900'}`}>
+                <div className="bg-gradient-to-br from-borderLight to-borderLight/50 p-5 rounded-xl border border-borderLight hover:shadow-md transition-all">
+                  <p className="text-xs text-secondary font-bold mb-2">Net Change</p>
+                  <p className={`text-3xl font-bold ${todaySummary.numeric_sum >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
                     Rs. {todaySummary.numeric_sum.toFixed(2)}
                   </p>
                 </div>
@@ -395,7 +395,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   <button
                     onClick={handleDownloadTodayReport}
                     disabled={loading}
-                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="button-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -403,40 +403,42 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                     {loading ? 'Downloading...' : 'Download Report'}
                   </button>
                 </div>
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-slate-100 border-b border-slate-200">
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Time</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Type</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Amount</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Description</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Reference</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {todayTransactions.map((txn) => (
-                      <tr key={txn.transaction_id} className="border-b border-slate-100 hover:bg-slate-50">
-                        <td className="px-4 py-3 text-sm text-slate-700">{new Date(txn.created_at).toLocaleTimeString()}</td>
-                        <td className="px-4 py-3 text-sm">
-                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            txn.type === 'Deposit' ? 'bg-green-100 text-green-800' :
-                            txn.type === 'Withdrawal' ? 'bg-red-100 text-red-800' :
-                            txn.type === 'BankTransfer-In' ? 'bg-purple-100 text-purple-800' :
-                            'bg-orange-100 text-orange-800'
-                          }`}>
-                            {txn.type}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-sm font-semibold text-slate-800">Rs. {txn.amount.toFixed(2)}</td>
-                        <td className="px-4 py-3 text-sm text-slate-700">{txn.description}</td>
-                        <td className="px-4 py-3 text-sm text-slate-600">{txn.reference_no}</td>
+                <div className="rounded-2xl border border-borderLight overflow-hidden">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-background border-b border-borderLight">
+                        <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Time</th>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Type</th>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Amount</th>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Description</th>
+                        <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Reference</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {todayTransactions.map((txn) => (
+                        <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
+                          <td className="px-6 py-3 text-sm text-secondary font-medium">{new Date(txn.created_at).toLocaleTimeString()}</td>
+                          <td className="px-6 py-3 text-sm">
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                              txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' :
+                              txn.type === 'Withdrawal' ? 'bg-red-100 text-red-700' :
+                              txn.type === 'BankTransfer-In' ? 'bg-purple-100 text-purple-700' :
+                              'bg-orange-100 text-orange-700'
+                            }`}>
+                              {txn.type}
+                            </span>
+                          </td>
+                          <td className="px-6 py-3 text-sm font-bold text-primary">Rs. {txn.amount.toFixed(2)}</td>
+                          <td className="px-6 py-3 text-sm text-secondary">{txn.description}</td>
+                          <td className="px-6 py-3 text-sm text-tertiary">{txn.reference_no}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             ) : (
-              <div className="text-center py-8 text-slate-500">
+              <div className="text-center py-12 text-tertiary font-medium">
                 <p>No transactions today</p>
               </div>
             )}
@@ -446,26 +448,26 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
       case 'report':
         return (
           <div className="space-y-4">
-            <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6">
-              <h3 className="text-sm font-semibold text-slate-700 mb-4">Select Date Range</h3>
+            <div className="bg-background p-6 rounded-2xl border border-borderLight mb-6">
+              <h3 className="text-sm font-bold text-primary mb-4">Select Date Range</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-600 mb-2">Start Date</label>
+                  <label className="block text-xs font-bold text-secondary mb-2 uppercase">Start Date</label>
                   <input
                     type="date"
                     value={dateRangeForm.startDate}
                     onChange={(e) => setDateRangeForm({ ...dateRangeForm, startDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
+                    className="input-field w-full"
                     disabled={loading}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-600 mb-2">End Date</label>
+                  <label className="block text-xs font-bold text-secondary mb-2 uppercase">End Date</label>
                   <input
                     type="date"
                     value={dateRangeForm.endDate}
                     onChange={(e) => setDateRangeForm({ ...dateRangeForm, endDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-sm"
+                    className="input-field w-full"
                     disabled={loading}
                   />
                 </div>
@@ -473,7 +475,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   <button
                     onClick={fetchTransactionsByDateRange}
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-2 rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="button-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     {loading ? 'Loading...' : 'Search'}
                   </button>
@@ -482,41 +484,41 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
             </div>
 
             {dateRangeTransactions.length > 0 ? (
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto rounded-2xl border border-borderLight">
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-slate-100 border-b border-slate-200">
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Date</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Type</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Amount</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Description</th>
-                      <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700">Reference</th>
+                    <tr className="bg-background border-b border-borderLight">
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Type</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Amount</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Description</th>
+                      <th className="px-6 py-3 text-left text-xs font-bold text-primary uppercase">Reference</th>
                     </tr>
                   </thead>
                   <tbody>
                     {dateRangeTransactions.map((txn) => (
-                      <tr key={txn.transaction_id} className="border-b border-slate-100 hover:bg-slate-50">
-                        <td className="px-4 py-3 text-sm text-slate-700">{new Date(txn.created_at).toLocaleDateString()}</td>
-                        <td className="px-4 py-3 text-sm">
-                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            txn.type === 'Deposit' ? 'bg-green-100 text-green-800' :
-                            txn.type === 'Withdrawal' ? 'bg-red-100 text-red-800' :
-                            txn.type === 'BankTransfer-In' ? 'bg-purple-100 text-purple-800' :
-                            'bg-orange-100 text-orange-800'
+                      <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
+                        <td className="px-6 py-3 text-sm text-secondary font-medium">{new Date(txn.created_at).toLocaleDateString()}</td>
+                        <td className="px-6 py-3 text-sm">
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' :
+                            txn.type === 'Withdrawal' ? 'bg-red-100 text-red-700' :
+                            txn.type === 'BankTransfer-In' ? 'bg-purple-100 text-purple-700' :
+                            'bg-orange-100 text-orange-700'
                           }`}>
                             {txn.type}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-sm font-semibold text-slate-800">Rs. {txn.amount.toFixed(2)}</td>
-                        <td className="px-4 py-3 text-sm text-slate-700">{txn.description}</td>
-                        <td className="px-4 py-3 text-sm text-slate-600">{txn.reference_no}</td>
+                        <td className="px-6 py-3 text-sm font-bold text-primary">Rs. {txn.amount.toFixed(2)}</td>
+                        <td className="px-6 py-3 text-sm text-secondary">{txn.description}</td>
+                        <td className="px-6 py-3 text-sm text-tertiary">{txn.reference_no}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             ) : (
-              <div className="text-center py-8 text-slate-500">
+              <div className="text-center py-12 text-tertiary font-medium">
                 <p>No transactions found for the selected date range</p>
               </div>
             )}
@@ -526,44 +528,44 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
       case 'password':
         return (
           <div className="max-w-md">
-            <form onSubmit={handleChangePassword} className="space-y-4">
+            <form onSubmit={handleChangePassword} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="label-text">
                   Current Password
                 </label>
                 <input
                   type="password"
                   value={changePasswordForm.old_password}
                   onChange={(e) => setChangePasswordForm({ ...changePasswordForm, old_password: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="input-field w-full"
                   placeholder="Enter your current password"
                   disabled={loading}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="label-text">
                   New Password
                 </label>
                 <input
                   type="password"
                   value={changePasswordForm.new_password}
                   onChange={(e) => setChangePasswordForm({ ...changePasswordForm, new_password: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="input-field w-full"
                   placeholder="Enter new password"
                   disabled={loading}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="label-text">
                   Confirm New Password
                 </label>
                 <input
                   type="password"
                   value={changePasswordForm.confirm_password}
                   onChange={(e) => setChangePasswordForm({ ...changePasswordForm, confirm_password: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  className="input-field w-full"
                   placeholder="Confirm new password"
                   disabled={loading}
                 />
@@ -572,7 +574,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-2 rounded-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="button-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {loading ? 'Updating...' : 'Change Password'}
               </button>
@@ -586,24 +588,28 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
   };
 
   return (
-    <div className="p-8">
-      <SectionHeader title="My Profile" description="Manage your account settings and view your information" />
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader title="My Profile" description="Manage your account settings and view your information" />
 
-      {alert && (
-        <Alert type={alert.type}>
-          <div className="flex items-center justify-between">
-            <span>{alert.message}</span>
-            <button onClick={() => setAlert(null)} className="text-lg font-bold opacity-70 hover:opacity-100">
-              ×
-            </button>
+        {alert && (
+          <div className="mb-6 animate-slide-down">
+            <Alert type={alert.type}>
+              <div className="flex items-center justify-between">
+                <span className="font-medium">{alert.message}</span>
+                <button onClick={() => setAlert(null)} className="text-lg font-bold opacity-70 hover:opacity-100 ml-4">
+                  ×
+                </button>
+              </div>
+            </Alert>
           </div>
-        </Alert>
-      )}
+        )}
 
-      <SubTabGrid subTabs={subTabs} activeSubTab={activeSubTab} onSubTabChange={setActiveSubTab} />
+        <SubTabGrid subTabs={subTabs} activeSubTab={activeSubTab} onSubTabChange={setActiveSubTab} />
 
-      <div className="bg-white rounded-xl border border-slate-200 p-6">
-        {renderContent()}
+        <div className="bg-white rounded-2xl border border-borderLight p-8 animate-slide-in-right">
+          {renderContent()}
+        </div>
       </div>
     </div>
   );

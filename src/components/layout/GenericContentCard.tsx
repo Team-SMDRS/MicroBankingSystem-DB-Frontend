@@ -18,18 +18,18 @@ const GenericContentCard = ({ activeSubTab, subTabs, description, children }: Ge
   const Icon = currentTab?.icon;
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-      <div className="flex items-center gap-3 pb-6 border-b border-slate-200">
+    <div className="card-base animate-scale-pop">
+      <div className="flex items-center gap-4 pb-6 border-b border-borderLight">
         {Icon && (
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-            <Icon className="w-6 h-6 text-blue-600" />
+          <div className="w-12 h-12 bg-gradient-to-br from-highlight to-highlightHover rounded-xl flex items-center justify-center shadow-md">
+            <Icon className="w-6 h-6 text-primary" />
           </div>
         )}
         <div>
-          <h3 className="text-2xl font-bold text-slate-800">
+          <h3 className="text-2xl font-bold text-primary">
             {currentTab?.label}
           </h3>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-tertiary font-medium">
             {description} {currentTab?.label.toLowerCase()}
           </p>
         </div>
@@ -38,7 +38,7 @@ const GenericContentCard = ({ activeSubTab, subTabs, description, children }: Ge
       <div className="mt-6">
         {children ? children : (
           <div className="text-center py-12">
-            <p className="text-slate-500">Content for {currentTab?.label} will be implemented here.</p>
+            <p className="text-tertiary font-medium">Content for {currentTab?.label} will be implemented here.</p>
           </div>
         )}
       </div>

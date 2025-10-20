@@ -80,8 +80,9 @@ const UpdateSavingsPlanForm: React.FC<UpdateSavingsPlanFormProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-bold mb-4">Update Savings Plan Interest Rate</h3>
+    <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
+      <h3 className="text-2xl font-bold text-primary mb-2">Update Savings Plan Interest Rate</h3>
+      <p className="text-sm text-secondary mb-6">Modify the interest rate for this savings plan</p>
       
       {error && (
         <Alert type="error" className="mb-4">
@@ -112,27 +113,27 @@ const UpdateSavingsPlanForm: React.FC<UpdateSavingsPlanFormProps> = ({
       )}
       
       {/* Display plan details */}
-      <div className="bg-gray-50 p-4 rounded-md mb-6">
-        <h4 className="text-md font-semibold mb-3">Plan Details</h4>
-        <div className="grid grid-cols-2 gap-3">
+      <div className="bg-background p-4 rounded-2xl mb-6 border border-borderLight">
+        <h4 className="text-lg font-semibold text-primary mb-4">Plan Details</h4>
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-gray-500">Plan ID</p>
-            <p className="font-medium">{plan.savings_plan_id}</p>
+            <p className="text-sm text-secondary">Plan ID</p>
+            <p className="font-semibold text-primary">{plan.savings_plan_id}</p>
           </div>
           <div>
-            <p className="text-sm text-gray-500">Plan Name</p>
-            <p className="font-medium">{plan.plan_name}</p>
+            <p className="text-sm text-secondary">Plan Name</p>
+            <p className="font-semibold text-primary">{plan.plan_name}</p>
           </div>
           <div>
-            <p className="text-sm text-gray-500">Minimum Balance</p>
-            <p className="font-medium">${plan.minimum_balance.toFixed(2)}</p>
+            <p className="text-sm text-secondary">Minimum Balance</p>
+            <p className="font-semibold text-primary">Rs. {plan.minimum_balance.toFixed(2)}</p>
           </div>
         </div>
       </div>
       
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="interest_rate" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="interest_rate" className="label-text">
             Interest Rate (%)
           </label>
           <input
@@ -141,12 +142,12 @@ const UpdateSavingsPlanForm: React.FC<UpdateSavingsPlanFormProps> = ({
             name="interest_rate"
             value={interestRate}
             onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="input-field w-full"
             step="0.01"
             min="0"
             required
           />
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-tertiary mt-1">
             Current rate: {plan.interest_rate}% - Enter new rate to update
           </p>
         </div>

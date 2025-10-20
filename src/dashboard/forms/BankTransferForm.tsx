@@ -49,20 +49,20 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200">
-        <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-          <ArrowLeftRight className="w-6 h-6 text-blue-600" />
+    <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
+      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-borderLight">
+        <div className="w-12 h-12 bg-gradient-to-br from-secondary/10 to-secondary/20 rounded-xl flex items-center justify-center">
+          <ArrowLeftRight className="w-6 h-6 text-secondary" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-slate-800">Bank Transfer</h3>
-          <p className="text-sm text-slate-500">Transfer funds between accounts</p>
+          <h3 className="text-2xl font-bold text-primary">Bank Transfer</h3>
+          <p className="text-sm text-secondary">Transfer funds between accounts</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="amount" className="label-text">
             Amount
           </label>
           <input
@@ -74,12 +74,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             min="0.01"
             step="0.01"
             placeholder="0.00"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="input-field w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="fromAccount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="fromAccount" className="label-text">
             From Account No
           </label>
           <input
@@ -89,12 +89,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             onChange={(e) => setFromAccountNo(e.target.value)}
             required
             placeholder="Enter source account number"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="input-field w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="toAccount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="toAccount" className="label-text">
             To Account No
           </label>
           <input
@@ -104,12 +104,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             onChange={(e) => setToAccountNo(e.target.value)}
             required
             placeholder="Enter destination account number"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="input-field w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="description" className="label-text">
             Description
           </label>
           <textarea
@@ -119,7 +119,7 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             required
             rows={3}
             placeholder="Enter transaction description"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none resize-none"
+            className="input-field w-full resize-none"
           />
         </div>
 
@@ -138,7 +138,7 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30"
+          className="button-primary w-full"
         >
           {isSubmitting ? 'Processing...' : 'Transfer Funds'}
         </button>

@@ -54,48 +54,48 @@ const RegisterAndCreate: React.FC<{ defaultNic?: string; plans: Plan[]; plansLoa
   };
 
   return (
-    <div className="space-y-3">
-      {errorMsg && <div className="text-red-600">{errorMsg}</div>}
+    <div className="space-y-4 bg-white rounded-2xl shadow-md border border-borderLight p-6 animate-slide-in-right">
+      {errorMsg && <div className="text-red-600 p-4 bg-red-50 border border-red-200 rounded-2xl">{errorMsg}</div>}
       {successData ? (
-        <div className="p-3 bg-green-50 rounded">
-          <div className="font-semibold text-green-800">Customer & Account Created</div>
-          <div className="mt-2 text-sm text-slate-700">Username: <span className="font-mono">{successData.username}</span>
-            <button onClick={() => navigator.clipboard.writeText(successData.username)} className="ml-2 text-xs px-2 py-1 bg-slate-200 rounded">Copy</button>
+        <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
+          <div className="font-semibold text-emerald-800 mb-4">Customer & Account Created</div>
+          <div className="mt-3 text-sm text-secondary">Username: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.username}</span>
+            <button onClick={() => navigator.clipboard.writeText(successData.username)} className="ml-2 text-xs px-2 py-1 bg-secondary text-white rounded">Copy</button>
           </div>
-          <div className="text-sm text-slate-700">Password: <span className="font-mono">{successData.password}</span>
-            <button onClick={() => navigator.clipboard.writeText(successData.password)} className="ml-2 text-xs px-2 py-1 bg-slate-200 rounded">Copy</button>
+          <div className="text-sm text-secondary mt-2">Password: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.password}</span>
+            <button onClick={() => navigator.clipboard.writeText(successData.password)} className="ml-2 text-xs px-2 py-1 bg-secondary text-white rounded">Copy</button>
           </div>
-          <div className="text-sm text-slate-700">Account No: <span className="font-mono">{successData.account_no || successData.acc_no || successData.accId}</span>
-            <button onClick={() => navigator.clipboard.writeText(successData.account_no || successData.acc_no || successData.accId)} className="ml-2 text-xs px-2 py-1 bg-slate-200 rounded">Copy</button>
+          <div className="text-sm text-secondary mt-2">Account No: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.account_no || successData.acc_no || successData.accId}</span>
+            <button onClick={() => navigator.clipboard.writeText(successData.account_no || successData.acc_no || successData.accId)} className="ml-2 text-xs px-2 py-1 bg-secondary text-white rounded">Copy</button>
           </div>
         </div>
       ) : (
         <>
           <div>
-            <label className="block text-sm text-slate-600 mb-1">Full Name</label>
-            <input value={fullName} onChange={e => setFullName(e.target.value)} className={`p-2 border rounded w-full ${fieldErrors.fullName ? 'border-red-500' : ''}`} />
-            {fieldErrors.fullName && <div className="text-sm text-red-600">{fieldErrors.fullName}</div>}
+            <label className="label-text">Full Name</label>
+            <input value={fullName} onChange={e => setFullName(e.target.value)} className={`input-field w-full ${fieldErrors.fullName ? 'border-red-500' : ''}`} />
+            {fieldErrors.fullName && <div className="text-sm text-red-600 mt-1">{fieldErrors.fullName}</div>}
           </div>
 
           <div>
-            <label className="block text-sm text-slate-600 mb-1">NIC</label>
-            <input value={nicVal} onChange={e => setNicVal(e.target.value)} className={`p-2 border rounded w-full ${fieldErrors.nicVal ? 'border-red-500' : ''}`} />
-            {fieldErrors.nicVal && <div className="text-sm text-red-600">{fieldErrors.nicVal}</div>}
+            <label className="label-text">NIC</label>
+            <input value={nicVal} onChange={e => setNicVal(e.target.value)} className={`input-field w-full ${fieldErrors.nicVal ? 'border-red-500' : ''}`} />
+            {fieldErrors.nicVal && <div className="text-sm text-red-600 mt-1">{fieldErrors.nicVal}</div>}
           </div>
 
           <div>
-            <label className="block text-sm text-slate-600 mb-1">Date of Birth</label>
-            <input type="date" value={dob} onChange={e => setDob(e.target.value)} className="p-2 border rounded w-full" />
+            <label className="label-text">Date of Birth</label>
+            <input type="date" value={dob} onChange={e => setDob(e.target.value)} className="input-field w-full" />
           </div>
 
           <div>
-            <label className="block text-sm text-slate-600 mb-1">Phone Number</label>
-            <input value={phone} onChange={e => setPhone(e.target.value)} className="p-2 border rounded w-full" />
+            <label className="label-text">Phone Number</label>
+            <input value={phone} onChange={e => setPhone(e.target.value)} className="input-field w-full" />
           </div>
 
           <div>
-            <label className="block text-sm text-slate-600 mb-1">Address</label>
-            <input value={address} onChange={e => setAddress(e.target.value)} className="p-2 border rounded w-full" />
+            <label className="label-text">Address</label>
+            <input value={address} onChange={e => setAddress(e.target.value)} className="input-field w-full" />
           </div>
 
           <div>

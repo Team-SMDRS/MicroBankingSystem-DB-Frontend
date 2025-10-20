@@ -62,19 +62,19 @@ const TransactionSummary = () => {
   // Show loading state
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-        <div className="flex items-center gap-3 p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-            <TrendingUp className="w-6 h-6 text-blue-600" />
+      <div className="bg-white rounded-2xl shadow-md border border-borderLight overflow-hidden animate-slide-in-right">
+        <div className="flex items-center gap-3 p-6 border-b border-borderLight bg-gradient-to-r from-background to-white">
+          <div className="w-12 h-12 bg-gradient-to-br from-highlight/10 to-highlight/20 rounded-xl flex items-center justify-center">
+            <TrendingUp className="w-6 h-6 text-highlight" />
           </div>
           <div>
-            <h3 className="text-2xl font-bold text-slate-800">Transaction Summary</h3>
-            <p className="text-sm text-slate-500">Recent transaction history (Last 30 Days)</p>
+            <h3 className="section-header text-primary">Transaction Summary</h3>
+            <p className="text-sm text-secondary">Recent transaction history (Last 30 Days)</p>
           </div>
         </div>
         <div className="flex items-center justify-center p-12">
-          <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-          <span className="ml-3 text-slate-600">Loading transactions...</span>
+          <Loader2 className="w-8 h-8 animate-spin text-secondary" />
+          <span className="ml-3 text-secondary font-medium">Loading transactions...</span>
         </div>
       </div>
     );
@@ -83,17 +83,17 @@ const TransactionSummary = () => {
   // Show error state
   if (error) {
     return (
-      <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-        <div className="flex items-center gap-3 p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-            <TrendingUp className="w-6 h-6 text-blue-600" />
+      <div className="bg-white rounded-2xl shadow-md border border-borderLight overflow-hidden animate-slide-in-right">
+        <div className="flex items-center gap-3 p-6 border-b border-borderLight bg-gradient-to-r from-background to-white">
+          <div className="w-12 h-12 bg-gradient-to-br from-highlight/10 to-highlight/20 rounded-xl flex items-center justify-center">
+            <TrendingUp className="w-6 h-6 text-highlight" />
           </div>
           <div>
-            <h3 className="text-2xl font-bold text-slate-800">Transaction Summary</h3>
-            <p className="text-sm text-slate-500">Recent transaction history (Last 30 Days)</p>
+            <h3 className="section-header text-primary">Transaction Summary</h3>
+            <p className="text-sm text-secondary">Recent transaction history (Last 30 Days)</p>
           </div>
         </div>
-        <div className="flex items-center justify-center p-12 text-red-600">
+        <div className="flex items-center justify-center p-12 text-red-600 font-medium">
           <AlertCircle className="w-8 h-8" />
           <span className="ml-3">{error}</span>
         </div>
@@ -102,57 +102,61 @@ const TransactionSummary = () => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
-      <div className="flex items-center gap-3 p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white">
-        <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-          <TrendingUp className="w-6 h-6 text-blue-600" />
+    <div className="bg-white rounded-2xl shadow-md border border-borderLight overflow-hidden animate-slide-in-right">
+      <div className="flex items-center gap-3 p-6 border-b border-borderLight bg-gradient-to-r from-background to-white">
+        <div className="w-12 h-12 bg-gradient-to-br from-highlight/10 to-highlight/20 rounded-xl flex items-center justify-center">
+          <TrendingUp className="w-6 h-6 text-highlight" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-slate-800">Transaction Summary</h3>
-          <p className="text-sm text-slate-500">Recent transaction history (Last 30 Days)</p>
+          <h3 className="section-header text-primary">Transaction Summary</h3>
+          <p className="text-sm text-secondary">Recent transaction history (Last 30 Days)</p>
         </div>
       </div>
 
       <div className="overflow-x-auto">
         {transactionData.length === 0 ? (
-          <div className="flex items-center justify-center p-12 text-slate-500">
+          <div className="flex items-center justify-center p-12 text-secondary font-medium">
             <p>No transactions found in the last 30 days</p>
           </div>
         ) : (
           <table className="w-full">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Date</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Type</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">From Account</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">To Account</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Amount</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Description</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-700">Created by</th>
+              <tr className="bg-background border-b border-borderLight">
+                <th className="px-6 py-4 text-left text-sm font-bold text-primary uppercase">Date</th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-primary uppercase">Type</th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-primary uppercase">From Account</th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-primary uppercase">To Account</th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-primary uppercase">Amount</th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-primary uppercase">Description</th>
+                <th className="px-6 py-4 text-left text-sm font-bold text-primary uppercase">Created by</th>
               </tr>
             </thead>
             <tbody>
               {transactionData.map((transaction) => (
-                <tr key={transaction.transaction_id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                  <td className="px-6 py-4 text-sm text-slate-600">{formatDate(transaction.created_at)}</td>
+                <tr key={transaction.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
+                  <td className="px-6 py-4 text-sm text-secondary font-medium">{formatDate(transaction.created_at)}</td>
                   <td className="px-6 py-4 text-sm">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTransactionTypeColor(transaction.type)}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${getTransactionTypeColor(transaction.type)}`}>
                       {formatTransactionType(transaction.type)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-600">
+                  <td className="px-6 py-4 text-sm text-secondary">
                     {transaction.type === 'Deposit' || transaction.type === 'BankTransfer-In' ? '-' : transaction.account_no}
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-600">
+                  <td className="px-6 py-4 text-sm text-secondary">
                     {transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out' ? '-' : transaction.account_no}
                   </td>
-                  <td className="px-6 py-4 text-sm font-semibold text-blue-600">
+                  <td className={`px-6 py-4 text-sm font-bold ${
+                    transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out' 
+                      ? 'text-red-700' 
+                      : 'text-emerald-700'
+                  }`}>
                     {formatCurrency(transaction.amount)}
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-600">
+                  <td className="px-6 py-4 text-sm text-secondary">
                     {transaction.description || transaction.reference_no || '-'}
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-600">
+                  <td className="px-6 py-4 text-sm text-secondary">
                     {transaction.username || transaction.created_by || 'N/A'}
                   </td>
                 </tr>

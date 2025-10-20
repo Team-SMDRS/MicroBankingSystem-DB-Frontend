@@ -5,15 +5,15 @@ import CreateAccountForExisting from './CreateAccountForExisting';
 import RegisterAndCreate from './RegisterAndCreate';
 
 const CustomerSummary = ({ customer }: { customer: any }) => (
-  <div className="p-3 border rounded bg-slate-50">
+  <div className="p-4 border border-borderLight rounded-2xl bg-background">
     <div className="flex items-start justify-between">
       <div>
-        <div className="font-semibold">{customer.name}</div>
-        <div className="text-sm text-slate-600">NIC: {customer.nic}</div>
-        <div className="text-sm text-slate-600">Customer ID: {customer.customerId}</div>
+        <div className="font-semibold text-primary">{customer.name}</div>
+        <div className="text-sm text-secondary">NIC: {customer.nic}</div>
+        <div className="text-sm text-tertiary">Customer ID: {customer.customerId}</div>
       </div>
       <div className="ml-4 flex-shrink-0">
-        <CheckCircle className="text-green-500" aria-label="Customer found" size={20} />
+        <CheckCircle className="text-emerald-500" aria-label="Customer found" size={20} />
       </div>
     </div>
   </div>
@@ -69,30 +69,31 @@ const SavingsLookupForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h4 className="text-lg font-medium mb-3">Savings Account - Lookup Customer</h4>
+    <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
+      <h4 className="text-2xl font-bold text-primary mb-2">Savings Account - Lookup Customer</h4>
+      <p className="text-sm text-secondary mb-6">Search for a customer to create a savings account</p>
       <div className="flex gap-3">
-        <input value={nic} onChange={e => setNic(e.target.value)} placeholder="Enter NIC" className={`p-2 border rounded w-full ${nicError ? 'border-red-500' : ''}`} />
-        <button type="button" onClick={lookup} disabled={loading} className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-60">Find</button>
+        <input value={nic} onChange={e => setNic(e.target.value)} placeholder="Enter NIC" className={`input-field w-full ${nicError ? 'border-red-500' : ''}`} />
+        <button type="button" onClick={lookup} disabled={loading} className="button-primary px-4 py-2">Find</button>
       </div>
-      {nicError && <div className="text-sm text-red-600 mt-1">{nicError}</div>}
-      <div className="mt-3">
-        {loading && <div className="text-slate-500">Searching...</div>}
+      {nicError && <div className="text-sm text-red-600 mt-2">{nicError}</div>}
+      <div className="mt-4">
+        {loading && <div className="text-tertiary">Searching...</div>}
         {found && <CustomerSummary customer={found} />}
-        {notFound && <div className="text-red-600">{notFound}</div>}
+        {notFound && <div className="text-red-600 p-4 bg-red-50 border border-red-200 rounded-2xl">{notFound}</div>}
       </div>
       {/* Create account form shown when customer is found */}
       {found && (
-        <div className="mt-4 border-t pt-4">
-          <h5 className="font-semibold mb-3">Create Savings Account for {found.name}</h5>
+        <div className="mt-6 border-t border-borderLight pt-6">
+          <h5 className="font-semibold text-lg text-primary mb-4">Create Savings Account for {found.name}</h5>
           <CreateAccountForExisting customer={found} plans={plans} plansLoading={plansLoading} plansError={plansError} />
         </div>
       )}
 
       {/* If not found, show registration + create form */}
       {notFound && (
-        <div className="mt-4 border-t pt-4">
-          <h5 className="font-semibold mb-3">Register Customer and Create Savings Account</h5>
+        <div className="mt-6 border-t border-borderLight pt-6">
+          <h5 className="font-semibold text-lg text-primary mb-4">Register Customer and Create Savings Account</h5>
           <RegisterAndCreate defaultNic={nic} plans={plans} plansLoading={plansLoading} plansError={plansError} />
         </div>
       )}

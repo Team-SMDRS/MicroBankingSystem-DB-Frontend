@@ -55,10 +55,10 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
   return (
     <div className="p-4">
       <div className="mb-4 flex justify-between items-center">
-        <h2 className="text-lg font-semibold text-gray-700">User Profile</h2>
+        <h2 className="text-lg font-semibold text-primary">User Profile</h2>
         <button 
           onClick={onClose}
-          className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100 flex items-center"
+          className="text-tertiary hover:text-secondary p-1 rounded-full hover:bg-background flex items-center transition-colors"
           title="Back to list"
         >
           <ArrowLeft size={20} />
@@ -69,16 +69,16 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column - User profile card */}
         <div className="col-span-1">
-          <div className="bg-white shadow rounded-lg p-6">
+          <div className="bg-white rounded-2xl shadow-md border border-borderLight p-6">
             <div className="text-center">
-              <div className="h-24 w-24 rounded-full bg-blue-100 mx-auto mb-4 flex items-center justify-center">
-                <span className="text-blue-600 text-2xl font-bold">
+              <div className="h-24 w-24 rounded-full bg-tertiary mx-auto mb-4 flex items-center justify-center">
+                <span className="text-primary text-2xl font-bold">
                   {user.first_name[0]}{user.last_name[0]}
                 </span>
               </div>
-              <h3 className="text-xl font-medium text-gray-900">{user.first_name} {user.last_name}</h3>
-              <p className="text-gray-500 text-sm">@{user.username}</p>
-              <p className="text-gray-500 text-sm mt-1">
+              <h3 className="text-xl font-semibold text-primary">{user.first_name} {user.last_name}</h3>
+              <p className="text-secondary text-sm">@{user.username}</p>
+              <p className="text-secondary text-sm mt-1">
                 User since {user.created_at ? new Date(user.created_at).toLocaleDateString() : '-'}
               </p>
             </div>
@@ -86,22 +86,22 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
             <div className="mt-6">
               {/* User Status */}
               <div className="mb-4 text-center">
-                <p className="text-sm text-gray-500 mb-1">Status</p>
+                <p className="text-sm text-secondary mb-1">Status</p>
                 {isLoadingStatus ? (
                   <div className="flex justify-center">
-                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-500">
+                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-background text-secondary">
                       Loading...
                     </span>
                   </div>
                 ) : userStatus?.is_active ? (
                   <div className="flex justify-center">
-                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-emerald-50 text-emerald-700">
                       Active
                     </span>
                   </div>
                 ) : (
                   <div className="flex justify-center">
-                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-red-100 text-red-800">
+                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-red-50 text-red-700">
                       Inactive
                     </span>
                   </div>
@@ -113,20 +113,20 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                   user.roles.map((role) => (
                     <span
                       key={role.role_id}
-                      className="px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800"
+                      className="px-3 py-1 text-sm font-medium rounded-full bg-tertiary text-primary"
                     >
                       {role.role_name}
                     </span>
                   ))
                 ) : (
-                  <span className="text-gray-500">No roles assigned</span>
+                  <span className="text-secondary">No roles assigned</span>
                 )}
               </div>
               
               <div className="space-y-2 mt-6">
                 <button
                   onClick={() => onUpdate(user)}
-                  className="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                  className="w-full bg-secondary text-white hover:bg-primary py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors font-medium"
                 >
                   <Pencil size={16} />
                   <span>Update User Details</span>
@@ -134,7 +134,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                 
                 <button
                   onClick={() => onManageRoles(user)}
-                  className="w-full bg-purple-50 hover:bg-purple-100 text-purple-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                  className="w-full bg-secondary text-white hover:bg-primary py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors font-medium"
                 >
                   <span>Manage User Roles</span>
                 </button>
@@ -142,7 +142,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                 {!isLoadingStatus && userStatus?.is_active && (
                   <button
                     onClick={() => onToggleStatus(user.user_id)}
-                    className="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                    className="w-full bg-red-50 hover:bg-red-100 text-red-700 py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors font-medium"
                     disabled={isLoadingStatus}
                   >
                     <XCircle size={16} />
@@ -153,7 +153,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                 {!isLoadingStatus && userStatus && !userStatus.is_active && (
                   <button
                     onClick={() => onToggleStatus(user.user_id)}
-                    className="w-full bg-green-50 hover:bg-green-100 text-green-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                    className="w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-700 py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors font-medium"
                     disabled={isLoadingStatus}
                   >
                     <CheckCircle size={16} />
@@ -163,7 +163,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                 
                 <button
                   onClick={onResetPassword}
-                  className="w-full bg-yellow-50 hover:bg-yellow-100 text-yellow-600 py-2 px-4 rounded-md flex items-center justify-center gap-2 transition-colors"
+                  className="w-full bg-highlight hover:bg-highlightHover text-white py-2 px-4 rounded-xl flex items-center justify-center gap-2 transition-colors font-medium"
                 >
                   <Key size={16} />
                   <span>Reset Password</span>
@@ -175,56 +175,56 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
         
         {/* Right column - User details */}
         <div className="col-span-1 lg:col-span-2">
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">Personal Information</h3>
-              <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and user information.</p>
+          <div className="bg-white rounded-2xl shadow-md border border-borderLight overflow-hidden">
+            <div className="px-4 py-5 sm:px-6 bg-background border-b border-borderLight">
+              <h3 className="text-lg leading-6 font-semibold text-primary">Personal Information</h3>
+              <p className="mt-1 max-w-2xl text-sm text-secondary">Personal details and user information.</p>
             </div>
-            <div className="border-t border-gray-200">
+            <div className="border-t border-borderLight">
               <dl>
-                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
-                  <dt className="text-sm font-medium text-gray-500">Full name</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.first_name} {user.last_name}</dd>
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
+                  <dt className="text-sm font-medium text-secondary">Full name</dt>
+                  <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.first_name} {user.last_name}</dd>
                 </div>
-                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
-                  <dt className="text-sm font-medium text-gray-500">Username</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.username}</dd>
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
+                  <dt className="text-sm font-medium text-secondary">Username</dt>
+                  <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.username}</dd>
                 </div>
-                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
-                  <dt className="text-sm font-medium text-gray-500">NIC</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.nic || '-'}</dd>
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
+                  <dt className="text-sm font-medium text-secondary">NIC</dt>
+                  <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.nic || '-'}</dd>
                 </div>
-                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
-                  <dt className="text-sm font-medium text-gray-500">Email address</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.email || '-'}</dd>
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
+                  <dt className="text-sm font-medium text-secondary">Email address</dt>
+                  <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.email || '-'}</dd>
                 </div>
-                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
-                  <dt className="text-sm font-medium text-gray-500">Phone number</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.phone_number || '-'}</dd>
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
+                  <dt className="text-sm font-medium text-secondary">Phone number</dt>
+                  <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.phone_number || '-'}</dd>
                 </div>
-                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
-                  <dt className="text-sm font-medium text-gray-500">Address</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.address || '-'}</dd>
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
+                  <dt className="text-sm font-medium text-secondary">Address</dt>
+                  <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.address || '-'}</dd>
                 </div>
-                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
-                  <dt className="text-sm font-medium text-gray-500">Date of birth</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
+                  <dt className="text-sm font-medium text-secondary">Date of birth</dt>
+                  <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">
                     {user.dob ? new Date(user.dob).toLocaleDateString() : '-'}
                   </dd>
                 </div>
-                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-gray-100">
-                  <dt className="text-sm font-medium text-gray-500">Branch</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 flex justify-between items-center">
+                <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
+                  <dt className="text-sm font-medium text-secondary">Branch</dt>
+                  <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 flex justify-between items-center font-medium">
                     <span>
                       {isLoadingBranch ? (
-                        <span className="text-gray-500">Loading...</span>
+                        <span className="text-secondary">Loading...</span>
                       ) : (
                         branchName || '-'
                       )}
                     </span>
                     <button
                       onClick={() => setShowAssignBranchModal(true)}
-                      className="text-sm bg-blue-50 hover:bg-blue-100 text-blue-600 py-1 px-2 rounded flex items-center gap-1"
+                      className="text-sm bg-secondary text-white hover:bg-primary py-1 px-2 rounded-lg flex items-center gap-1 transition-colors"
                       title={branchName ? "Update Branch" : "Assign Branch"}
                     >
                       <Building size={14} />

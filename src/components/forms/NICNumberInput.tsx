@@ -14,8 +14,8 @@ const NICNumberInput = ({
   isLoading,
 }: NICNumberInputProps) => {
   return (
-    <div>
-      <label htmlFor="nicNumber" className="block text-sm font-semibold text-slate-700 mb-2">
+    <div className="animate-slide-in-right">
+      <label htmlFor="nicNumber" className="label-text">
         NIC Number
       </label>
     <div className="flex gap-3">
@@ -26,15 +26,15 @@ const NICNumberInput = ({
         onChange={(e) => onNICNumberChange(e.target.value)}
         required
         placeholder="Enter NIC number"
-        className="flex-1 px-4 py-3 rounded-xl border border-slate-300 focus:border-gray-800 focus:ring-2 focus:ring-gray-200 transition-all outline-none"
+        className="flex-1 input-field"
       />
       <button
         type="button"
         onClick={onFetchDetails}
         disabled={isLoading || !nicNumber.trim()}
-        className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+        className="px-6 py-3 button-secondary disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center gap-2 whitespace-nowrap"
       >
-        <Search className="w-4 h-4" />
+        <Search className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
         {isLoading ? 'Loading...' : 'Fetch Details'}
       </button>
     </div>

@@ -31,17 +31,17 @@ const CloseAccountAction: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
       {!result ? (
         <>
           <div className="flex items-end gap-3 mb-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium mb-1">Account Number</label>
+              <label className="label-text">Account Number</label>
               <input
                 type="number"
                 value={accountNo}
                 onChange={e => setAccountNo(e.target.value)}
-                className="w-full p-2 border rounded-md"
+                className="input-field w-full"
                 placeholder="Enter account number"
                 disabled={loading || confirming}
               />
@@ -49,7 +49,7 @@ const CloseAccountAction: React.FC = () => {
             {!confirming && (
               <button
                 onClick={() => setConfirming(true)}
-                className="px-4 py-2 bg-red-600 text-white rounded-md h-[42px]"
+                className="button-primary px-4 py-2 h-[42px]"
                 disabled={!accountNo || loading}
               >
                 Close Account
@@ -61,14 +61,14 @@ const CloseAccountAction: React.FC = () => {
               <span className="text-sm text-red-700">Are you sure?</span>
               <button
                 onClick={handleCloseAccount}
-                className="px-3 py-1 bg-red-700 text-white rounded-md"
+                className="button-primary px-3 py-1"
                 disabled={loading}
               >
                 Confirm
               </button>
               <button
                 onClick={() => setConfirming(false)}
-                className="px-3 py-1 border rounded-md"
+                className="button-secondary px-3 py-1"
                 disabled={loading}
               >
                 Cancel
@@ -78,14 +78,14 @@ const CloseAccountAction: React.FC = () => {
           {error && <div className="mt-3 text-red-600 text-sm">{error}</div>}
         </>
       ) : (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h4 className="text-lg font-bold text-blue-700 mb-2">{result.msg}</h4>
-          <div className="mb-1"><span className="font-semibold">Account Number:</span> <span className="font-mono">{result.account_no}</span></div>
-          <div className="mb-1"><span className="font-semibold">Previous Balance:</span> Rs. {result.previous_balance}</div>
-          <div className="mb-1"><span className="font-semibold">Savings Plan:</span> {result.savings_plan_name}</div>
-          <div className="mb-1"><span className="font-semibold">Status:</span> <span className="capitalize">{result.status}</span></div>
-          <div className="mb-1"><span className="font-semibold">Closed At:</span> {new Date(result.updated_at).toLocaleString()}</div>
-          <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md" onClick={() => { setResult(null); setAccountNo(''); }}>Close</button>
+        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
+          <h4 className="text-lg font-bold text-emerald-700 mb-2">{result.msg}</h4>
+          <div className="mb-1"><span className="font-semibold text-primary">Account Number:</span> <span className="font-mono text-secondary">{result.account_no}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Previous Balance:</span> <span className="text-secondary">Rs. {result.previous_balance}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Savings Plan:</span> <span className="text-secondary">{result.savings_plan_name}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Status:</span> <span className="capitalize text-secondary">{result.status}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Closed At:</span> <span className="text-secondary">{new Date(result.updated_at).toLocaleString()}</span></div>
+          <button className="button-primary mt-4 px-4 py-2" onClick={() => { setResult(null); setAccountNo(''); }}>Close</button>
         </div>
       )}
     </div>

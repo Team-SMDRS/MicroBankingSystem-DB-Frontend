@@ -36,29 +36,29 @@ const CreateAccountForExisting: React.FC<{ customer: any; plans: Plan[]; plansLo
   };
 
   return (
-    <div className="mt-3">
+    <div className="mt-3 bg-white rounded-2xl shadow-md border border-borderLight p-6 animate-slide-in-right">
       {successMsg ? (
-        <div className="p-3 bg-green-50 text-green-800 rounded">{successMsg}</div>
+        <div className="p-4 bg-emerald-50 text-emerald-800 rounded-2xl border border-emerald-200">{successMsg}</div>
       ) : (
-        <div className="space-y-3">
-          {errorMsg && <div className="text-red-600">{errorMsg}</div>}
+        <div className="space-y-4">
+          {errorMsg && <div className="text-red-600 p-3 bg-red-50 rounded-2xl border border-red-200">{errorMsg}</div>}
           <div>
-            <label className="block text-sm text-slate-600 mb-1">Initial Balance (LKR)</label>
-            <input type="number" value={balance as any} onChange={e => setBalance(e.target.value === '' ? '' : Number(e.target.value))} className={`p-2 border rounded w-full ${fieldErrors.balance ? 'border-red-500' : ''}`} />
-            {fieldErrors.balance && <div className="text-sm text-red-600">{fieldErrors.balance}</div>}
+            <label className="label-text">Initial Balance (LKR)</label>
+            <input type="number" value={balance as any} onChange={e => setBalance(e.target.value === '' ? '' : Number(e.target.value))} className={`input-field w-full ${fieldErrors.balance ? 'border-red-500' : ''}`} />
+            {fieldErrors.balance && <div className="text-sm text-red-600 mt-1">{fieldErrors.balance}</div>}
           </div>
           <div>
-            <label className="block text-sm text-slate-600 mb-1">Savings Plan</label>
-            <select value={planId} onChange={e => setPlanId(e.target.value)} className="p-2 border rounded w-full">
+            <label className="label-text">Savings Plan</label>
+            <select value={planId} onChange={e => setPlanId(e.target.value)} className="input-field w-full">
               <option value="">{plansLoading ? 'Loading plans...' : 'Select a plan'}</option>
               {plans.map((p: Plan) => <option key={p.id} value={p.id}>{p.name}</option>)}
             </select>
-            {fieldErrors.planId && <div className="text-sm text-red-600">{fieldErrors.planId}</div>}
+            {fieldErrors.planId && <div className="text-sm text-red-600 mt-1">{fieldErrors.planId}</div>}
             {plansError && <div className="text-sm text-red-600 mt-1">{plansError}</div>}
           </div>
 
-          <div className="flex justify-end gap-3">
-            <button type="button" onClick={handleCreate} disabled={loadingCreate || plansLoading} className="px-4 py-2 bg-green-600 text-white rounded disabled:opacity-60">
+          <div className="flex justify-end gap-3 pt-4">
+            <button type="button" onClick={handleCreate} disabled={loadingCreate || plansLoading} className="button-primary px-4 py-2">
               {loadingCreate ? 'Creating...' : 'Create Account'}
             </button>
           </div>

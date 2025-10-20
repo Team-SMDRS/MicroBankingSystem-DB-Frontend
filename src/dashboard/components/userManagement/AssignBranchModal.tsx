@@ -73,12 +73,12 @@ const AssignBranchModal: React.FC<AssignBranchModalProps> = ({ user, onClose, on
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 w-full max-w-md animate-slide-in-right">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Assign Branch</h2>
+          <h2 className="text-xl font-semibold text-primary">Assign Branch</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-tertiary hover:text-secondary transition-colors"
             aria-label="Close"
           >
             <X size={20} />
@@ -86,32 +86,32 @@ const AssignBranchModal: React.FC<AssignBranchModalProps> = ({ user, onClose, on
         </div>
 
         {success ? (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 px-4 py-3 rounded-xl">
             Branch assigned successfully!
           </div>
         ) : (
           <form onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-4">
                 {error}
               </div>
             )}
 
             <div className="mb-4">
-              <p className="text-sm text-gray-600 mb-2">
-                Assigning branch for: <span className="font-medium">{user.first_name} {user.last_name}</span>
+              <p className="text-sm text-secondary mb-2">
+                Assigning branch for: <span className="font-medium text-primary">{user.first_name} {user.last_name}</span>
               </p>
             </div>
 
             <div className="mb-6">
-              <label htmlFor="branch" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="branch" className="label-text">
                 Select Branch
               </label>
               <select
                 id="branch"
                 value={selectedBranchId}
                 onChange={(e) => setSelectedBranchId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="input-field w-full"
                 disabled={isLoading}
               >
                 <option value="">Select a branch</option>
@@ -127,14 +127,14 @@ const AssignBranchModal: React.FC<AssignBranchModalProps> = ({ user, onClose, on
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className="button-secondary"
                 disabled={isLoading}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="button-primary"
                 disabled={isLoading}
               >
                 {isLoading ? 'Assigning...' : 'Assign Branch'}

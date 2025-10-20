@@ -60,18 +60,18 @@ const CreateFixedDepositForm = ({ onSuccess, onError }: CreateFixedDepositFormPr
 
   if (fetchingPlans) {
     return (
-      <div className="bg-slate-50 rounded-lg p-6 text-center">
-        <div className="text-slate-600">Loading FD plans...</div>
+      <div className="bg-background rounded-2xl p-6 text-center border border-borderLight">
+        <div className="text-tertiary">Loading FD plans...</div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-5">
           <div>
-            <label htmlFor="savingsAccountNo" className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="savingsAccountNo" className="label-text">
               Savings Account Number
             </label>
             <input
@@ -79,21 +79,21 @@ const CreateFixedDepositForm = ({ onSuccess, onError }: CreateFixedDepositFormPr
               id="savingsAccountNo"
               value={savingsAccountNo}
               onChange={(e) => setSavingsAccountNo(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+              className="input-field w-full"
               required
               placeholder="Enter savings account number"
             />
           </div>
 
           <div>
-            <label htmlFor="plan" className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="plan" className="label-text">
               Select FD Plan
             </label>
             <select
               id="plan"
               value={selectedPlanId}
               onChange={(e) => setSelectedPlanId(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+              className="input-field w-full"
               required
             >
               <option value="">-- Select a plan --</option>
@@ -106,7 +106,7 @@ const CreateFixedDepositForm = ({ onSuccess, onError }: CreateFixedDepositFormPr
           </div>
 
           <div>
-            <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="amount" className="label-text">
               Deposit Amount (Rs.)
             </label>
             <input
@@ -114,35 +114,35 @@ const CreateFixedDepositForm = ({ onSuccess, onError }: CreateFixedDepositFormPr
               id="amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+              className="input-field w-full"
               required
               min="1000"
               placeholder="Enter amount"
             />
-            <p className="mt-1 text-xs text-slate-500">Minimum: Rs. 1,000</p>
+            <p className="mt-1 text-xs text-tertiary">Minimum: Rs. 1,000</p>
           </div>
         </div>
 
         {selectedPlan && (
-          <div className="p-6 bg-blue-50 border border-blue-200 rounded-lg space-y-4">
-            <h4 className="font-semibold text-slate-800 text-lg">Plan Details</h4>
+          <div className="p-6 bg-background border border-borderLight rounded-2xl space-y-4">
+            <h4 className="font-semibold text-primary text-lg">Plan Details</h4>
             <div className="space-y-4">
-              <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                <div className="text-slate-600">Duration:</div>
-                <div className="font-semibold text-slate-800 text-lg">{selectedPlan.duration} months</div>
+              <div className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border border-borderLight">
+                <div className="text-secondary">Duration:</div>
+                <div className="font-semibold text-primary text-lg">{selectedPlan.duration} months</div>
               </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                <div className="text-slate-600">Interest Rate:</div>
-                <div className="font-semibold text-slate-800 text-lg">{selectedPlan.interest_rate}% p.a.</div>
+              <div className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border border-borderLight">
+                <div className="text-secondary">Interest Rate:</div>
+                <div className="font-semibold text-primary text-lg">{selectedPlan.interest_rate}% p.a.</div>
               </div>
-              <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                <div className="text-slate-600">Deposit Amount:</div>
-                <div className="font-semibold text-slate-800 text-lg">{amount ? `Rs. ${Number(amount).toFixed(2)}` : '-'}</div>
+              <div className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border border-borderLight">
+                <div className="text-secondary">Deposit Amount:</div>
+                <div className="font-semibold text-primary text-lg">{amount ? `Rs. ${Number(amount).toFixed(2)}` : '-'}</div>
               </div>
               {amount && (
-                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
-                  <div className="text-slate-600">Maturity Amount:</div>
-                  <div className="font-semibold text-blue-700 text-lg">Rs. {maturityAmount.toFixed(2)}</div>
+                <div className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border border-borderLight">
+                  <div className="text-secondary">Maturity Amount:</div>
+                  <div className="font-semibold text-emerald-700 text-lg">Rs. {maturityAmount.toFixed(2)}</div>
                 </div>
               )}
             </div>
@@ -153,7 +153,7 @@ const CreateFixedDepositForm = ({ onSuccess, onError }: CreateFixedDepositFormPr
           <button
             type="submit"
             disabled={loading || !savingsAccountNo || !amount || !selectedPlanId}
-            className="w-full py-3 rounded-lg font-medium text-white text-lg bg-blue-600 hover:bg-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
+            className="button-primary w-full py-3"
           >
             {loading ? 'Creating Fixed Deposit...' : 'Create Fixed Deposit'}
           </button>
