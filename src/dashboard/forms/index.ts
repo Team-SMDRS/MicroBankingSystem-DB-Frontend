@@ -3,6 +3,7 @@ export { default as CloseAccountAction } from './CloseAccountAction';
 export { default as CreateAccountForExisting } from './CreateAccountForExisting';
 
 export { CreateFixedDepositForm } from './CreateFixedDepositForm';
+export { CloseFDForm } from './CloseFDForm';
 
 export { default as CreateUserForm } from './CreateUserForm';
 

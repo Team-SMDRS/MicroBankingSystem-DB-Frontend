@@ -57,3 +57,15 @@ export const createFDPlan = async (data: CreateFDPlanRequest): Promise<{ message
   const response = await api.post(`/api/fd/fd-plans?duration_months=${data.duration_months}&interest_rate=${data.interest_rate}`);
   return response.data;
 };
+
+export interface CloseFDResponse {
+  message: string;
+  fd_account_no: string;
+  status: string;
+  withdrawn_amount: string;
+}
+
+export const closeFixedDeposit = async (fdAccountNo: string): Promise<CloseFDResponse> => {
+  const response = await api.post(`/api/fd/close-fixed-deposit/${fdAccountNo}`);
+  return response.data;
+};

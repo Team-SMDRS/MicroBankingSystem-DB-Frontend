@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import SectionHeader from '../../components/layout/SectionHeader';
-import { CreateFixedDepositForm } from '../forms';
+import { CreateFixedDepositForm, CloseFDForm } from '../forms';
 import Alert from '../../components/common/Alert';
 import SubTabGrid from '../../components/layout/SubTabGrid';
 import { PiggyBank, X, AlignJustify } from 'lucide-react';
-import type { FixedDeposit } from '../../api/fd';
+import type { FixedDeposit, CloseFDResponse } from '../../api/fd';
 import { FDPlansView } from '../components';
 
 const FixedDepositSection = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [createdFD, setCreatedFD] = useState<FixedDeposit | null>(null);
+  const [closedFD, setClosedFD] = useState<CloseFDResponse | null>(null);
   const [activeSubTab, setActiveSubTab] = useState('create-fd');
 
   const subTabs = [
     { id: 'create-fd', label: 'Create New FD', icon: PiggyBank },
     { id: 'view-plans', label: 'View FD Plans', icon: AlignJustify },
+    { id: 'close-fd', label: 'Close FD', icon: X },
   ];
 
   const handleTabClick = (tabId: string) => {
@@ -40,6 +42,13 @@ const FixedDepositSection = () => {
   const handleCloseSuccess = () => {
     setSuccess(null);
     setCreatedFD(null);
+    setClosedFD(null);
+  };
+
+  const handleCloseFDSuccess = (response: CloseFDResponse) => {
+    setClosedFD(response);
+    setSuccess('Fixed Deposit closed successfully!');
+    setError(null);
   };
 
   return (
@@ -120,6 +129,43 @@ const FixedDepositSection = () => {
 
       {activeSubTab === 'view-plans' && (
         <FDPlansView onError={setError} />
+      )}
+      
+      {activeSubTab === 'close-fd' && (
+        <div className="w-full">
+          <div className="bg-white rounded-lg shadow-sm p-6 space-y-4">
+            <h3 className="text-lg font-semibold text-slate-800">Close Fixed Deposit Account</h3>
+            <CloseFDForm onSuccess={handleCloseFDSuccess} onError={handleError} />
+          </div>
+
+          {success && closedFD && (
+            <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-lg relative">
+              <button 
+                onClick={handleCloseSuccess}
+                className="absolute top-4 right-4 bg-white rounded-full p-1.5 hover:bg-slate-100 shadow-sm transition-colors border border-slate-200"
+                title="Close"
+                aria-label="Close fixed deposit details"
+              >
+                <X size={20} className="text-slate-600" />
+              </button>
+              <h4 className="font-semibold text-green-800 mb-5">✓ {success}</h4>
+              <div className="space-y-4 max-w-2xl">
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>FD Account No:</strong> 
+                  <span>{closedFD.fd_account_no}</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Status:</strong> 
+                  <span className="font-semibold text-red-600">{closedFD.status.toUpperCase()}</span>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+                  <strong>Withdrawn Amount:</strong> 
+                  <span>Rs. {parseFloat(closedFD.withdrawn_amount).toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       )}
     </div>
   );
