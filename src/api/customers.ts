@@ -14,6 +14,14 @@ export interface CustomerDetails {
   updated_by?: string;
 }
 
+export interface CustomerSearchResult {
+  customer_id: string;
+  full_name: string;
+  nic: string;
+  address: string;
+  phone_number: string;
+}
+
 export interface UpdateCustomerData {
   full_name: string;
   address: string;
@@ -32,5 +40,10 @@ export const fetchCustomerDetailsById = async (customerId: string): Promise<Cust
 
 export const updateCustomer = async (customerId: string, data: UpdateCustomerData): Promise<CustomerDetails> => {
   const response = await api.put(`api/account-management/customer/${customerId}`, data);
+  return response.data;
+};
+
+export const searchCustomersByName = async (name: string): Promise<CustomerSearchResult[]> => {
+  const response = await api.get(`api/customer-branch/customers/search?name=${name}`);
   return response.data;
 };
