@@ -119,7 +119,6 @@ const CreateFixedDepositForm = ({ onSuccess, onError }: CreateFixedDepositFormPr
               min="1000"
               placeholder="Enter amount"
             />
-            <p className="mt-1 text-xs text-tertiary">Minimum: Rs. 1,000</p>
           </div>
         </div>
 
