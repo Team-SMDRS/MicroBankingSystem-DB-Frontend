@@ -3,6 +3,7 @@ import { ArrowLeft, Pencil, XCircle, CheckCircle, Key, Building2 as Building } f
 import type { User, UserStatus } from './types';
 import { authApi } from '../../../api/auth';
 import AssignBranchModal from './AssignBranchModal';
+import UserTransactionsDisplay from './UserTransactionsDisplay';
 
 interface UserProfileViewProps {
   user: User;
@@ -246,6 +247,11 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
           onSuccess={handleAssignBranchSuccess}
         />
       )}
+
+      {/* Transaction History Display */}
+      <div className="mt-6">
+        <UserTransactionsDisplay user={user} />
+      </div>
     </div>
   );
 };
