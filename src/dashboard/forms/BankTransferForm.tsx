@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowLeftRight } from 'lucide-react';
 import api from '../../api/axios';
+import ConfirmationModal from '../../components/common/ConfirmationModal';
 
 interface BankTransferFormProps {
   onSuccess?: () => void;
@@ -15,20 +16,37 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [pendingTransfer, setPendingTransfer] = useState<null | {
+    amount: number;
+    fromAccountNo: string;
+    toAccountNo: string;
+    description: string;
+  }>(null);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
-    setIsSubmitting(true);
+    // set pending transfer to show confirmation modal
+    setPendingTransfer({
+      amount: parseFloat(amount),
+      fromAccountNo,
+      toAccountNo,
+      description,
+    });
+  };
 
+  const confirmTransfer = async () => {
+    if (!pendingTransfer) return;
+    setIsSubmitting(true);
+    setError(null);
     try {
       const response = await api.post('/api/transactions/transfer', {
         transaction_type: 'bank_transfer',
-        amount: parseFloat(amount),
-        from_account_no: fromAccountNo,
-        to_account_no: toAccountNo,
-        description,
+        amount: pendingTransfer.amount,
+        from_account_no: pendingTransfer.fromAccountNo,
+        to_account_no: pendingTransfer.toAccountNo,
+        description: pendingTransfer.description,
         status: 'completed',
       });
 
@@ -38,7 +56,7 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
         setFromAccountNo('');
         setToAccountNo('');
         setDescription('');
-
+        setPendingTransfer(null);
         if (onSuccess) onSuccess();
       }
     } catch (err: any) {
@@ -46,6 +64,10 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const cancelConfirmation = () => {
+    setPendingTransfer(null);
   };
 
   return (
@@ -143,6 +165,21 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
           {isSubmitting ? 'Processing...' : 'Transfer Funds'}
         </button>
       </form>
+      <ConfirmationModal
+        open={!!pendingTransfer}
+        title="Confirm Bank Transfer"
+        details={pendingTransfer ? [
+          { label: 'Amount', value: pendingTransfer.amount.toFixed(2) },
+          { label: 'From Account', value: pendingTransfer.fromAccountNo },
+          { label: 'To Account', value: pendingTransfer.toAccountNo },
+          { label: 'Description', value: pendingTransfer.description },
+        ] : []}
+        onConfirm={confirmTransfer}
+        onCancel={cancelConfirmation}
+        isLoading={isSubmitting}
+        confirmText="Confirm Transfer"
+        cancelText="Edit"
+      />
     </div>
   );
 };

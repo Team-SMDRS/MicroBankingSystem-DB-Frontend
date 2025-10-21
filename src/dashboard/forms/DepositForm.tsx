@@ -9,6 +9,7 @@ import DescriptionInput from '../../components/forms/DescriptionInput';
 import Alert from '../../components/common/Alert';
 import TransactionResultDisplay from '../../components/common/TransactionResultDisplay';
 import SubmitButton from '../../components/common/SubmitButton';
+import ConfirmationModal from '../../components/common/ConfirmationModal';
 
 interface DepositFormProps {
   onSuccess?: () => void;
@@ -18,7 +19,7 @@ const DepositForm = ({ onSuccess }: DepositFormProps) => {
   const [accountNo, setAccountNo] = useState('');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
-  
+
   const {
     accountDetails,
     isLoadingAccount,
@@ -45,23 +46,32 @@ const DepositForm = ({ onSuccess }: DepositFormProps) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (!accountDetails) {
       return;
     }
 
-    const success = await submitDeposit({
+    setPendingDeposit({
       amount: parseFloat(amount),
       description,
-      account_no: parseInt(accountNo),
+      account_no: parseInt(accountNo, 10),
     });
+  };
 
+  const [pendingDeposit, setPendingDeposit] = useState<null | { amount: number; description: string; account_no: number }>(null);
+
+  const confirmDeposit = async () => {
+    if (!pendingDeposit) return;
+    const success = await submitDeposit(pendingDeposit);
     if (success) {
       setAmount('');
       setDescription('');
+      setPendingDeposit(null);
       if (onSuccess) onSuccess();
     }
   };
+
+  const cancelDeposit = () => setPendingDeposit(null);
 
   return (
     <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
@@ -136,6 +146,20 @@ const DepositForm = ({ onSuccess }: DepositFormProps) => {
           Deposit Funds
         </SubmitButton>
       </form>
+      <ConfirmationModal
+        open={!!pendingDeposit}
+        title="Confirm Deposit"
+        details={pendingDeposit ? [
+          { label: 'Account No', value: pendingDeposit.account_no },
+          { label: 'Amount', value: pendingDeposit.amount.toFixed(2) },
+          { label: 'Description', value: pendingDeposit.description },
+        ] : []}
+        onConfirm={confirmDeposit}
+        onCancel={cancelDeposit}
+        isLoading={isSubmitting}
+        confirmText="Confirm Deposit"
+        cancelText="Edit"
+      />
     </div>
   );
 };
