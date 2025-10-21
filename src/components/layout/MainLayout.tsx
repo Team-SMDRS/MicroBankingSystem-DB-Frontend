@@ -13,6 +13,7 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }: MainLayoutProps) => {
   const mainTabs = [
+    { id: 'overview' as MainTab, label: 'Overview', icon: LayoutDashboard },
     { id: 'transactions' as MainTab, label: 'Transactions', icon: ArrowLeftRight },
     { id: 'summary' as MainTab, label: 'Summary', icon: LayoutDashboard },
     { id: 'accounts' as MainTab, label: 'Accounts Details', icon: Wallet },
