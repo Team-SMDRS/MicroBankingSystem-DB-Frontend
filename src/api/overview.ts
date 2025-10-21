@@ -69,6 +69,22 @@ export const overviewApi = {
     const response = await api.get('/api/overview/system');
     return response.data;
   },
+
+  // Get branch comparison data
+  getBranchComparison: async (): Promise<{
+    branches: Array<{
+      branch_id: string;
+      branch_name: string;
+      total_accounts: number;
+      active_accounts: number;
+      total_balance: number;
+      total_transactions: number;
+      total_interest: number;
+    }>;
+  }> => {
+    const response = await api.get('/api/overview/branch-comparison');
+    return response.data;
+  },
 };
 
 export default overviewApi;
