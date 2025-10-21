@@ -83,7 +83,7 @@ const CreateUserForm: React.FC = () => {
   return (
     <div className="bg-white shadow-md rounded-2xl p-8 border border-borderLight animate-slide-in-right">
       <h3 className="text-2xl font-bold text-primary mb-2">Create New User</h3>
-      <p className="text-sm text-secondary mb-6">Add a new user to the system.</p>
+      <p className="text-sm text-textSecondary mb-6">Add a new user to the system.</p>
       
       {error && <Alert type="error">{error}</Alert>}
       {success && <Alert type="success">{success}</Alert>}

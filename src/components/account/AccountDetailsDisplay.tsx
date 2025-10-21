@@ -38,14 +38,14 @@ const AccountDetailsDisplay = ({ accountDetails, accountNumber, onClose }: Accou
       </div>
       <div className="bg-background rounded-2xl p-6 space-y-4">
         <div className="flex flex-col gap-2">
-          <span className="text-secondary text-sm">Account Number - <span className="font-semibold text-primary">{accountNumber ?? '-'}</span></span>
-          <span className="text-secondary text-sm">Branch - <span className="font-semibold text-primary">{accountDetails.branch_name}</span></span>
-          <span className="text-secondary text-sm">Account Type - <span className="font-semibold text-primary">{accountDetails.account_type}</span></span>
-          <span className="text-secondary text-sm">Current Balance - <span className="font-bold text-emerald-600">Rs. {accountDetails.balance.toFixed(2)}</span></span>
-          <span className="text-secondary text-sm">Status - <span className={`inline-block font-semibold text-white capitalize px-3 py-1 rounded-full border-2 ${getStatusColor(accountDetails.status)}`}>{accountDetails.status}</span></span>
+          <span className="text-textSecondary text-sm">Account Number - <span className="font-semibold text-primary">{accountNumber ?? '-'}</span></span>
+          <span className="text-textSecondary text-sm">Branch - <span className="font-semibold text-primary">{accountDetails.branch_name}</span></span>
+          <span className="text-textSecondary text-sm">Account Type - <span className="font-semibold text-primary">{accountDetails.account_type}</span></span>
+          <span className="text-textSecondary text-sm">Current Balance - <span className="font-bold text-emerald-600">Rs. {accountDetails.balance.toFixed(2)}</span></span>
+          <span className="text-textSecondary text-sm">Status - <span className={`inline-block font-semibold text-white capitalize px-3 py-1 rounded-full border-2 ${getStatusColor(accountDetails.status)}`}>{accountDetails.status}</span></span>
         </div>
         <div className="mt-6">
-          <span className="block text-secondary text-sm mb-2">Customer(s)</span>
+          <span className="block text-textSecondary text-sm mb-2">Customer(s)</span>
           {accountDetails.customer_names.split(',').map((name, idx) => (
             <div key={idx} className="mb-4 pl-2 border-l-2 border-borderLight">
               <span className="block text-primary font-semibold">Name - <span className="font-normal">{name.trim()}</span></span>

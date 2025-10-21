@@ -49,21 +49,21 @@ const UpdateBranchForm: React.FC<UpdateBranchFormProps> = ({ branch, onSubmit, i
                 <div className="space-y-3 mb-4 bg-background p-4 rounded-2xl border border-borderLight">
                     <div className="grid grid-cols-2 gap-2">
                         <div className="text-sm font-medium text-primary">Branch Name:</div>
-                        <div className="text-sm font-semibold text-secondary">{updatedBranch.name}</div>
+                        <div className="text-sm font-semibold text-textSecondary">{updatedBranch.name}</div>
 
                         <div className="text-sm font-medium text-primary">Address:</div>
-                        <div className="text-sm text-secondary">{updatedBranch.address}</div>
+                        <div className="text-sm text-textSecondary">{updatedBranch.address}</div>
 
                         <div className="text-sm font-medium text-primary">Branch ID:</div>
                         <div className="text-tertiary font-mono text-xs">{updatedBranch.branch_id}</div>
 
                         <div className="text-sm font-medium text-primary">Created At:</div>
-                        <div className="text-sm text-secondary">
+                        <div className="text-sm text-textSecondary">
                             {new Date(updatedBranch.created_at).toLocaleString()}
                         </div>
 
                         <div className="text-sm font-medium text-primary">Updated At:</div>
-                        <div className="text-sm text-secondary">
+                        <div className="text-sm text-textSecondary">
                             {updatedBranch.updated_at ? new Date(updatedBranch.updated_at).toLocaleString() : 'N/A'}
                         </div>
                     </div>

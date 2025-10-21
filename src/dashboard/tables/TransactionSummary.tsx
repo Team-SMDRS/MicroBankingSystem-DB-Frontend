@@ -69,12 +69,12 @@ const TransactionSummary = () => {
           </div>
           <div>
             <h3 className="section-header text-primary">Transaction Summary</h3>
-            <p className="text-sm text-secondary">Recent transaction history (Last 30 Days)</p>
+            <p className="text-sm text-textSecondary">Recent transaction history (Last 30 Days)</p>
           </div>
         </div>
         <div className="flex items-center justify-center p-12">
-          <Loader2 className="w-8 h-8 animate-spin text-secondary" />
-          <span className="ml-3 text-secondary font-medium">Loading transactions...</span>
+          <Loader2 className="w-8 h-8 animate-spin text-textSecondary" />
+          <span className="ml-3 text-textSecondary font-medium">Loading transactions...</span>
         </div>
       </div>
     );
@@ -90,7 +90,7 @@ const TransactionSummary = () => {
           </div>
           <div>
             <h3 className="section-header text-primary">Transaction Summary</h3>
-            <p className="text-sm text-secondary">Recent transaction history (Last 30 Days)</p>
+            <p className="text-sm text-textSecondary">Recent transaction history (Last 30 Days)</p>
           </div>
         </div>
         <div className="flex items-center justify-center p-12 text-red-600 font-medium">
@@ -109,13 +109,13 @@ const TransactionSummary = () => {
         </div>
         <div>
           <h3 className="section-header text-primary">Transaction Summary</h3>
-          <p className="text-sm text-secondary">Recent transaction history (Last 30 Days)</p>
+          <p className="text-sm text-textSecondary">Recent transaction history (Last 30 Days)</p>
         </div>
       </div>
 
       <div className="overflow-x-auto">
         {transactionData.length === 0 ? (
-          <div className="flex items-center justify-center p-12 text-secondary font-medium">
+          <div className="flex items-center justify-center p-12 text-textSecondary font-medium">
             <p>No transactions found in the last 30 days</p>
           </div>
         ) : (
@@ -134,16 +134,16 @@ const TransactionSummary = () => {
             <tbody>
               {transactionData.map((transaction) => (
                 <tr key={transaction.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
-                  <td className="px-6 py-4 text-sm text-secondary font-medium">{formatDate(transaction.created_at)}</td>
+                  <td className="px-6 py-4 text-sm text-textSecondary font-medium">{formatDate(transaction.created_at)}</td>
                   <td className="px-6 py-4 text-sm">
                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${getTransactionTypeColor(transaction.type)}`}>
                       {formatTransactionType(transaction.type)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-secondary">
+                  <td className="px-6 py-4 text-sm text-textSecondary">
                     {transaction.type === 'Deposit' || transaction.type === 'BankTransfer-In' ? '-' : transaction.account_no}
                   </td>
-                  <td className="px-6 py-4 text-sm text-secondary">
+                  <td className="px-6 py-4 text-sm text-textSecondary">
                     {transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out' ? '-' : transaction.account_no}
                   </td>
                   <td className={`px-6 py-4 text-sm font-bold ${
@@ -153,10 +153,10 @@ const TransactionSummary = () => {
                   }`}>
                     {formatCurrency(transaction.amount)}
                   </td>
-                  <td className="px-6 py-4 text-sm text-secondary">
+                  <td className="px-6 py-4 text-sm text-textSecondary">
                     {transaction.description || transaction.reference_no || '-'}
                   </td>
-                  <td className="px-6 py-4 text-sm text-secondary">
+                  <td className="px-6 py-4 text-sm text-textSecondary">
                     {transaction.username || transaction.created_by || 'N/A'}
                   </td>
                 </tr>

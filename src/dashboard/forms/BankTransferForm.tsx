@@ -52,11 +52,11 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
     <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
       <div className="flex items-center gap-3 mb-6 pb-6 border-b border-borderLight">
         <div className="w-12 h-12 bg-gradient-to-br from-secondary/10 to-secondary/20 rounded-xl flex items-center justify-center">
-          <ArrowLeftRight className="w-6 h-6 text-secondary" />
+          <ArrowLeftRight className="w-6 h-6 text-textSecondary" />
         </div>
         <div>
           <h3 className="text-2xl font-bold text-primary">Bank Transfer</h3>
-          <p className="text-sm text-secondary">Transfer funds between accounts</p>
+          <p className="text-sm text-textSecondary">Transfer funds between accounts</p>
         </div>
       </div>
 

@@ -118,7 +118,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
   return (
     <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
       <h3 className="text-xl font-bold text-primary mb-2">Create New Savings Plan</h3>
-      <p className="text-sm text-secondary mb-6">Add a new savings plan to the system</p>
+      <p className="text-sm text-textSecondary mb-6">Add a new savings plan to the system</p>
       
       {error && (
         <Alert type="error" className="mb-4">

@@ -71,7 +71,7 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
         </div>
         <div>
           <h3 className="text-2xl font-bold text-primary">Withdrawal</h3>
-          <p className="text-sm text-secondary">Withdraw funds from an account</p>
+          <p className="text-sm text-textSecondary">Withdraw funds from an account</p>
         </div>
       </div>
 

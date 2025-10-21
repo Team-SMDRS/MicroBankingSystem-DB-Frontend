@@ -48,7 +48,7 @@ const SavingsPlanList = forwardRef<SavingsPlanListRef, SavingsPlanListProps>(
     return (
       <div className="flex justify-center items-center py-8">
         <Loader className="animate-spin h-8 w-8 text-highlight" />
-        <span className="ml-2 text-secondary">Loading savings plans...</span>
+        <span className="ml-2 text-textSecondary">Loading savings plans...</span>
       </div>
     );
   }
@@ -94,10 +94,10 @@ const SavingsPlanList = forwardRef<SavingsPlanListRef, SavingsPlanListProps>(
         <table className="min-w-full border-collapse">
           <thead>
             <tr className="bg-background">
-              <th className="py-3 px-4 text-left font-semibold text-secondary border-b border-borderLight">Plan Name</th>
-              <th className="py-3 px-4 text-left font-semibold text-secondary border-b border-borderLight">Interest Rate (%)</th>
-              <th className="py-3 px-4 text-left font-semibold text-secondary border-b border-borderLight">Minimum Balance</th>
-              <th className="py-3 px-4 text-center font-semibold text-secondary border-b border-borderLight">Actions</th>
+              <th className="py-3 px-4 text-left font-semibold text-textSecondary border-b border-borderLight">Plan Name</th>
+              <th className="py-3 px-4 text-left font-semibold text-textSecondary border-b border-borderLight">Interest Rate (%)</th>
+              <th className="py-3 px-4 text-left font-semibold text-textSecondary border-b border-borderLight">Minimum Balance</th>
+              <th className="py-3 px-4 text-center font-semibold text-textSecondary border-b border-borderLight">Actions</th>
             </tr>
           </thead>
           <tbody>

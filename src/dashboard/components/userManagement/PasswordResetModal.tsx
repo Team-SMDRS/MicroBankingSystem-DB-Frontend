@@ -33,7 +33,7 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ username, onClo
           <h3 className="text-lg font-semibold text-primary">Reset Password</h3>
           <button
             onClick={onClose}
-            className="text-tertiary hover:text-secondary transition-colors"
+            className="text-tertiary hover:text-textSecondary transition-colors"
           >
             <X size={20} />
           </button>
@@ -45,14 +45,14 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ username, onClo
               <CheckCircle className="h-6 w-6 text-emerald-600" />
             </div>
             <h3 className="text-lg font-semibold text-primary">Password Reset Successful</h3>
-            <p className="mt-2 text-sm text-secondary">
+            <p className="mt-2 text-sm text-textSecondary">
               The password for {username} has been reset successfully.
             </p>
           </div>
         ) : (
           <>
             <div className="mb-4">
-              <p className="text-sm text-secondary mb-4">
+              <p className="text-sm text-textSecondary mb-4">
                 Enter a new password for user <span className="font-medium text-primary">{username}</span>
               </p>
               <div className="mb-4">

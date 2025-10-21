@@ -60,7 +60,7 @@ const Login = () => {
               <img src={logo} alt="MicroBank Logo" className="h-20 w-20 object-contain" />
             </div>
             <h1 className="text-4xl font-bold text-primary text-center mb-2">MicroBank</h1>
-            <p className="text-secondary text-center text-sm font-medium mb-1">Professional Banking Solution</p>
+            <p className="text-textSecondary text-center text-sm font-medium mb-1">Professional Banking Solution</p>
             <p className="text-highlight font-semibold text-xs tracking-wider text-center">Smart Banking, Built on Trust.</p>
           </div>
 
@@ -142,7 +142,7 @@ const Login = () => {
           <div className="mt-6 pt-6 border-t border-borderLight">
             <div className="flex items-center justify-center gap-2 mb-3">
               <span className="text-lg">🔒</span>
-              <p className="text-center text-xs text-secondary font-medium">
+              <p className="text-center text-xs text-textSecondary font-medium">
                 Secure Banking Portal
               </p>
             </div>
@@ -153,7 +153,7 @@ const Login = () => {
 
           {/* Footer Info */}
           <div className="mt-4 pt-4 border-t border-borderLight">
-            <p className="text-center text-xs text-secondary">
+            <p className="text-center text-xs text-textSecondary">
               Powered by <span className="font-semibold text-primary">Team SMDRS</span>
             </p>
             <p className="text-center text-xs text-tertiary mt-1">

@@ -241,7 +241,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
     if (loading) {
       return (
         <div className="flex items-center justify-center h-64">
-          <Loader className="w-8 h-8 animate-spin text-secondary" />
+          <Loader className="w-8 h-8 animate-spin text-textSecondary" />
         </div>
       );
     }
@@ -332,7 +332,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   <tbody>
                     {transactions.map((txn) => (
                       <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
-                        <td className="px-6 py-3 text-sm text-secondary font-medium">{new Date(txn.created_at).toLocaleDateString()}</td>
+                        <td className="px-6 py-3 text-sm text-textSecondary font-medium">{new Date(txn.created_at).toLocaleDateString()}</td>
                         <td className="px-6 py-3 text-sm">
                           <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                             txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
@@ -341,7 +341,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                           </span>
                         </td>
                         <td className="px-6 py-3 text-sm font-bold text-primary">Rs. {txn.amount.toFixed(2)}</td>
-                        <td className="px-6 py-3 text-sm text-secondary">{txn.description}</td>
+                        <td className="px-6 py-3 text-sm text-textSecondary">{txn.description}</td>
                         <td className="px-6 py-3 text-sm text-tertiary">{txn.reference_no}</td>
                       </tr>
                     ))}
@@ -362,7 +362,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
             {todaySummary && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                 <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 p-5 rounded-xl border border-borderLight hover:shadow-md transition-all">
-                  <p className="text-xs text-secondary font-bold mb-2">Total Transactions</p>
+                  <p className="text-xs text-textSecondary font-bold mb-2">Total Transactions</p>
                   <p className="text-3xl font-bold text-primary">{todaySummary.total_transactions}</p>
                 </div>
                 <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 p-5 rounded-xl border border-emerald-200 hover:shadow-md transition-all">
@@ -382,7 +382,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   <p className="text-3xl font-bold text-orange-900">Rs. {todaySummary.total_banktransfer_out.toFixed(2)}</p>
                 </div>
                 <div className="bg-gradient-to-br from-borderLight to-borderLight/50 p-5 rounded-xl border border-borderLight hover:shadow-md transition-all">
-                  <p className="text-xs text-secondary font-bold mb-2">Net Change</p>
+                  <p className="text-xs text-textSecondary font-bold mb-2">Net Change</p>
                   <p className={`text-3xl font-bold ${todaySummary.numeric_sum >= 0 ? 'text-emerald-700' : 'text-red-700'}`}>
                     Rs. {todaySummary.numeric_sum.toFixed(2)}
                   </p>
@@ -417,7 +417,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                     <tbody>
                       {todayTransactions.map((txn) => (
                         <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
-                          <td className="px-6 py-3 text-sm text-secondary font-medium">{new Date(txn.created_at).toLocaleTimeString()}</td>
+                          <td className="px-6 py-3 text-sm text-textSecondary font-medium">{new Date(txn.created_at).toLocaleTimeString()}</td>
                           <td className="px-6 py-3 text-sm">
                             <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                               txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' :
@@ -429,7 +429,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                             </span>
                           </td>
                           <td className="px-6 py-3 text-sm font-bold text-primary">Rs. {txn.amount.toFixed(2)}</td>
-                          <td className="px-6 py-3 text-sm text-secondary">{txn.description}</td>
+                          <td className="px-6 py-3 text-sm text-textSecondary">{txn.description}</td>
                           <td className="px-6 py-3 text-sm text-tertiary">{txn.reference_no}</td>
                         </tr>
                       ))}
@@ -452,7 +452,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
               <h3 className="text-sm font-bold text-primary mb-4">Select Date Range</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-secondary mb-2 uppercase">Start Date</label>
+                  <label className="block text-xs font-bold text-textSecondary mb-2 uppercase">Start Date</label>
                   <input
                     type="date"
                     value={dateRangeForm.startDate}
@@ -462,7 +462,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-secondary mb-2 uppercase">End Date</label>
+                  <label className="block text-xs font-bold text-textSecondary mb-2 uppercase">End Date</label>
                   <input
                     type="date"
                     value={dateRangeForm.endDate}
@@ -498,7 +498,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                   <tbody>
                     {dateRangeTransactions.map((txn) => (
                       <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
-                        <td className="px-6 py-3 text-sm text-secondary font-medium">{new Date(txn.created_at).toLocaleDateString()}</td>
+                        <td className="px-6 py-3 text-sm text-textSecondary font-medium">{new Date(txn.created_at).toLocaleDateString()}</td>
                         <td className="px-6 py-3 text-sm">
                           <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                             txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' :
@@ -510,7 +510,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                           </span>
                         </td>
                         <td className="px-6 py-3 text-sm font-bold text-primary">Rs. {txn.amount.toFixed(2)}</td>
-                        <td className="px-6 py-3 text-sm text-secondary">{txn.description}</td>
+                        <td className="px-6 py-3 text-sm text-textSecondary">{txn.description}</td>
                         <td className="px-6 py-3 text-sm text-tertiary">{txn.reference_no}</td>
                       </tr>
                     ))}

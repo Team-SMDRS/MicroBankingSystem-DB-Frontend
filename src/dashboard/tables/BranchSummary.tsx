@@ -168,7 +168,7 @@ const BranchSummary = () => {
           </div>
           <div>
             <h3 className="section-header text-primary">Branch Summary</h3>
-            <p className="text-sm text-secondary">Select a branch to view transaction statistics (Last 30 Days)</p>
+            <p className="text-sm text-textSecondary">Select a branch to view transaction statistics (Last 30 Days)</p>
           </div>
         </div>
 
@@ -178,8 +178,8 @@ const BranchSummary = () => {
             <div className="flex-1">
               {loadingBranches ? (
                 <div className="flex items-center justify-center py-3 bg-white border border-borderLight rounded-xl">
-                  <Loader2 className="w-5 h-5 text-secondary animate-spin mr-2" />
-                  <span className="text-secondary font-medium">Loading branches...</span>
+                  <Loader2 className="w-5 h-5 text-textSecondary animate-spin mr-2" />
+                  <span className="text-textSecondary font-medium">Loading branches...</span>
                 </div>
               ) : (
                 <select
@@ -375,7 +375,7 @@ const BranchSummary = () => {
                     : formatAmount(0)
                   }
                 </p>
-                <p className="text-sm text-secondary font-medium mt-2">
+                <p className="text-sm text-textSecondary font-medium mt-2">
                   {branchReport.date_range.start_date} to {branchReport.date_range.end_date}
                 </p>
               </div>
@@ -396,7 +396,7 @@ const BranchSummary = () => {
             <div className="bg-white rounded-2xl shadow-md border border-borderLight overflow-hidden animate-slide-in-right">
               <div className="p-6 border-b border-borderLight bg-gradient-to-r from-background to-white">
                 <h3 className="text-xl font-bold text-primary">All Active Accounts</h3>
-                <p className="text-sm text-secondary">All active accounts in this branch (Last 30 Days)</p>
+                <p className="text-sm text-textSecondary">All active accounts in this branch (Last 30 Days)</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -414,10 +414,10 @@ const BranchSummary = () => {
                         <td className="px-6 py-4 text-sm font-bold text-primary">
                           {account.acc_holder_name || 'N/A'}
                         </td>
-                        <td className="px-6 py-4 text-sm text-secondary font-mono">
+                        <td className="px-6 py-4 text-sm text-textSecondary font-mono">
                           {account.acc_id}
                         </td>
-                        <td className="px-6 py-4 text-sm text-secondary">
+                        <td className="px-6 py-4 text-sm text-textSecondary">
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700">
                             {account.transaction_count} transactions
                           </span>
@@ -449,7 +449,7 @@ const BranchSummary = () => {
             <div className="flex items-center justify-between p-6 border-b border-borderLight bg-gradient-to-r from-background to-white">
               <div>
                 <h3 className="text-2xl font-bold text-primary">Transaction Details</h3>
-                <p className="text-sm text-secondary mt-1 font-medium">
+                <p className="text-sm text-textSecondary mt-1 font-medium">
                   {selectedAccount.acc_holder_name} • Account: {selectedAccount.acc_id}
                 </p>
               </div>
@@ -457,7 +457,7 @@ const BranchSummary = () => {
                 onClick={closeModal}
                 className="w-10 h-10 rounded-lg bg-background hover:bg-borderLight flex items-center justify-center transition-colors"
               >
-                <X className="w-5 h-5 text-secondary" />
+                <X className="w-5 h-5 text-textSecondary" />
               </button>
             </div>
 
@@ -465,11 +465,11 @@ const BranchSummary = () => {
             <div className="flex-1 overflow-y-auto p-6">
               {loadingTransactions ? (
                 <div className="flex items-center justify-center p-12">
-                  <Loader2 className="w-8 h-8 animate-spin text-secondary" />
-                  <span className="ml-3 text-secondary font-medium">Loading transactions...</span>
+                  <Loader2 className="w-8 h-8 animate-spin text-textSecondary" />
+                  <span className="ml-3 text-textSecondary font-medium">Loading transactions...</span>
                 </div>
               ) : accountTransactions.length === 0 ? (
-                <div className="flex items-center justify-center p-12 text-secondary font-medium">
+                <div className="flex items-center justify-center p-12 text-textSecondary font-medium">
                   <p>No transactions found for this account in the last 30 days</p>
                 </div>
               ) : (
@@ -477,7 +477,7 @@ const BranchSummary = () => {
                   {/* Summary Stats */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl p-4 border border-borderLight">
-                      <p className="text-sm text-secondary font-bold mb-1 uppercase">Total Transactions</p>
+                      <p className="text-sm text-textSecondary font-bold mb-1 uppercase">Total Transactions</p>
                       <p className="text-2xl font-bold text-primary">{accountTransactions.length}</p>
                     </div>
                     <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-xl p-4 border border-emerald-200">
@@ -517,7 +517,7 @@ const BranchSummary = () => {
                       <tbody>
                         {accountTransactions.map((transaction) => (
                           <tr key={transaction.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
-                            <td className="px-4 py-3 text-xs text-secondary font-medium">
+                            <td className="px-4 py-3 text-xs text-textSecondary font-medium">
                               {formatDate(transaction.created_at)}
                             </td>
                             <td className="px-4 py-3">
@@ -537,7 +537,7 @@ const BranchSummary = () => {
                               {['Deposit', 'Interest', 'BankTransfer-In'].includes(transaction.type) ? '+' : '-'}
                               {formatAmount(transaction.amount)}
                             </td>
-                            <td className="px-4 py-3 text-xs text-secondary">
+                            <td className="px-4 py-3 text-xs text-textSecondary">
                               {transaction.description || '-'}
                             </td>
                             <td className="px-4 py-3 text-xs text-tertiary font-mono">

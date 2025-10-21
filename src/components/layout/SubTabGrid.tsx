@@ -41,7 +41,7 @@ const SubTabGrid = ({ subTabs, activeSubTab, onSubTabChange }: SubTabGridProps) 
               >
                 <Icon
                   className={`w-8 h-8 transition-transform duration-300 ${
-                    isActive ? 'text-white scale-110' : (isDanger ? 'text-red-600' : 'text-secondary')
+                    isActive ? 'text-white scale-110' : (isDanger ? 'text-red-600' : 'text-textSecondary')
                   }`}
                 />
               </div>

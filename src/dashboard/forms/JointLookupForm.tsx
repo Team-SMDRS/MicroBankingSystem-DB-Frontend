@@ -10,7 +10,7 @@ const CustomerSummary = ({ customer }: { customer: any }) => (
     <div className="flex items-start justify-between">
       <div>
         <div className="font-semibold text-primary">{customer.name}</div>
-        <div className="text-sm text-secondary">NIC: {customer.nic}</div>
+        <div className="text-sm text-textSecondary">NIC: {customer.nic}</div>
         <div className="text-sm text-tertiary">Customer ID: {customer.customerId}</div>
       </div>
       <div className="ml-4 flex-shrink-0">
@@ -103,7 +103,7 @@ const JointLookupForm: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
       <h4 className="text-2xl font-bold text-primary mb-2">Joint Account - Lookup Two Customers</h4>
-      <p className="text-sm text-secondary mb-6">Search for two customers to create a joint account</p>
+      <p className="text-sm text-textSecondary mb-6">Search for two customers to create a joint account</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input value={nic1} onChange={e => setNic1(e.target.value)} placeholder="Enter NIC for Customer 1" className="input-field w-full" />
         <input value={nic2} onChange={e => setNic2(e.target.value)} placeholder="Enter NIC for Customer 2" className="input-field w-full" />

@@ -350,7 +350,7 @@ const NewCustomerJointAccountForm: React.FC<NewCustomerJointAccountFormProps> = 
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 border border-borderLight rounded-2xl bg-white">
               <h6 className="font-semibold text-primary mb-2">{customer1.full_name}</h6>
-              <div className="text-sm text-secondary space-y-1">
+              <div className="text-sm text-textSecondary space-y-1">
                 <div>Customer ID: {result.customer1.customer_id}</div>
                 <div>NIC: {result.customer1.nic}</div>
                 <div className="font-mono">Username: {result.customer1.username}</div>
@@ -360,7 +360,7 @@ const NewCustomerJointAccountForm: React.FC<NewCustomerJointAccountFormProps> = 
             
             <div className="p-4 border border-borderLight rounded-2xl bg-white">
               <h6 className="font-semibold text-primary mb-2">{customer2.full_name}</h6>
-              <div className="text-sm text-secondary space-y-1">
+              <div className="text-sm text-textSecondary space-y-1">
                 <div>Customer ID: {result.customer2.customer_id}</div>
                 <div>NIC: {result.customer2.nic}</div>
                 <div className="font-mono">Username: {result.customer2.username}</div>
@@ -371,7 +371,7 @@ const NewCustomerJointAccountForm: React.FC<NewCustomerJointAccountFormProps> = 
           
           <div className="mt-4 p-4 border border-borderLight rounded-2xl bg-white">
             <h6 className="font-semibold text-primary mb-2">Account Details</h6>
-            <div className="text-sm text-secondary">
+            <div className="text-sm text-textSecondary">
               <div>Account Number: {result.account_no}</div>
             </div>
           </div>

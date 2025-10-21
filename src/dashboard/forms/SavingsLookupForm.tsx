@@ -9,7 +9,7 @@ const CustomerSummary = ({ customer }: { customer: any }) => (
     <div className="flex items-start justify-between">
       <div>
         <div className="font-semibold text-primary">{customer.name}</div>
-        <div className="text-sm text-secondary">NIC: {customer.nic}</div>
+        <div className="text-sm text-textSecondary">NIC: {customer.nic}</div>
         <div className="text-sm text-tertiary">Customer ID: {customer.customerId}</div>
       </div>
       <div className="ml-4 flex-shrink-0">
@@ -71,7 +71,7 @@ const SavingsLookupForm: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
       <h4 className="text-2xl font-bold text-primary mb-2">Savings Account - Lookup Customer</h4>
-      <p className="text-sm text-secondary mb-6">Search for a customer to create a savings account</p>
+      <p className="text-sm text-textSecondary mb-6">Search for a customer to create a savings account</p>
       <div className="flex gap-3">
         <input value={nic} onChange={e => setNic(e.target.value)} placeholder="Enter NIC" className={`input-field w-full ${nicError ? 'border-red-500' : ''}`} />
         <button type="button" onClick={lookup} disabled={loading} className="button-primary px-4 py-2">Find</button>

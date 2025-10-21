@@ -130,7 +130,7 @@ const UpdateUserForm: React.FC<UpdateUserFormProps> = ({ user, onUpdateSuccess }
     <div className="bg-white shadow-md rounded-2xl p-8 border border-borderLight animate-slide-in-right">
       <div className="mb-6">
         <h3 className="text-2xl font-bold text-primary">Update User Details</h3>
-        <p className="text-sm text-secondary mt-2">Editing information for {user.first_name} {user.last_name}</p>
+        <p className="text-sm text-textSecondary mt-2">Editing information for {user.first_name} {user.last_name}</p>
         <p className="text-xs text-tertiary mt-2">You can edit the first name, last name, address, phone number, and email</p>
       </div>
 

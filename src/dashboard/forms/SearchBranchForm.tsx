@@ -57,7 +57,7 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
         <div className="space-y-6 flex flex-col min-h-full bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
             <div>
                 <h3 className="text-2xl font-bold text-primary mb-2">Search Branches</h3>
-                <p className="text-sm text-secondary mb-6">Find and select a branch</p>
+                <p className="text-sm text-textSecondary mb-6">Find and select a branch</p>
             </div>
             <div className="space-y-4">
                 <div className="flex gap-4">
@@ -96,7 +96,7 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
                             >
                                 <div>
                                     <div className="font-semibold text-primary">{branch.name}</div>
-                                    <div className="text-sm text-secondary">{branch.address}</div>
+                                    <div className="text-sm text-textSecondary">{branch.address}</div>
                                     <div className="text-xs text-tertiary">ID: {branch.branch_id}</div>
                                 </div>
                                 <div>

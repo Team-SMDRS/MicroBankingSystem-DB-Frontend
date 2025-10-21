@@ -59,13 +59,13 @@ const RegisterAndCreate: React.FC<{ defaultNic?: string; plans: Plan[]; plansLoa
       {successData ? (
         <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
           <div className="font-semibold text-emerald-800 mb-4">Customer & Account Created</div>
-          <div className="mt-3 text-sm text-secondary">Username: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.username}</span>
+          <div className="mt-3 text-sm text-textSecondary">Username: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.username}</span>
             <button onClick={() => navigator.clipboard.writeText(successData.username)} className="ml-2 text-xs px-2 py-1 bg-secondary text-white rounded">Copy</button>
           </div>
-          <div className="text-sm text-secondary mt-2">Password: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.password}</span>
+          <div className="text-sm text-textSecondary mt-2">Password: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.password}</span>
             <button onClick={() => navigator.clipboard.writeText(successData.password)} className="ml-2 text-xs px-2 py-1 bg-secondary text-white rounded">Copy</button>
           </div>
-          <div className="text-sm text-secondary mt-2">Account No: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.account_no || successData.acc_no || successData.accId}</span>
+          <div className="text-sm text-textSecondary mt-2">Account No: <span className="font-mono bg-background px-2 py-1 rounded text-primary">{successData.account_no || successData.acc_no || successData.accId}</span>
             <button onClick={() => navigator.clipboard.writeText(successData.account_no || successData.acc_no || successData.accId)} className="ml-2 text-xs px-2 py-1 bg-secondary text-white rounded">Copy</button>
           </div>
         </div>

@@ -47,16 +47,16 @@ const UserTable: React.FC<UserTableProps> = ({
         <table className="min-w-full divide-y divide-borderLight">
           <thead className="bg-background">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">
                 Name
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">
                 Username
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">
                 NIC
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-textSecondary uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -64,7 +64,7 @@ const UserTable: React.FC<UserTableProps> = ({
           <tbody className="bg-white divide-y divide-borderLight">
             {filteredUsers.length === 0 ? (
               <tr>
-                <td colSpan={4} className="px-6 py-4 text-center text-sm text-secondary">
+                <td colSpan={4} className="px-6 py-4 text-center text-sm text-textSecondary">
                   {users.length === 0 ? 'No users found' : 'No users match your search'}
                 </td>
               </tr>

@@ -134,7 +134,7 @@ const AccountSummary = () => {
           </div>
           <div>
             <h3 className="section-header text-primary">Account Summary</h3>
-            <p className="text-sm text-secondary">Enter account number to view details and transactions (Last 30 Days)</p>
+            <p className="text-sm text-textSecondary">Enter account number to view details and transactions (Last 30 Days)</p>
           </div>
         </div>
 
@@ -236,13 +236,13 @@ const AccountSummary = () => {
             </div>
             <div>
               <h3 className="text-xl font-bold text-primary">Transaction History</h3>
-              <p className="text-sm text-secondary">Last 30 days • {transactions.total_count} transactions</p>
+              <p className="text-sm text-textSecondary">Last 30 days • {transactions.total_count} transactions</p>
             </div>
           </div>
 
           <div className="overflow-x-auto">
             {transactions.transactions.length === 0 ? (
-              <div className="flex items-center justify-center p-12 text-secondary font-medium">
+              <div className="flex items-center justify-center p-12 text-textSecondary font-medium">
                 <p>No transactions found in the last 30 days</p>
               </div>
             ) : (
@@ -260,7 +260,7 @@ const AccountSummary = () => {
                 <tbody>
                   {transactions.transactions.map((transaction) => (
                     <tr key={transaction.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
-                      <td className="px-6 py-4 text-sm text-secondary font-medium">{formatDate(transaction.created_at)}</td>
+                      <td className="px-6 py-4 text-sm text-textSecondary font-medium">{formatDate(transaction.created_at)}</td>
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
                           transaction.type === 'Deposit' 
@@ -283,10 +283,10 @@ const AccountSummary = () => {
                           : '-'
                         }
                       </td>
-                      <td className="px-6 py-4 text-sm text-secondary">
+                      <td className="px-6 py-4 text-sm text-textSecondary">
                         {transaction.description || '-'}
                       </td>
-                      <td className="px-6 py-4 text-sm text-secondary">
+                      <td className="px-6 py-4 text-sm text-textSecondary">
                         {transaction.reference_no || '-'}
                       </td>
                     </tr>

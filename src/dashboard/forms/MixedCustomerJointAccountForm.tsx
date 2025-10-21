@@ -145,7 +145,7 @@ const MixedCustomerJointAccountForm: React.FC<MixedCustomerJointAccountFormProps
               <div className="flex items-start justify-between">
                 <div>
                   <div className="font-semibold text-primary">{existingCustomer?.name}</div>
-                  <div className="text-sm text-secondary">NIC: {existingCustomer?.nic}</div>
+                  <div className="text-sm text-textSecondary">NIC: {existingCustomer?.nic}</div>
                   <div className="text-sm text-tertiary">Customer ID: {existingCustomer?.customerId}</div>
                 </div>
               </div>
@@ -261,7 +261,7 @@ const MixedCustomerJointAccountForm: React.FC<MixedCustomerJointAccountFormProps
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 border border-borderLight rounded-2xl bg-white">
               <h6 className="font-semibold text-primary mb-2">{existingCustomer?.name}</h6>
-              <div className="text-sm text-secondary space-y-1">
+              <div className="text-sm text-textSecondary space-y-1">
                 <div>Customer ID: {result.existing_customer_id}</div>
                 <div>NIC: {existingCustomer?.nic}</div>
               </div>
@@ -269,7 +269,7 @@ const MixedCustomerJointAccountForm: React.FC<MixedCustomerJointAccountFormProps
             
             <div className="p-4 border border-borderLight rounded-2xl bg-white">
               <h6 className="font-semibold text-primary mb-2">{newCustomer.full_name}</h6>
-              <div className="text-sm text-secondary space-y-1">
+              <div className="text-sm text-textSecondary space-y-1">
                 <div>Customer ID: {result.new_customer_id}</div>
                 <div>NIC: {newCustomer.nic}</div>
                 <div className="font-mono">Username: {result.new_customer_login.username}</div>
@@ -280,7 +280,7 @@ const MixedCustomerJointAccountForm: React.FC<MixedCustomerJointAccountFormProps
           
           <div className="mt-4 p-4 border border-borderLight rounded-2xl bg-white">
             <h6 className="font-semibold text-primary mb-2">Account Details</h6>
-            <div className="text-sm text-secondary">
+            <div className="text-sm text-textSecondary">
               <div>Account Number: {result.account_no}</div>
             </div>
           </div>

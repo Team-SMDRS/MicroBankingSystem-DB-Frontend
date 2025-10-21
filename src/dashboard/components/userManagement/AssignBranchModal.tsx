@@ -78,7 +78,7 @@ const AssignBranchModal: React.FC<AssignBranchModalProps> = ({ user, onClose, on
           <h2 className="text-xl font-semibold text-primary">Assign Branch</h2>
           <button
             onClick={onClose}
-            className="text-tertiary hover:text-secondary transition-colors"
+            className="text-tertiary hover:text-textSecondary transition-colors"
             aria-label="Close"
           >
             <X size={20} />
@@ -98,7 +98,7 @@ const AssignBranchModal: React.FC<AssignBranchModalProps> = ({ user, onClose, on
             )}
 
             <div className="mb-4">
-              <p className="text-sm text-secondary mb-2">
+              <p className="text-sm text-textSecondary mb-2">
                 Assigning branch for: <span className="font-medium text-primary">{user.first_name} {user.last_name}</span>
               </p>
             </div>

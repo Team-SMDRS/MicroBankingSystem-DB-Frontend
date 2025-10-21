@@ -82,7 +82,7 @@ const UpdateSavingsPlanForm: React.FC<UpdateSavingsPlanFormProps> = ({
   return (
     <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
       <h3 className="text-2xl font-bold text-primary mb-2">Update Savings Plan Interest Rate</h3>
-      <p className="text-sm text-secondary mb-6">Modify the interest rate for this savings plan</p>
+      <p className="text-sm text-textSecondary mb-6">Modify the interest rate for this savings plan</p>
       
       {error && (
         <Alert type="error" className="mb-4">
@@ -117,15 +117,15 @@ const UpdateSavingsPlanForm: React.FC<UpdateSavingsPlanFormProps> = ({
         <h4 className="text-lg font-semibold text-primary mb-4">Plan Details</h4>
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <p className="text-sm text-secondary">Plan ID</p>
+            <p className="text-sm text-textSecondary">Plan ID</p>
             <p className="font-semibold text-primary">{plan.savings_plan_id}</p>
           </div>
           <div>
-            <p className="text-sm text-secondary">Plan Name</p>
+            <p className="text-sm text-textSecondary">Plan Name</p>
             <p className="font-semibold text-primary">{plan.plan_name}</p>
           </div>
           <div>
-            <p className="text-sm text-secondary">Minimum Balance</p>
+            <p className="text-sm text-textSecondary">Minimum Balance</p>
             <p className="font-semibold text-primary">Rs. {plan.minimum_balance.toFixed(2)}</p>
           </div>
         </div>

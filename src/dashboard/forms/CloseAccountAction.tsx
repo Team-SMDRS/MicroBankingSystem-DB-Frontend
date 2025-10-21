@@ -80,11 +80,11 @@ const CloseAccountAction: React.FC = () => {
       ) : (
         <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
           <h4 className="text-lg font-bold text-emerald-700 mb-2">{result.msg}</h4>
-          <div className="mb-1"><span className="font-semibold text-primary">Account Number:</span> <span className="font-mono text-secondary">{result.account_no}</span></div>
-          <div className="mb-1"><span className="font-semibold text-primary">Previous Balance:</span> <span className="text-secondary">Rs. {result.previous_balance}</span></div>
-          <div className="mb-1"><span className="font-semibold text-primary">Savings Plan:</span> <span className="text-secondary">{result.savings_plan_name}</span></div>
-          <div className="mb-1"><span className="font-semibold text-primary">Status:</span> <span className="capitalize text-secondary">{result.status}</span></div>
-          <div className="mb-1"><span className="font-semibold text-primary">Closed At:</span> <span className="text-secondary">{new Date(result.updated_at).toLocaleString()}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Account Number:</span> <span className="font-mono text-textSecondary">{result.account_no}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Previous Balance:</span> <span className="text-textSecondary">Rs. {result.previous_balance}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Savings Plan:</span> <span className="text-textSecondary">{result.savings_plan_name}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Status:</span> <span className="capitalize text-textSecondary">{result.status}</span></div>
+          <div className="mb-1"><span className="font-semibold text-primary">Closed At:</span> <span className="text-textSecondary">{new Date(result.updated_at).toLocaleString()}</span></div>
           <button className="button-primary mt-4 px-4 py-2" onClick={() => { setResult(null); setAccountNo(''); }}>Close</button>
         </div>
       )}

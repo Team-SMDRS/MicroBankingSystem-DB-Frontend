@@ -215,7 +215,7 @@ const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetai
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-primary">
                                                         {customer.full_name}
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-secondary font-mono">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-textSecondary font-mono">
                                                         {customer.nic}
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-tertiary">

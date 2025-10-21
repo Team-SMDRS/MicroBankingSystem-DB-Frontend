@@ -28,29 +28,29 @@ const AllAccountsDisplay = ({ accounts, onClose, nic }: AllAccountsDisplayProps)
         </button>
       </div>
       {accounts.length === 0 ? (
-        <div className="text-center text-secondary">No accounts found for this NIC.</div>
+        <div className="text-center text-textSecondary">No accounts found for this NIC.</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {accounts.map((acc, idx) => (
             <div key={acc.acc_id || idx} className="border border-borderLight rounded-2xl p-5 bg-background">
               <div className="mb-2 flex items-center gap-2">
-                <Tag className="w-4 h-4 text-secondary" />
-                <span className="font-semibold text-secondary">Account Number:</span>
+                <Tag className="w-4 h-4 text-textSecondary" />
+                <span className="font-semibold text-textSecondary">Account Number:</span>
                 <span className="font-mono text-primary">{acc.account_no}</span>
               </div>
               <div className="mb-2 flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-secondary" />
-                <span className="font-semibold text-secondary">Branch:</span>
+                <Building2 className="w-4 h-4 text-textSecondary" />
+                <span className="font-semibold text-textSecondary">Branch:</span>
                 <span className="text-primary">{acc.branch_name}</span>
               </div>
               <div className="mb-2 flex items-center gap-2">
                 <Wallet className="w-4 h-4 text-emerald-600" />
-                <span className="font-semibold text-secondary">Balance:</span>
+                <span className="font-semibold text-textSecondary">Balance:</span>
                 <span className="font-bold text-emerald-600">Rs. {acc.balance.toLocaleString()}</span>
               </div>
               <div className="mb-2 flex items-center gap-2">
-                <Tag className="w-4 h-4 text-secondary" />
-                <span className="font-semibold text-secondary">Savings Plan:</span>
+                <Tag className="w-4 h-4 text-textSecondary" />
+                <span className="font-semibold text-textSecondary">Savings Plan:</span>
                 <span className="text-primary">{acc.savings_plan_name}</span>
               </div>
               <div className="mb-2 flex items-center gap-2">
@@ -59,10 +59,10 @@ const AllAccountsDisplay = ({ accounts, onClose, nic }: AllAccountsDisplayProps)
                     acc.status === 'active' ? 'bg-emerald-500' : 'bg-tertiary'
                   }`}
                 ></span>
-                <span className="font-semibold text-secondary">Status:</span>
+                <span className="font-semibold text-textSecondary">Status:</span>
                 <span className="capitalize text-primary font-medium">{acc.status}</span>
               </div>
-              <div className="text-xs text-secondary mt-2">
+              <div className="text-xs text-textSecondary mt-2">
                 Opened: {new Date(acc.opened_date).toLocaleDateString()}
               </div>
             </div>

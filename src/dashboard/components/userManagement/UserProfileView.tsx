@@ -58,7 +58,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
         <h2 className="text-lg font-semibold text-primary">User Profile</h2>
         <button 
           onClick={onClose}
-          className="text-tertiary hover:text-secondary p-1 rounded-full hover:bg-background flex items-center transition-colors"
+          className="text-tertiary hover:text-textSecondary p-1 rounded-full hover:bg-background flex items-center transition-colors"
           title="Back to list"
         >
           <ArrowLeft size={20} />
@@ -77,8 +77,8 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                 </span>
               </div>
               <h3 className="text-xl font-semibold text-primary">{user.first_name} {user.last_name}</h3>
-              <p className="text-secondary text-sm">@{user.username}</p>
-              <p className="text-secondary text-sm mt-1">
+              <p className="text-textSecondary text-sm">@{user.username}</p>
+              <p className="text-textSecondary text-sm mt-1">
                 User since {user.created_at ? new Date(user.created_at).toLocaleDateString() : '-'}
               </p>
             </div>
@@ -86,10 +86,10 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
             <div className="mt-6">
               {/* User Status */}
               <div className="mb-4 text-center">
-                <p className="text-sm text-secondary mb-1">Status</p>
+                <p className="text-sm text-textSecondary mb-1">Status</p>
                 {isLoadingStatus ? (
                   <div className="flex justify-center">
-                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-background text-secondary">
+                    <span className="inline-flex items-center px-4 py-1 rounded-full text-sm font-semibold bg-background text-textSecondary">
                       Loading...
                     </span>
                   </div>
@@ -119,7 +119,7 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
                     </span>
                   ))
                 ) : (
-                  <span className="text-secondary">No roles assigned</span>
+                  <span className="text-textSecondary">No roles assigned</span>
                 )}
               </div>
               
@@ -178,46 +178,46 @@ const UserProfileView: React.FC<UserProfileViewProps> = ({
           <div className="bg-white rounded-2xl shadow-md border border-borderLight overflow-hidden">
             <div className="px-4 py-5 sm:px-6 bg-background border-b border-borderLight">
               <h3 className="text-lg leading-6 font-semibold text-primary">Personal Information</h3>
-              <p className="mt-1 max-w-2xl text-sm text-secondary">Personal details and user information.</p>
+              <p className="mt-1 max-w-2xl text-sm text-textSecondary">Personal details and user information.</p>
             </div>
             <div className="border-t border-borderLight">
               <dl>
                 <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
-                  <dt className="text-sm font-medium text-secondary">Full name</dt>
+                  <dt className="text-sm font-medium text-textSecondary">Full name</dt>
                   <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.first_name} {user.last_name}</dd>
                 </div>
                 <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
-                  <dt className="text-sm font-medium text-secondary">Username</dt>
+                  <dt className="text-sm font-medium text-textSecondary">Username</dt>
                   <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.username}</dd>
                 </div>
                 <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
-                  <dt className="text-sm font-medium text-secondary">NIC</dt>
+                  <dt className="text-sm font-medium text-textSecondary">NIC</dt>
                   <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.nic || '-'}</dd>
                 </div>
                 <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
-                  <dt className="text-sm font-medium text-secondary">Email address</dt>
+                  <dt className="text-sm font-medium text-textSecondary">Email address</dt>
                   <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.email || '-'}</dd>
                 </div>
                 <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
-                  <dt className="text-sm font-medium text-secondary">Phone number</dt>
+                  <dt className="text-sm font-medium text-textSecondary">Phone number</dt>
                   <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.phone_number || '-'}</dd>
                 </div>
                 <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
-                  <dt className="text-sm font-medium text-secondary">Address</dt>
+                  <dt className="text-sm font-medium text-textSecondary">Address</dt>
                   <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">{user.address || '-'}</dd>
                 </div>
                 <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
-                  <dt className="text-sm font-medium text-secondary">Date of birth</dt>
+                  <dt className="text-sm font-medium text-textSecondary">Date of birth</dt>
                   <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 font-medium">
                     {user.dob ? new Date(user.dob).toLocaleDateString() : '-'}
                   </dd>
                 </div>
                 <div className="px-4 py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-b border-borderLight">
-                  <dt className="text-sm font-medium text-secondary">Branch</dt>
+                  <dt className="text-sm font-medium text-textSecondary">Branch</dt>
                   <dd className="mt-1 text-sm text-primary sm:mt-0 sm:col-span-2 flex justify-between items-center font-medium">
                     <span>
                       {isLoadingBranch ? (
-                        <span className="text-secondary">Loading...</span>
+                        <span className="text-textSecondary">Loading...</span>
                       ) : (
                         branchName || '-'
                       )}

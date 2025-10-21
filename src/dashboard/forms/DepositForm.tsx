@@ -71,7 +71,7 @@ const DepositForm = ({ onSuccess }: DepositFormProps) => {
         </div>
         <div>
           <h3 className="text-2xl font-bold text-primary">Deposit</h3>
-          <p className="text-sm text-secondary">Deposit funds to an account</p>
+          <p className="text-sm text-textSecondary">Deposit funds to an account</p>
         </div>
       </div>
 

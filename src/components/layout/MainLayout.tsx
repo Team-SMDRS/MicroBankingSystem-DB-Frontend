@@ -40,7 +40,7 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
               }}
             />
             <div>
-              <h1 className="text-xl font-bold text-primary"><span className="text-secondary">B</span>Trust Bank</h1>
+              <h1 className="text-xl font-bold text-primary"><span className="text-textSecondary">B</span>Trust Bank</h1>
               <p className="text-xs text-tertiary font-medium">Management System</p>
             </div>
           </div>
@@ -57,10 +57,10 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
                     onClick={() => onMainTabChange(tab.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
                         ? 'bg-gradient-to-r from-secondary to-secondary/80 text-white shadow-lg shadow-secondary/30'
-                        : 'text-primary hover:bg-borderLight hover:text-secondary'
+                        : 'text-primary hover:bg-borderLight hover:text-textSecondary'
                       }`}
                   >
-                    <Icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'text-white scale-110' : 'text-secondary'}`} />
+                    <Icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'text-white scale-110' : 'text-textSecondary'}`} />
                     <span className="font-semibold">{tab.label}</span>
                   </button>
                 </li>
@@ -74,7 +74,7 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
             onClick={() => onMainTabChange('my-profile' as MainTab)}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${activeMainTab === 'my-profile'
               ? 'bg-gradient-to-r from-secondary to-secondary/80 text-white shadow-lg shadow-secondary/30'
-              : 'bg-white hover:shadow-md text-primary hover:text-secondary border border-borderLight'
+              : 'bg-white hover:shadow-md text-primary hover:text-textSecondary border border-borderLight'
             }`}
           >
             <div className="w-10 h-10 bg-gradient-to-br from-highlight to-highlightHover rounded-full flex items-center justify-center text-primary font-semibold flex-shrink-0 shadow-md">

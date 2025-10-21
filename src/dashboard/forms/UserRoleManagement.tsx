@@ -102,14 +102,14 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
     <div className="bg-white shadow-md rounded-2xl p-8 border border-borderLight animate-slide-in-right">
       <div className="mb-6">
         <h3 className="text-2xl font-bold text-primary">Manage User Roles</h3>
-        <p className="text-sm text-secondary">Assign roles to {user.first_name} {user.last_name}</p>
+        <p className="text-sm text-textSecondary">Assign roles to {user.first_name} {user.last_name}</p>
       </div>
 
       {error && <Alert type="error">{error}</Alert>}
       {success && <Alert type="success">{success}</Alert>}
 
       <div className="mb-6 p-4 bg-secondary/10 border border-borderLight rounded-2xl">
-        <p className="text-sm text-secondary">
+        <p className="text-sm text-textSecondary">
           <strong>Instructions:</strong> Click on the role boxes below to select or deselect permissions for this user. 
           Selected roles will appear in the "Selected Roles" section. If you want to remove all roles from this user, 
           deselect all roles and click "Remove All Roles".
@@ -129,7 +129,7 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
             <div className="space-y-6">
               {/* Account Management Roles */}
               <div className="mb-4">
-                <h5 className="text-xs uppercase tracking-wider text-secondary mb-2 border-b border-borderLight pb-2">Account Management</h5>
+                <h5 className="text-xs uppercase tracking-wider text-textSecondary mb-2 border-b border-borderLight pb-2">Account Management</h5>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {allRoles.filter(role => role.role_name.includes('account')).map((role) => {
                     const isSelected = selectedRoles.includes(role.role_id);
@@ -147,7 +147,7 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
                           <input
                             id={`role-${role.role_id}`}
                             type="checkbox"
-                            className="h-5 w-5 text-secondary focus:ring-secondary border-borderLight rounded cursor-pointer"
+                            className="h-5 w-5 text-textSecondary focus:ring-secondary border-borderLight rounded cursor-pointer"
                             checked={isSelected}
                             onChange={() => handleRoleToggle(role.role_id)}
                             onClick={(e) => e.stopPropagation()}
@@ -167,7 +167,7 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
               
               {/* Transaction Roles */}
               <div className="mb-4">
-                <h5 className="text-xs uppercase tracking-wider text-secondary mb-2 border-b border-borderLight pb-2">Transaction Management</h5>
+                <h5 className="text-xs uppercase tracking-wider text-textSecondary mb-2 border-b border-borderLight pb-2">Transaction Management</h5>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {allRoles.filter(role => 
                     ['deposit', 'withdrawal', 'transaction'].some(term => role.role_name.includes(term))
@@ -187,7 +187,7 @@ const UserRoleManagement: React.FC<UserRoleManagementProps> = ({ user, onRolesUp
                           <input
                             id={`role-${role.role_id}`}
                             type="checkbox"
-                            className="h-5 w-5 text-secondary focus:ring-secondary border-borderLight rounded cursor-pointer"
+                            className="h-5 w-5 text-textSecondary focus:ring-secondary border-borderLight rounded cursor-pointer"
                             checked={isSelected}
                             onChange={() => handleRoleToggle(role.role_id)}
                             onClick={(e) => e.stopPropagation()}

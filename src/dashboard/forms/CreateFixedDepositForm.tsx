@@ -128,20 +128,20 @@ const CreateFixedDepositForm = ({ onSuccess, onError }: CreateFixedDepositFormPr
             <h4 className="font-semibold text-primary text-lg">Plan Details</h4>
             <div className="space-y-4">
               <div className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border border-borderLight">
-                <div className="text-secondary">Duration:</div>
+                <div className="text-textSecondary">Duration:</div>
                 <div className="font-semibold text-primary text-lg">{selectedPlan.duration} months</div>
               </div>
               <div className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border border-borderLight">
-                <div className="text-secondary">Interest Rate:</div>
+                <div className="text-textSecondary">Interest Rate:</div>
                 <div className="font-semibold text-primary text-lg">{selectedPlan.interest_rate}% p.a.</div>
               </div>
               <div className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border border-borderLight">
-                <div className="text-secondary">Deposit Amount:</div>
+                <div className="text-textSecondary">Deposit Amount:</div>
                 <div className="font-semibold text-primary text-lg">{amount ? `Rs. ${Number(amount).toFixed(2)}` : '-'}</div>
               </div>
               {amount && (
                 <div className="bg-white p-4 rounded-2xl shadow-sm flex justify-between items-center border border-borderLight">
-                  <div className="text-secondary">Maturity Amount:</div>
+                  <div className="text-textSecondary">Maturity Amount:</div>
                   <div className="font-semibold text-emerald-700 text-lg">Rs. {maturityAmount.toFixed(2)}</div>
                 </div>
               )}

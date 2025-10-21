@@ -89,7 +89,7 @@ const UpdateCustomerForm: React.FC<UpdateCustomerFormProps> = ({ customerId, onC
           </div>
           <div>
             <label className="label-text" htmlFor="nic">NIC</label>
-            <input id="nic" name="nic" value={form.nic} readOnly placeholder="NIC" className="input-field w-full bg-background text-secondary cursor-not-allowed" />
+            <input id="nic" name="nic" value={form.nic} readOnly placeholder="NIC" className="input-field w-full bg-background text-textSecondary cursor-not-allowed" />
           </div>
           <div className="col-span-1 md:col-span-2 flex justify-center gap-4 mt-4">
             <button type="submit" className="button-primary">Update</button>

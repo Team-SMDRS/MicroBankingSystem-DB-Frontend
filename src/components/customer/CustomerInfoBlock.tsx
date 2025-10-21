@@ -53,28 +53,28 @@ const CustomerInfoBlock: React.FC<CustomerInfoBlockProps> = ({
                 </div>
                 <div>
                   <div className="font-bold text-xl text-primary">{customerDetails.full_name}</div>
-                  <div className="text-sm text-secondary">Customer ID: <span className="font-mono text-primary">{customerDetails.customer_id}</span></div>
+                  <div className="text-sm text-textSecondary">Customer ID: <span className="font-mono text-primary">{customerDetails.customer_id}</span></div>
                 </div>
               </div>
               <div className="flex flex-col gap-3 mt-2">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-secondary w-36">NIC:</span>
+                  <span className="font-semibold text-textSecondary w-36">NIC:</span>
                   <span className="font-mono text-primary">{customerDetails.nic}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-secondary w-36">Phone:</span>
+                  <span className="font-semibold text-textSecondary w-36">Phone:</span>
                   <span className="text-primary">{customerDetails.phone_number}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-secondary w-36">Address:</span>
+                  <span className="font-semibold text-textSecondary w-36">Address:</span>
                   <span className="text-primary">{customerDetails.address}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-secondary w-36">Date of Birth:</span>
+                  <span className="font-semibold text-textSecondary w-36">Date of Birth:</span>
                   <span className="text-primary">{customerDetails.dob}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-secondary w-36">Created By:</span>
+                  <span className="font-semibold text-textSecondary w-36">Created By:</span>
                   <span className="text-primary">{customerDetails.created_by_user_name}</span>
                 </div>
               </div>
@@ -103,7 +103,7 @@ const CustomerInfoBlock: React.FC<CustomerInfoBlockProps> = ({
         </>
       )}
       {activeSubTab === "customer-accounts" && (
-        <div className="text-secondary">Customer accounts functionality will be implemented here.</div>
+        <div className="text-textSecondary">Customer accounts functionality will be implemented here.</div>
       )}
     </div>
   );

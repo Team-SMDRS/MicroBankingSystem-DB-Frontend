@@ -118,18 +118,18 @@ const JointAccountCreateForm: React.FC<JointAccountCreateFormProps> = ({ custome
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
                     <div className="p-3 border border-borderLight rounded-2xl bg-white">
                       <h6 className="font-semibold text-primary">{customer1.name}</h6>
-                      <div className="text-sm text-secondary">NIC: {customer1.nic}</div>
+                      <div className="text-sm text-textSecondary">NIC: {customer1.nic}</div>
                     </div>
                     
                     <div className="p-3 border border-borderLight rounded-2xl bg-white">
                       <h6 className="font-semibold text-primary">{customer2.name}</h6>
-                      <div className="text-sm text-secondary">NIC: {customer2.nic}</div>
+                      <div className="text-sm text-textSecondary">NIC: {customer2.nic}</div>
                     </div>
                   </div>
                   
                   <div className="p-3 border border-borderLight rounded-2xl bg-white">
                     <h6 className="font-semibold text-primary">Account Details</h6>
-                    <div className="text-sm text-secondary">Account No: {result.data.account_no}</div>
+                    <div className="text-sm text-textSecondary">Account No: {result.data.account_no}</div>
                   </div>
                 </div>
                 <div className="flex justify-end">

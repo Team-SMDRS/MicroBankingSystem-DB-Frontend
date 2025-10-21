@@ -54,16 +54,16 @@ const CreateBranchForm: React.FC<CreateBranchFormProps> = ({ onSuccess, isLoadin
                 <div className="space-y-3 mb-4 bg-background p-4 rounded-2xl border border-borderLight">
                     <div className="grid grid-cols-2 gap-2">
                         <div className="text-sm font-medium text-primary">Branch Name:</div>
-                        <div className="text-sm font-semibold text-secondary">{createdBranch.name}</div>
+                        <div className="text-sm font-semibold text-textSecondary">{createdBranch.name}</div>
                         
                         <div className="text-sm font-medium text-primary">Address:</div>
-                        <div className="text-sm text-secondary">{createdBranch.address}</div>
+                        <div className="text-sm text-textSecondary">{createdBranch.address}</div>
                         
                         <div className="text-sm font-medium text-primary">Branch ID:</div>
                         <div className="text-sm text-tertiary font-mono">{createdBranch.branch_id}</div>
                         
                         <div className="text-sm font-medium text-primary">Created At:</div>
-                        <div className="text-sm text-secondary">
+                        <div className="text-sm text-textSecondary">
                             {new Date(createdBranch.created_at).toLocaleString()}
                         </div>
                     </div>

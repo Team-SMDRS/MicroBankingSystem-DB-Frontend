@@ -15,7 +15,7 @@ const Alert = ({ children, type = 'info', className = '' }: AlertProps) => {
         return 'bg-yellow-50 border-yellow-400 text-yellow-700';
       case 'info':
       default:
-        return 'bg-blue-50 border-secondary text-secondary';
+        return 'bg-blue-50 border-secondary text-textSecondary';
     }
   };
 

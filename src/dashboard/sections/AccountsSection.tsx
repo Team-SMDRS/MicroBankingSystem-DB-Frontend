@@ -161,7 +161,7 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
           <div className="mt-6 p-4 bg-blue-50 border border-secondary rounded-xl animate-pulse">
             <div className="flex items-center gap-3">
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-secondary"></div>
-              <p className="text-secondary font-medium">Loading account details...</p>
+              <p className="text-textSecondary font-medium">Loading account details...</p>
             </div>
           </div>
         )}

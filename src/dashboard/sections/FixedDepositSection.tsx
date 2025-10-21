@@ -92,35 +92,35 @@ const FixedDepositSection = () => {
                 <div className="space-y-4 max-w-2xl">
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">FD Account No:</strong> 
-                    <span className="text-secondary">{createdFD.fd_account_no}</span>
+                    <span className="text-textSecondary">{createdFD.fd_account_no}</span>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Balance:</strong> 
-                    <span className="text-secondary">Rs. {createdFD.balance}</span>
+                    <span className="text-textSecondary">Rs. {createdFD.balance}</span>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Account No:</strong> 
-                    <span className="text-secondary">{createdFD.account_no}</span>
+                    <span className="text-textSecondary">{createdFD.account_no}</span>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Branch:</strong> 
-                    <span className="text-secondary">{createdFD.branch_name}</span>
+                    <span className="text-textSecondary">{createdFD.branch_name}</span>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Opened:</strong> 
-                    <span className="text-secondary">{new Date(createdFD.opened_date).toLocaleDateString()}</span>
+                    <span className="text-textSecondary">{new Date(createdFD.opened_date).toLocaleDateString()}</span>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Maturity:</strong> 
-                    <span className="text-secondary">{new Date(createdFD.maturity_date).toLocaleDateString()}</span>
+                    <span className="text-textSecondary">{new Date(createdFD.maturity_date).toLocaleDateString()}</span>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Duration:</strong> 
-                    <span className="text-secondary">{createdFD.plan_duration} months</span>
+                    <span className="text-textSecondary">{createdFD.plan_duration} months</span>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Rate:</strong> 
-                    <span className="text-secondary">{createdFD.plan_interest_rate}% p.a.</span>
+                    <span className="text-textSecondary">{createdFD.plan_interest_rate}% p.a.</span>
                   </div>
                 </div>
               </div>
@@ -155,7 +155,7 @@ const FixedDepositSection = () => {
                 <div className="space-y-4 max-w-2xl">
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">FD Account No:</strong> 
-                    <span className="text-secondary">{closedFD.fd_account_no}</span>
+                    <span className="text-textSecondary">{closedFD.fd_account_no}</span>
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Status:</strong> 
@@ -163,7 +163,7 @@ const FixedDepositSection = () => {
                   </div>
                   <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border border-borderLight">
                     <strong className="text-primary">Withdrawn Amount:</strong> 
-                    <span className="text-secondary">Rs. {parseFloat(closedFD.withdrawn_amount).toFixed(2)}</span>
+                    <span className="text-textSecondary">Rs. {parseFloat(closedFD.withdrawn_amount).toFixed(2)}</span>
                   </div>
                 </div>
               </div>
