@@ -107,160 +107,162 @@ const CustomerDetailsSection = ({ activeSubTab, setActiveSubTab }: CustomerDetai
 
  
     return (
-        <div className="p-8">
-            <SectionHeader
-                title="Customer Details"
-                description="View and manage customer information and accounts"
-            />
+        <div className="min-h-screen bg-background p-8">
+            <div className="max-w-7xl mx-auto">
+                <SectionHeader
+                    title="Customer Details"
+                    description="View and manage customer information and accounts"
+                />
 
-            <SubTabGrid
-                subTabs={subTabs}
-                activeSubTab={activeSubTab}
-                onSubTabChange={tab => {
-                    setActiveSubTab(tab);
-                    setShowUpdateForm(false);
-                    setCustomerIdInput("");
-                    
-                    // Reset search state when switching tabs
-                    if (tab === "customer-search") {
-                        setSearchTerm("");
-                        setSearchResults([]);
-                        setSearchError("");
-                    } else if (tab === "customer-info") {
-                        // Keep existing functionality for customer-info tab
-                        // but reset results if needed
-                    }
-                }}
-            />
-
-            {/* Customer Details Tab with Update functionality */}
-            {showContent && activeSubTab === "customer-info" && (
-                <CustomerInfoBlock
+                <SubTabGrid
+                    subTabs={subTabs}
                     activeSubTab={activeSubTab}
-                    nicNumber={nicNumber}
-                    setNICNumber={setNICNumber}
-                    handleFetchDetails={handleFetchDetails}
-                    isLoading={isLoading}
-                    error={error}
-                    customerDetails={customerDetails}
-                    onCloseDetails={() => setCustomerDetails(null)}
-                    onUpdateDetails={(customerId) => {
-                        setCustomerIdInput(customerId);
-                        setShowUpdateForm(true);
+                    onSubTabChange={tab => {
+                        setActiveSubTab(tab);
+                        setShowUpdateForm(false);
+                        setCustomerIdInput("");
+                        
+                        // Reset search state when switching tabs
+                        if (tab === "customer-search") {
+                            setSearchTerm("");
+                            setSearchResults([]);
+                            setSearchError("");
+                        } else if (tab === "customer-info") {
+                            // Keep existing functionality for customer-info tab
+                            // but reset results if needed
+                        }
                     }}
                 />
-            )}
 
-            {/* Customer Search Tab */}
-            {showContent && activeSubTab === "customer-search" && (
-                <div className="mt-6 bg-white p-6 rounded-lg shadow-sm">
-                    <div className="mb-6">
-                        <label htmlFor="customerSearch" className="block text-sm font-medium text-gray-700 mb-1">
-                            Search Customer by Name
-                        </label>
-                        <div className="flex gap-2">
-                            <input
-                                id="customerSearch"
-                                type="text"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="flex-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter customer name"
-                                onKeyDown={(e) => e.key === 'Enter' && handleSearchCustomers()}
-                            />
-                            <button
-                                onClick={handleSearchCustomers}
-                                disabled={searchLoading}
-                                className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow transition disabled:opacity-60"
-                            >
-                                {searchLoading ? (
-                                    <span className="inline-block w-4 h-4 border-2 border-t-2 border-white rounded-full animate-spin mr-2" />
-                                ) : (
-                                    <Search className="w-4 h-4 mr-2" />
-                                )}
-                                Search
-                            </button>
-                        </div>
-                        {searchError && <p className="mt-2 text-sm text-red-600">{searchError}</p>}
-                    </div>
-                    
-                    {searchResults.length > 0 && (
-                        <div className="mt-6">
-                            <h3 className="text-lg font-medium text-gray-900 mb-3">Search Results</h3>
-                            <div className="overflow-x-auto rounded-lg border border-gray-200">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Name
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                NIC
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Address
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Phone
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                Action
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                        {searchResults.map((customer) => (
-                                            <tr key={customer.customer_id} className="hover:bg-gray-50">
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    {customer.full_name}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
-                                                    {customer.nic}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {customer.address}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {customer.phone_number}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                    <button 
-                                                        onClick={() => {
-                                                            // Set the NIC for the customer details tab
-                                                            setNICNumber(customer.nic);
-                                                            // Switch to customer details tab
-                                                            setActiveSubTab("customer-info");
-                                                            // Fetch details automatically
-                                                            setTimeout(() => handleFetchDetails(), 100);
-                                                        }}
-                                                        className="text-blue-600 hover:text-blue-900 mr-4"
-                                                    >
-                                                        View Details
-                                                    </button>
-                                                    
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            )}
-
-            {/* Update Customer Form (shown when update button is clicked) */}
-            {showContent && showUpdateForm && (
-                <div ref={updateFormRef}>
-                    <UpdateCustomerForm
-                        customerId={customerIdInput}
-                        onClose={() => {
-                            setShowUpdateForm(false);
-                            setCustomerIdInput("");
+                {/* Customer Details Tab with Update functionality */}
+                {showContent && activeSubTab === "customer-info" && (
+                    <CustomerInfoBlock
+                        activeSubTab={activeSubTab}
+                        nicNumber={nicNumber}
+                        setNICNumber={setNICNumber}
+                        handleFetchDetails={handleFetchDetails}
+                        isLoading={isLoading}
+                        error={error}
+                        customerDetails={customerDetails}
+                        onCloseDetails={() => setCustomerDetails(null)}
+                        onUpdateDetails={(customerId) => {
+                            setCustomerIdInput(customerId);
+                            setShowUpdateForm(true);
                         }}
                     />
-                </div>
-            )}
+                )}
+
+                {/* Customer Search Tab */}
+                {showContent && activeSubTab === "customer-search" && (
+                    <div className="mt-6 bg-white p-6 rounded-2xl shadow-md border border-borderLight animate-slide-in-right">
+                        <div className="mb-6">
+                            <label htmlFor="customerSearch" className="label-text">
+                                Search Customer by Name
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    id="customerSearch"
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="flex-1 input-field"
+                                    placeholder="Enter customer name"
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSearchCustomers()}
+                                />
+                                <button
+                                    onClick={handleSearchCustomers}
+                                    disabled={searchLoading}
+                                    className="button-secondary whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                                >
+                                    {searchLoading ? (
+                                        <span className="inline-block w-4 h-4 border-2 border-t-2 border-white rounded-full animate-spin mr-2" />
+                                    ) : (
+                                        <Search className="w-4 h-4 mr-2 inline" />
+                                    )}
+                                    Search
+                                </button>
+                            </div>
+                            {searchError && <p className="mt-2 text-sm text-red-600 font-medium">{searchError}</p>}
+                        </div>
+                        
+                        {searchResults.length > 0 && (
+                            <div className="mt-6">
+                                <h3 className="text-lg font-bold text-primary mb-3">Search Results</h3>
+                                <div className="overflow-x-auto rounded-2xl border border-borderLight">
+                                    <table className="min-w-full divide-y divide-borderLight">
+                                        <thead className="bg-background">
+                                            <tr>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-primary uppercase tracking-wider">
+                                                    Name
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-primary uppercase tracking-wider">
+                                                    NIC
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-primary uppercase tracking-wider">
+                                                    Address
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-primary uppercase tracking-wider">
+                                                    Phone
+                                                </th>
+                                                <th scope="col" className="px-6 py-3 text-left text-xs font-bold text-primary uppercase tracking-wider">
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-borderLight">
+                                            {searchResults.map((customer) => (
+                                                <tr key={customer.customer_id} className="hover:bg-background transition-colors">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-primary">
+                                                        {customer.full_name}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-textSecondary font-mono">
+                                                        {customer.nic}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-tertiary">
+                                                        {customer.address}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-tertiary">
+                                                        {customer.phone_number}
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                        <button 
+                                                            onClick={() => {
+                                                                // Set the NIC for the customer details tab
+                                                                setNICNumber(customer.nic);
+                                                                // Switch to customer details tab
+                                                                setActiveSubTab("customer-info");
+                                                                // Fetch details automatically
+                                                                setTimeout(() => handleFetchDetails(), 100);
+                                                            }}
+                                                            className="text-highlight hover:text-highlightHover font-semibold transition-colors"
+                                                        >
+                                                            View Details
+                                                        </button>
+                                                        
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {/* Update Customer Form (shown when update button is clicked) */}
+                {showContent && showUpdateForm && (
+                    <div ref={updateFormRef} className="mt-6 animate-slide-in-right">
+                        <UpdateCustomerForm
+                            customerId={customerIdInput}
+                            onClose={() => {
+                                setShowUpdateForm(false);
+                                setCustomerIdInput("");
+                            }}
+                        />
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

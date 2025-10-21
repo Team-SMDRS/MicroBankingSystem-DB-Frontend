@@ -79,28 +79,28 @@ const JointAccountCreateForm: React.FC<JointAccountCreateFormProps> = ({ custome
   };
 
   return (
-    <div className="mt-5 p-4 border rounded bg-white">
-      <h5 className="text-md font-medium mb-3">Create Joint Account</h5>
-      <div className="space-y-3">
+    <div className="mt-5 p-6 border border-borderLight rounded-2xl bg-white animate-slide-in-right">
+      <h5 className="text-lg font-semibold text-primary mb-4">Create Joint Account</h5>
+      <div className="space-y-4">
         {!result?.success && (
           <>
             <div>
-              <label className="block text-sm text-slate-600 mb-1">Initial Balance (LKR)</label>
+              <label className="label-text">Initial Balance (LKR)</label>
               <input
                 type="number"
                 value={balance as any}
                 onChange={e => setBalance(e.target.value === '' ? '' : Number(e.target.value))}
-                className={`p-2 border rounded w-full ${fieldErrors.balance ? 'border-red-500' : ''}`}
+                className={`input-field w-full ${fieldErrors.balance ? 'border-red-500' : ''}`}
                 disabled={createLoading}
               />
-              {fieldErrors.balance && <div className="text-sm text-red-600">{fieldErrors.balance}</div>}
+              {fieldErrors.balance && <div className="text-sm text-red-600 mt-1">{fieldErrors.balance}</div>}
             </div>
             
-            <div className="pt-2">
+            <div className="pt-4">
               <button
                 type="button"
                 onClick={handleCreateJointAccount}
-                className="px-4 py-2 bg-green-600 text-white rounded"
+                className="button-primary px-4 py-2"
                 disabled={createLoading}
               >
                 {createLoading ? 'Creating...' : 'Create Joint Account'}
@@ -110,33 +110,33 @@ const JointAccountCreateForm: React.FC<JointAccountCreateFormProps> = ({ custome
         )}
         
         {result && (
-          <div className={`p-3 ${result.success ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'} rounded mt-3`}>
-            <div className="font-medium">{result.message}</div>
+          <div className={`p-4 ${result.success ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-red-50 text-red-800 border border-red-200'} rounded-2xl mt-4`}>
+            <div className="font-semibold text-lg">{result.message}</div>
             {result.success && result.data && (
               <>
-                <div className="mt-3 mb-3">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                    <div className="p-2 border rounded bg-white">
-                      <h6 className="font-medium text-slate-800">{customer1.name}</h6>
-                      <div className="text-sm text-slate-600">NIC: {customer1.nic}</div>
+                <div className="mt-4 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                    <div className="p-3 border border-borderLight rounded-2xl bg-white">
+                      <h6 className="font-semibold text-primary">{customer1.name}</h6>
+                      <div className="text-sm text-textSecondary">NIC: {customer1.nic}</div>
                     </div>
                     
-                    <div className="p-2 border rounded bg-white">
-                      <h6 className="font-medium text-slate-800">{customer2.name}</h6>
-                      <div className="text-sm text-slate-600">NIC: {customer2.nic}</div>
+                    <div className="p-3 border border-borderLight rounded-2xl bg-white">
+                      <h6 className="font-semibold text-primary">{customer2.name}</h6>
+                      <div className="text-sm text-textSecondary">NIC: {customer2.nic}</div>
                     </div>
                   </div>
                   
-                  <div className="p-2 border rounded bg-white">
-                    <h6 className="font-medium text-slate-800">Account Details</h6>
-                    <div className="text-sm text-slate-600">Account No: {result.data.account_no}</div>
+                  <div className="p-3 border border-borderLight rounded-2xl bg-white">
+                    <h6 className="font-semibold text-primary">Account Details</h6>
+                    <div className="text-sm text-textSecondary">Account No: {result.data.account_no}</div>
                   </div>
                 </div>
                 <div className="flex justify-end">
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded"
+                    className="button-secondary px-4 py-2"
                   >
                     Close & Reset Form
                   </button>

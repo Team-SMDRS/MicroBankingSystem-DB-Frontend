@@ -31,19 +31,23 @@ const SummarySection = ({ activeSubTab, setActiveSubTab }: SummarySectionProps) 
   };
 
   return (
-    <div className="p-8">
-      <SectionHeader 
-        title="Summary"
-        description="Manage your summary efficiently and securely"
-      />
-      
-      <SubTabGrid 
-        subTabs={subTabs}
-        activeSubTab={activeSubTab}
-        onSubTabChange={setActiveSubTab}
-      />
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader 
+          title="Summary"
+          description="Manage your summary efficiently and securely"
+        />
+        
+        <SubTabGrid 
+          subTabs={subTabs}
+          activeSubTab={activeSubTab}
+          onSubTabChange={setActiveSubTab}
+        />
 
-      {renderContent()}
+        <div className="animate-slide-in-right">
+          {renderContent()}
+        </div>
+      </div>
     </div>
   );
 };

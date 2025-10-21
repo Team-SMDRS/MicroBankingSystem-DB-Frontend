@@ -88,52 +88,54 @@ const BranchSection: React.FC<BranchSectionProps> = ({ activeSubTab, setActiveSu
     };
 
     return (
-        <div className="p-8">
-            <SectionHeader
-                title="Branch Management"
-                description="Create, update, and view branch details"
-            />
+        <div className="min-h-screen bg-background p-8">
+            <div className="max-w-7xl mx-auto">
+                <SectionHeader
+                    title="Branch Management"
+                    description="Create, update, and view branch details"
+                />
 
-            <SubTabGrid
-                subTabs={subTabs}
-                activeSubTab={activeSubTab}
-                onSubTabChange={handleTabClick}
-            />
+                <SubTabGrid
+                    subTabs={subTabs}
+                    activeSubTab={activeSubTab}
+                    onSubTabChange={handleTabClick}
+                />
 
-            {/* Success alert placed after the subsection tabs (not at the very top) */}
-            {success && <div className="mt-4"><Alert type="success">{success}</Alert></div>}
+                {/* Success alert placed after the subsection tabs (not at the very top) */}
+                {success && <div className="mt-4 animate-slide-down"><Alert type="success">{success}</Alert></div>}
 
-            {/* Search results are rendered inside the Search subtab's form component. */}
+                {/* Search results are rendered inside the Search subtab's form component. */}
 
-            <div className="mt-6 bg-white p-8 rounded-xl shadow-md border border-gray-100">
-                {/* CREATE BRANCH */}
-                {activeSubTab === 'create-branch' && (
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Create New Branch</h2>
-                        {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
-                        <CreateBranchForm onSuccess={handleCreate} isLoading={loading} createdBranch={createdBranch} />
-                    </div>
-                )}
+                <div className="mt-6 bg-white p-8 rounded-2xl shadow-md border border-borderLight animate-slide-in-right">
+                    {/* CREATE BRANCH */}
+                    {activeSubTab === 'create-branch' && (
+                        <div className="max-w-6xl mx-auto">
+                            <h2 className="text-xl font-bold text-primary mb-4">Create New Branch</h2>
+                            {error && <div className="mb-4 animate-slide-down"><Alert type="error">{error}</Alert></div>}
+                            <CreateBranchForm onSuccess={handleCreate} isLoading={loading} createdBranch={createdBranch} />
+                        </div>
+                    )}
 
-                {/* UPDATE BRANCH */}
-                {activeSubTab === 'update-branch' && (
-                    <div className="max-w-6xl mx-auto">
-                        <h2 className="text-xl font-semibold mb-4">Update Branch</h2>
-                        {error && <div className="mb-4"><Alert type="error">{error}</Alert></div>}
-                        {selectedBranch ? (
-                            <UpdateBranchForm
-                                branch={selectedBranch}
-                                onSubmit={handleUpdate}
-                                isLoading={loading}
-                                updatedBranch={updatedBranch}
-                            />
-                        ) : (
-                            <SearchBranchForm
-                                onSelect={handleSelectBranch}
-                            />
-                        )}
-                    </div>
-                )}
+                    {/* UPDATE BRANCH */}
+                    {activeSubTab === 'update-branch' && (
+                        <div className="max-w-6xl mx-auto">
+                            <h2 className="text-xl font-bold text-primary mb-4">Update Branch</h2>
+                            {error && <div className="mb-4 animate-slide-down"><Alert type="error">{error}</Alert></div>}
+                            {selectedBranch ? (
+                                <UpdateBranchForm
+                                    branch={selectedBranch}
+                                    onSubmit={handleUpdate}
+                                    isLoading={loading}
+                                    updatedBranch={updatedBranch}
+                                />
+                            ) : (
+                                <SearchBranchForm
+                                    onSelect={handleSelectBranch}
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

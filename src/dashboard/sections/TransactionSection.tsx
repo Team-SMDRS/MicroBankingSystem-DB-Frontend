@@ -31,19 +31,23 @@ const TransactionSection = ({ activeSubTab, setActiveSubTab }: TransactionSectio
   };
 
   return (
-    <div className="p-8">
-      <SectionHeader 
-        title="Transactions"
-        description="Manage your transactions efficiently and securely"
-      />
-      
-      <SubTabGrid 
-        subTabs={subTabs}
-        activeSubTab={activeSubTab}
-        onSubTabChange={setActiveSubTab}
-      />
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader 
+          title="Transactions"
+          description="Manage your transactions efficiently and securely"
+        />
+        
+        <SubTabGrid 
+          subTabs={subTabs}
+          activeSubTab={activeSubTab}
+          onSubTabChange={setActiveSubTab}
+        />
 
-      {renderForm()}
+        <div className="animate-slide-in-right">
+          {renderForm()}
+        </div>
+      </div>
     </div>
   );
 };

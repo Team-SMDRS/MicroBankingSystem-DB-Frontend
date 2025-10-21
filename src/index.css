@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom animation utilities */
+@layer utilities {
+  .transition-smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .button-primary {
+    @apply bg-highlight hover:bg-highlightHover text-primary font-semibold py-2 px-5 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+
+  .button-secondary {
+    @apply bg-secondary hover:bg-secondary/80 text-white font-semibold py-2 px-5 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+
+  .input-field {
+    @apply border border-borderLight focus:border-secondary focus:ring-2 focus:ring-secondary/20 rounded-xl p-3 bg-white text-primary placeholder-tertiary transition-all duration-300;
+  }
+
+  .card-base {
+    @apply bg-white rounded-2xl shadow-md p-6 border border-borderLight transition-all duration-300 hover:shadow-lg;
+  }
+
+  .card-interactive {
+    @apply bg-white rounded-2xl shadow-md p-6 border border-borderLight transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer;
+  }
+
+  .section-header {
+    @apply text-primary font-bold text-2xl mb-6;
+  }
+
+  .label-text {
+    @apply text-secondary font-semibold text-sm mb-2;
+  }
+}

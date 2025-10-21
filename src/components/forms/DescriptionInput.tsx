@@ -16,8 +16,8 @@ const DescriptionInput = ({
   rows = 3 
 }: DescriptionInputProps) => {
   return (
-    <div>
-      <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-2">
+    <div className="animate-slide-in-right">
+      <label htmlFor="description" className="label-text">
         {label}
       </label>
       <textarea
@@ -27,7 +27,7 @@ const DescriptionInput = ({
         required={required}
         rows={rows}
         placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all outline-none resize-none"
+        className="input-field w-full resize-none"
       />
     </div>
   );

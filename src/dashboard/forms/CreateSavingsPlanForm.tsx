@@ -116,8 +116,9 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-bold mb-4">Create New Savings Plan</h3>
+    <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
+      <h3 className="text-xl font-bold text-primary mb-2">Create New Savings Plan</h3>
+      <p className="text-sm text-textSecondary mb-6">Add a new savings plan to the system</p>
       
       {error && (
         <Alert type="error" className="mb-4">
@@ -147,9 +148,9 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
         </Alert>
       )}
       
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="plan_name" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="plan_name" className="label-text">
             Plan Name
           </label>
           <input
@@ -158,13 +159,13 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
             name="plan_name"
             value={formData.plan_name}
             onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="input-field w-full"
             required
           />
         </div>
         
         <div>
-          <label htmlFor="interest_rate" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="interest_rate" className="label-text">
             Interest Rate (%)
           </label>
           <input
@@ -173,7 +174,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
             name="interest_rate"
             value={formData.interest_rate}
             onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="input-field w-full"
             step="0.01"
             min="0"
             required
@@ -181,7 +182,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
         </div>
         
         <div>
-          <label htmlFor="minimum_balance" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="minimum_balance" className="label-text">
             Minimum Balance
           </label>
           <input
@@ -190,7 +191,7 @@ const CreateSavingsPlanForm: React.FC<CreateSavingsPlanFormProps> = ({ onSuccess
             name="minimum_balance"
             value={formData.minimum_balance}
             onChange={handleInputChange}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            className="input-field w-full"
             step="0.01"
             min="0"
             required

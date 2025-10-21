@@ -117,20 +117,20 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <div className="mb-4">
-        <h3 className="text-lg font-medium">Update User Details</h3>
-        <p className="text-sm text-gray-500">Editing information for {user.first_name} {user.last_name}</p>
-        <p className="text-xs text-blue-600 mt-1">You can edit the first name, last name, address, phone number, and email</p>
+    <div className="bg-white shadow-md rounded-2xl p-8 border border-borderLight animate-slide-in-right">
+      <div className="mb-6">
+        <h3 className="text-2xl font-bold text-primary">Update User Details</h3>
+        <p className="text-sm text-textSecondary mt-2">Editing information for {user.first_name} {user.last_name}</p>
+        <p className="text-xs text-tertiary mt-2">You can edit the first name, last name, address, phone number, and email</p>
       </div>
 
       {error && <Alert type="error">{error}</Alert>}
       {success && <Alert type="success">{success}</Alert>}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               First Name
             </label>
             <input
@@ -139,12 +139,12 @@ const UpdateUserFormFixed: React.FC<UpdateUserFormProps> = ({ user, onUpdateSucc
               value={formData.first_name || ''}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="input-field w-full"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="label-text">
               Last Name
             </label>
             <input

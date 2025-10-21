@@ -19,26 +19,30 @@ const UsersSection = ({ activeSubTab, setActiveSubTab }: UsersSectionProps) => {
   ];
 
   return (
-    <div className="p-8">
-      <SectionHeader 
-        title="Users"
-        description="Manage your users efficiently and securely"
-      />
-      
-      <SubTabGrid 
-        subTabs={subTabs}
-        activeSubTab={activeSubTab}
-        onSubTabChange={setActiveSubTab}
-      />
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader 
+          title="Users"
+          description="Manage your users efficiently and securely"
+        />
+        
+        <SubTabGrid 
+          subTabs={subTabs}
+          activeSubTab={activeSubTab}
+          onSubTabChange={setActiveSubTab}
+        />
 
-      <GenericContentCard 
-        activeSubTab={activeSubTab}
-        subTabs={subTabs}
-        description="View and manage"
-      >
-        {activeSubTab === 'create-user' && <CreateUserForm />}
-        {activeSubTab === 'user-management' && <UserManagement />}
-      </GenericContentCard>
+        <div className="animate-slide-in-right">
+          <GenericContentCard 
+            activeSubTab={activeSubTab}
+            subTabs={subTabs}
+            description="View and manage"
+          >
+            {activeSubTab === 'create-user' && <CreateUserForm />}
+            {activeSubTab === 'user-management' && <UserManagement />}
+          </GenericContentCard>
+        </div>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { ArrowLeftRight } from 'lucide-react';
 import api from '../../api/axios';
+import ConfirmationModal from '../../components/common/ConfirmationModal';
 
 interface BankTransferFormProps {
   onSuccess?: () => void;
@@ -15,20 +16,37 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [pendingTransfer, setPendingTransfer] = useState<null | {
+    amount: number;
+    fromAccountNo: string;
+    toAccountNo: string;
+    description: string;
+  }>(null);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccess(false);
-    setIsSubmitting(true);
+    // set pending transfer to show confirmation modal
+    setPendingTransfer({
+      amount: parseFloat(amount),
+      fromAccountNo,
+      toAccountNo,
+      description,
+    });
+  };
 
+  const confirmTransfer = async () => {
+    if (!pendingTransfer) return;
+    setIsSubmitting(true);
+    setError(null);
     try {
       const response = await api.post('/api/transactions/transfer', {
         transaction_type: 'bank_transfer',
-        amount: parseFloat(amount),
-        from_account_no: fromAccountNo,
-        to_account_no: toAccountNo,
-        description,
+        amount: pendingTransfer.amount,
+        from_account_no: pendingTransfer.fromAccountNo,
+        to_account_no: pendingTransfer.toAccountNo,
+        description: pendingTransfer.description,
         status: 'completed',
       });
 
@@ -38,7 +56,7 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
         setFromAccountNo('');
         setToAccountNo('');
         setDescription('');
-
+        setPendingTransfer(null);
         if (onSuccess) onSuccess();
       }
     } catch (err: any) {
@@ -48,21 +66,25 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
     }
   };
 
+  const cancelConfirmation = () => {
+    setPendingTransfer(null);
+  };
+
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200">
-        <div className="w-12 h-12 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl flex items-center justify-center">
-          <ArrowLeftRight className="w-6 h-6 text-blue-600" />
+    <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
+      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-borderLight">
+        <div className="w-12 h-12 bg-gradient-to-br from-secondary/10 to-secondary/20 rounded-xl flex items-center justify-center">
+          <ArrowLeftRight className="w-6 h-6 text-textSecondary" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-slate-800">Bank Transfer</h3>
-          <p className="text-sm text-slate-500">Transfer funds between accounts</p>
+          <h3 className="text-2xl font-bold text-primary">Bank Transfer</h3>
+          <p className="text-sm text-textSecondary">Transfer funds between accounts</p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="amount" className="label-text">
             Amount
           </label>
           <input
@@ -74,12 +96,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             min="0.01"
             step="0.01"
             placeholder="0.00"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="input-field w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="fromAccount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="fromAccount" className="label-text">
             From Account No
           </label>
           <input
@@ -89,12 +111,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             onChange={(e) => setFromAccountNo(e.target.value)}
             required
             placeholder="Enter source account number"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="input-field w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="toAccount" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="toAccount" className="label-text">
             To Account No
           </label>
           <input
@@ -104,12 +126,12 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             onChange={(e) => setToAccountNo(e.target.value)}
             required
             placeholder="Enter destination account number"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none"
+            className="input-field w-full"
           />
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-2">
+          <label htmlFor="description" className="label-text">
             Description
           </label>
           <textarea
@@ -119,7 +141,7 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
             required
             rows={3}
             placeholder="Enter transaction description"
-            className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all outline-none resize-none"
+            className="input-field w-full resize-none"
           />
         </div>
 
@@ -138,11 +160,26 @@ const BankTransferForm = ({ onSuccess }: BankTransferFormProps) => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold py-4 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-600/30"
+          className="button-primary w-full"
         >
           {isSubmitting ? 'Processing...' : 'Transfer Funds'}
         </button>
       </form>
+      <ConfirmationModal
+        open={!!pendingTransfer}
+        title="Confirm Bank Transfer"
+        details={pendingTransfer ? [
+          { label: 'Amount', value: pendingTransfer.amount.toFixed(2) },
+          { label: 'From Account', value: pendingTransfer.fromAccountNo },
+          { label: 'To Account', value: pendingTransfer.toAccountNo },
+          { label: 'Description', value: pendingTransfer.description },
+        ] : []}
+        onConfirm={confirmTransfer}
+        onCancel={cancelConfirmation}
+        isLoading={isSubmitting}
+        confirmText="Confirm Transfer"
+        cancelText="Edit"
+      />
     </div>
   );
 };

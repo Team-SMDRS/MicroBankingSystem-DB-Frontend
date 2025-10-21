@@ -16,8 +16,8 @@ const AmountInput = ({
   required = true 
 }: AmountInputProps) => {
   return (
-    <div>
-      <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+    <div className="animate-slide-in-right">
+      <label htmlFor="amount" className="label-text">
         {label}
       </label>
       <input
@@ -30,9 +30,9 @@ const AmountInput = ({
         max={maxAmount}
         step="0.01"
         placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all outline-none"
+        className="input-field w-full"
       />
-      <p className="text-xs text-slate-500 mt-1">
+      <p className="text-xs text-tertiary font-medium mt-2">
         Maximum withdrawal: Rs. {maxAmount.toFixed(2)}
       </p>
     </div>

@@ -27,13 +27,13 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ username, onClo
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 w-full max-w-md animate-slide-in-right">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-medium text-gray-900">Reset Password</h3>
+          <h3 className="text-lg font-semibold text-primary">Reset Password</h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-500"
+            className="text-tertiary hover:text-textSecondary transition-colors"
           >
             <X size={20} />
           </button>
@@ -41,22 +41,22 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ username, onClo
 
         {resetSuccess ? (
           <div className="text-center py-4">
-            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
-              <CheckCircle className="h-6 w-6 text-green-600" />
+            <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-emerald-50 mb-4">
+              <CheckCircle className="h-6 w-6 text-emerald-600" />
             </div>
-            <h3 className="text-lg font-medium text-gray-900">Password Reset Successful</h3>
-            <p className="mt-2 text-sm text-gray-500">
+            <h3 className="text-lg font-semibold text-primary">Password Reset Successful</h3>
+            <p className="mt-2 text-sm text-textSecondary">
               The password for {username} has been reset successfully.
             </p>
           </div>
         ) : (
           <>
             <div className="mb-4">
-              <p className="text-sm text-gray-500 mb-4">
-                Enter a new password for user <span className="font-medium">{username}</span>
+              <p className="text-sm text-textSecondary mb-4">
+                Enter a new password for user <span className="font-medium text-primary">{username}</span>
               </p>
               <div className="mb-4">
-                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="newPassword" className="label-text">
                   New Password
                 </label>
                 <input
@@ -64,7 +64,7 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ username, onClo
                   id="newPassword"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="input-field w-full"
                   placeholder="Enter new password"
                   autoComplete="new-password"
                 />
@@ -74,13 +74,13 @@ const PasswordResetModal: React.FC<PasswordResetModalProps> = ({ username, onClo
             <div className="flex justify-end space-x-3">
               <button
                 onClick={onClose}
-                className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="button-secondary"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSubmit}
-                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="button-primary"
                 disabled={!newPassword.trim()}
               >
                 Reset Password

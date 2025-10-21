@@ -72,31 +72,31 @@ const UpdateCustomerForm: React.FC<UpdateCustomerFormProps> = ({ customerId, onC
 
   return (
     <div className="w-full max-w-screen-xl mx-auto flex justify-center items-center min-h-[60vh]">
-      <div className="bg-white shadow-xl rounded-xl p-8 w-full">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Update Customer Details</h2>
+      <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 w-full animate-slide-in-right">
+        <h2 className="text-2xl font-bold mb-6 text-primary text-center">Update Customer Details</h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-gray-700 font-semibold mb-2" htmlFor="full_name">Full Name</label>
-            <input id="full_name" name="full_name" value={form.full_name} onChange={handleChange} placeholder="Full Name" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label className="label-text" htmlFor="full_name">Full Name</label>
+            <input id="full_name" name="full_name" value={form.full_name} onChange={handleChange} placeholder="Full Name" className="input-field w-full" />
           </div>
           <div>
-            <label className="block text-gray-700 font-semibold mb-2" htmlFor="address">Address</label>
-            <input id="address" name="address" value={form.address} onChange={handleChange} placeholder="Address" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label className="label-text" htmlFor="address">Address</label>
+            <input id="address" name="address" value={form.address} onChange={handleChange} placeholder="Address" className="input-field w-full" />
           </div>
           <div>
-            <label className="block text-gray-700 font-semibold mb-2" htmlFor="phone_number">Phone Number</label>
-            <input id="phone_number" name="phone_number" value={form.phone_number} onChange={handleChange} placeholder="Phone Number" className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label className="label-text" htmlFor="phone_number">Phone Number</label>
+            <input id="phone_number" name="phone_number" value={form.phone_number} onChange={handleChange} placeholder="Phone Number" className="input-field w-full" />
           </div>
           <div>
-            <label className="block text-gray-700 font-semibold mb-2" htmlFor="nic">NIC</label>
-            <input id="nic" name="nic" value={form.nic} readOnly placeholder="NIC" className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed" />
+            <label className="label-text" htmlFor="nic">NIC</label>
+            <input id="nic" name="nic" value={form.nic} readOnly placeholder="NIC" className="input-field w-full bg-background text-textSecondary cursor-not-allowed" />
           </div>
           <div className="col-span-1 md:col-span-2 flex justify-center gap-4 mt-4">
-            <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg shadow transition">Update</button>
-            <button type="button" className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-8 py-3 rounded-lg border shadow" onClick={onClose}>Cancel</button>
+            <button type="submit" className="button-primary">Update</button>
+            <button type="button" className="button-secondary" onClick={onClose}>Cancel</button>
           </div>
         </form>
-        {success && <div className="text-green-600 mt-6 text-center font-semibold">Customer updated successfully!</div>}
+        {success && <div className="text-emerald-700 mt-6 text-center font-semibold bg-emerald-50 border border-emerald-200 rounded-xl p-3">Customer updated successfully!</div>}
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [duration, setDuration] = useState<number>(12);
   const [interestRate, setInterestRate] = useState<number>(5);
+  const [minAmount, setMinAmount] = useState<number>(1000);
   const [isCreating, setIsCreating] = useState(false);
 
   // Function to fetch FD plans
@@ -62,7 +63,8 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
       setIsCreating(true);
       const result = await createFDPlan({
         duration_months: duration,
-        interest_rate: interestRate
+        interest_rate: interestRate,
+        min_amount: minAmount
       });
       
       // Add the new plan to the state
@@ -99,14 +101,14 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
 
   return (
     <div className="w-full">
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="bg-white rounded-2xl shadow-md border border-borderLight p-6">
         <div className="flex justify-between items-center mb-5">
           <div className="flex items-center">
-            <h3 className="text-lg font-semibold text-slate-800">Available Fixed Deposit Plans</h3>
+            <h3 className="text-lg font-semibold text-primary">Available Fixed Deposit Plans</h3>
             <button 
               onClick={fetchFDPlans}
               disabled={loadingPlans}
-              className="ml-3 flex items-center px-2 py-1 text-xs bg-blue-50 text-blue-600 rounded border border-blue-200 hover:bg-blue-100 transition-colors"
+              className="ml-3 flex items-center px-2 py-1 text-xs bg-secondary text-white rounded-lg border border-secondary hover:bg-primary transition-colors font-medium"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1">
                 <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
@@ -119,13 +121,13 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
           </div>
           <button 
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center px-4 py-2 text-sm font-medium bg-green-600 text-white rounded-md shadow-md hover:bg-green-700 transition-colors focus:ring-2 focus:ring-green-500 focus:ring-offset-2 animate-pulse-subtle"
+            className="flex items-center px-4 py-2 text-sm font-semibold bg-highlight text-white rounded-xl shadow-md hover:bg-highlightHover transition-colors focus:ring-2 focus:ring-highlight focus:ring-offset-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
               <path d="M12 5v14"></path>
               <path d="M5 12h14"></path>
             </svg>
-            <span className="font-semibold">Create FD Plan</span>
+            <span>Create FD Plan</span>
           </button>
         </div>
         
@@ -135,7 +137,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
               <select
                 value={searchType}
                 onChange={(e) => setSearchType(e.target.value as 'id' | 'duration')}
-                className="w-full border border-slate-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                className="input-field w-full"
               >
                 <option value="id">FD Plan ID</option>
                 <option value="duration">Duration</option>
@@ -143,7 +145,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
             </div>
             <div className="relative flex-1">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-tertiary">
                   <circle cx="11" cy="11" r="8"></circle>
                   <path d="m21 21-4.3-4.3"></path>
                 </svg>
@@ -153,22 +155,23 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                 placeholder={searchType === 'id' ? "Search by FD Plan ID..." : "Search by duration (months)..."}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                className="input-field pl-10 pr-4 w-full"
               />
             </div>
           </div>
         </div>
         
         {loadingPlans ? (
-          <div className="text-center py-8 text-slate-500">Loading FD plans...</div>
+          <div className="text-center py-8 text-textSecondary">Loading FD plans...</div>
         ) : (
           <div className="overflow-hidden">
-            <table className="min-w-full bg-white rounded-lg">
+            <table className="min-w-full bg-white rounded-2xl">
               <thead className="bg-slate-50">
                 <tr>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Plan ID</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Duration</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Interest Rate</th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Min Amount</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Status</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Actions</th>
                 </tr>
@@ -179,6 +182,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                     <td className="py-3 px-4 text-sm text-slate-800 font-mono">{plan.fd_plan_id.substring(0, 8)}...</td>
                     <td className="py-3 px-4 text-sm text-slate-800">{plan.duration} months</td>
                     <td className="py-3 px-4 text-sm text-slate-800">{plan.interest_rate}%</td>
+                    <td className="py-3 px-4 text-sm text-slate-800">Rs. {plan.min_amount.toLocaleString()}</td>
                     <td className="py-3 px-4">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         plan.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
@@ -211,7 +215,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                 ))}
                 {filteredPlans.length === 0 && !loadingPlans && (
                   <tr>
-                    <td colSpan={5} className="py-8 text-center text-slate-500">
+                    <td colSpan={6} className="py-8 text-center text-slate-500">
                       {fdPlans.length === 0 
                         ? 'No FD plans found.' 
                         : `No plans match your ${searchType === 'id' ? 'FD Plan ID' : 'duration'} search criteria.`
@@ -225,7 +229,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
         )}
         
         {lastUpdated && !loadingPlans && (
-          <div className="mt-4 text-xs text-slate-500 text-right">
+          <div className="mt-4 text-xs text-textSecondary text-right">
             Last updated: {lastUpdated.toLocaleTimeString()}
           </div>
         )}
@@ -234,12 +238,12 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
       {/* Create FD Plan Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md border-t-4 border-green-500">
+          <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 w-full max-w-md animate-slide-in-right">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-bold text-slate-800">Create New FD Plan</h3>
+              <h3 className="text-lg font-semibold text-primary">Create New FD Plan</h3>
               <button 
                 onClick={() => setShowCreateModal(false)}
-                className="text-slate-500 hover:text-slate-700"
+                className="text-tertiary hover:text-textSecondary transition-colors"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M18 6L6 18"></path>
@@ -250,7 +254,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
             
             <div className="space-y-4">
               <div>
-                <label htmlFor="duration" className="block text-sm font-medium text-slate-700 mb-1">
+                <label htmlFor="duration" className="label-text">
                   Duration (months)
                 </label>
                 <input
@@ -259,12 +263,12 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                   min="1"
                   value={duration}
                   onChange={(e) => setDuration(parseInt(e.target.value, 10) || 0)}
-                  className="w-full border border-slate-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="input-field w-full"
                 />
               </div>
               
               <div>
-                <label htmlFor="interestRate" className="block text-sm font-medium text-slate-700 mb-1">
+                <label htmlFor="interestRate" className="label-text">
                   Interest Rate (%)
                 </label>
                 <input
@@ -274,21 +278,35 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                   min="0"
                   value={interestRate}
                   onChange={(e) => setInterestRate(parseFloat(e.target.value) || 0)}
-                  className="w-full border border-slate-300 rounded-md py-2 px-3 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  className="input-field w-full"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="minAmount" className="label-text">
+                  Minimum Amount (Rs.)
+                </label>
+                <input
+                  id="minAmount"
+                  type="number"
+                  min="0"
+                  value={minAmount}
+                  onChange={(e) => setMinAmount(parseInt(e.target.value, 10) || 0)}
+                  className="input-field w-full"
                 />
               </div>
               
               <div className="flex justify-end space-x-3 pt-5">
                 <button
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 text-sm font-medium text-slate-600 border border-slate-300 rounded-md hover:bg-slate-50 transition-colors"
+                  className="button-secondary"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleCreateFDPlan}
-                  disabled={isCreating || duration <= 0 || interestRate <= 0}
-                  className="px-6 py-2 text-sm font-medium text-white bg-green-600 rounded-md shadow-sm hover:bg-green-700 transition-colors disabled:bg-green-400 focus:ring-2 focus:ring-green-500 focus:ring-offset-1"
+                  disabled={isCreating || duration <= 0 || interestRate <= 0 || minAmount <= 0}
+                  className="button-primary disabled:opacity-50"
                 >
                   {isCreating ? 'Creating...' : 'Create FD Plan'}
                 </button>

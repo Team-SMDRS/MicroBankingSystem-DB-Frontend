@@ -9,6 +9,7 @@ import DescriptionInput from '../../components/forms/DescriptionInput';
 import Alert from '../../components/common/Alert';
 import TransactionResultDisplay from '../../components/common/TransactionResultDisplay';
 import SubmitButton from '../../components/common/SubmitButton';
+import ConfirmationModal from '../../components/common/ConfirmationModal';
 
 interface WithdrawalFormProps {
   onSuccess?: () => void;
@@ -18,7 +19,8 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
   const [accountNo, setAccountNo] = useState('');
   const [amount, setAmount] = useState('');
   const [description, setDescription] = useState('');
-  
+  const [pendingWithdrawal, setPendingWithdrawal] = useState<null | { amount: number; description: string; account_no: number }>(null);
+
   const {
     accountDetails,
     isLoadingAccount,
@@ -43,35 +45,42 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
     fetchAccountDetails(accountNo);
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    
+
     if (!accountDetails) {
       return;
     }
 
-    const success = await submitWithdrawal({
+    setPendingWithdrawal({
       amount: parseFloat(amount),
       description,
-      account_no: parseInt(accountNo),
+      account_no: parseInt(accountNo, 10),
     });
+  };
 
+  const confirmWithdrawal = async () => {
+    if (!pendingWithdrawal) return;
+    const success = await submitWithdrawal(pendingWithdrawal);
     if (success) {
       setAmount('');
       setDescription('');
+      setPendingWithdrawal(null);
       if (onSuccess) onSuccess();
     }
   };
 
+  const cancelWithdrawal = () => setPendingWithdrawal(null);
+
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-200">
-        <div className="w-12 h-12 bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl flex items-center justify-center">
-          <ArrowDownToLine className="w-6 h-6 text-amber-600" />
+    <div className="bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
+      <div className="flex items-center gap-3 mb-6 pb-6 border-b border-borderLight">
+        <div className="w-12 h-12 bg-gradient-to-br from-red-50 to-red-100 rounded-xl flex items-center justify-center">
+          <ArrowDownToLine className="w-6 h-6 text-red-600" />
         </div>
         <div>
-          <h3 className="text-2xl font-bold text-slate-800">Withdrawal</h3>
-          <p className="text-sm text-slate-500">Withdraw funds from an account</p>
+          <h3 className="text-2xl font-bold text-primary">Withdrawal</h3>
+          <p className="text-sm text-textSecondary">Withdraw funds from an account</p>
         </div>
       </div>
 
@@ -132,6 +141,20 @@ const WithdrawalForm = ({ onSuccess }: WithdrawalFormProps) => {
           Withdraw Funds
         </SubmitButton>
       </form>
+      <ConfirmationModal
+        open={!!pendingWithdrawal}
+        title="Confirm Withdrawal"
+        details={pendingWithdrawal ? [
+          { label: 'Account No', value: pendingWithdrawal.account_no },
+          { label: 'Amount', value: pendingWithdrawal.amount.toFixed(2) },
+          { label: 'Description', value: pendingWithdrawal.description },
+        ] : []}
+        onConfirm={confirmWithdrawal}
+        onCancel={cancelWithdrawal}
+        isLoading={isSubmitting}
+        confirmText="Confirm Withdrawal"
+        cancelText="Edit"
+      />
     </div>
   );
 };

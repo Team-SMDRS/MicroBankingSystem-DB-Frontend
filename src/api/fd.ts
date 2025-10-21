@@ -4,6 +4,7 @@ export interface FDPlan {
   fd_plan_id: string;
   duration: number;
   interest_rate: string;
+  min_amount: number;
   status: string;
   created_at: string;
   updated_at: string;
@@ -51,10 +52,11 @@ export const updateFDPlanStatus = async (planId: string, status: 'active' | 'ina
 interface CreateFDPlanRequest {
   duration_months: number;
   interest_rate: number;
+  min_amount: number;
 }
 
 export const createFDPlan = async (data: CreateFDPlanRequest): Promise<{ message: string; fd_plan: FDPlan }> => {
-  const response = await api.post(`/api/fd/fd-plans?duration_months=${data.duration_months}&interest_rate=${data.interest_rate}`);
+  const response = await api.post(`/api/fd/fd-plans?duration_months=${data.duration_months}&interest_rate=${data.interest_rate}&min_amount=${data.min_amount}`);
   return response.data;
 };
 

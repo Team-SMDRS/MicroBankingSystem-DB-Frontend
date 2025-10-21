@@ -1,4 +1,5 @@
 
+
 import { Users, CreditCard, Trash2 } from 'lucide-react';
 import SavingsLookupForm from '../forms/SavingsLookupForm';
 import JointLookupForm from '../forms/JointLookupForm';
@@ -19,33 +20,35 @@ const CreateAccountSection = ({ activeSubTab, setActiveSubTab }: CreateAccountSe
   ];
 
   return (
-    <div className="p-8">
-      <SectionHeader 
-        title="Create Account"
-        description="Manage your create-account efficiently and securely"
-      />
-      
-      <SubTabGrid 
-        subTabs={subTabs}
-        activeSubTab={activeSubTab}
-        onSubTabChange={setActiveSubTab}
-      />
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader 
+          title="Create Account"
+          description="Manage your create-account efficiently and securely"
+        />
+        
+        <SubTabGrid 
+          subTabs={subTabs}
+          activeSubTab={activeSubTab}
+          onSubTabChange={setActiveSubTab}
+        />
 
-      {/* Inline simple form: one input for savings, two for joint */}
-      <div className="mt-6 bg-white p-6 rounded-lg shadow-sm">
-        {activeSubTab === 'savings-account-new' && (
-          <SavingsLookupForm />
-        )}
+        {/* Inline simple form: one input for savings, two for joint */}
+        <div className="mt-6 bg-white p-6 rounded-2xl shadow-md border border-borderLight animate-slide-in-right">
+          {activeSubTab === 'savings-account-new' && (
+            <SavingsLookupForm />
+          )}
 
-        {activeSubTab === 'joint-account-new' && (
-          <JointLookupForm />
-        )}
+          {activeSubTab === 'joint-account-new' && (
+            <JointLookupForm />
+          )}
 
-        {activeSubTab === 'close-account' && (
-          <div className="flex justify-end">
-            <CloseAccountAction />
-          </div>
-        )}
+          {activeSubTab === 'close-account' && (
+            <div className="flex justify-end">
+              <CloseAccountAction />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -55,5 +58,4 @@ const CreateAccountSection = ({ activeSubTab, setActiveSubTab }: CreateAccountSe
 
 // ...existing code...
 export default CreateAccountSection;
-
 

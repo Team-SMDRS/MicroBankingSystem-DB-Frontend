@@ -112,90 +112,92 @@ const AccountsSection = ({ activeSubTab, setActiveSubTab }: AccountsSectionProps
   };
 
   return (
-    <div className="p-8">
-      <SectionHeader 
-        title="Accounts"
-        description="Manage your accounts efficiently and securely"
-      />
-      <SubTabGrid 
-        subTabs={subTabs}
-        activeSubTab={activeSubTab}
-        onSubTabChange={handleTabClick}
-      />
-      {prompt && (
-        <div className="mt-4 bg-white p-6 rounded-lg shadow-sm">
-          {pendingTab === 'account-details' ? (
-            <AccountNumberInput
-              accountNo={accountInput}
-              onAccountNoChange={setAccountInput}
-              onFetchDetails={handleSubmitAccount}
-              isLoading={loading}
-              onDebugAuth={() => {}}
-            />
-          ) : (
-            <NICNumberInput
-              nicNumber={nicInput}
-              onNICNumberChange={setNicInput}
-              onFetchDetails={handleSubmitNIC}
-              isLoading={loading}
-            />
-          )}
-        </div>
-      )}
-      {allAccounts && activeSubTab === 'all-accounts' && (
-        <div className="mt-6 w-full">
-            <AllAccountsDisplay 
-              accounts={allAccounts} 
-              nic={queryValue ?? undefined}
-              onClose={() => {
-                setAllAccounts(null);
-                setQueryValue(null);
-                setPendingTab('all-accounts');
-                setPrompt({ type: 'nic', label: 'Enter NIC to search all accounts' });
-              }} 
-            />
-        </div>
-      )}
-      {loading && (
-        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <div className="flex items-center gap-3">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-            <p className="text-blue-700">Loading account details...</p>
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader 
+          title="Accounts"
+          description="Manage your accounts efficiently and securely"
+        />
+        <SubTabGrid 
+          subTabs={subTabs}
+          activeSubTab={activeSubTab}
+          onSubTabChange={handleTabClick}
+        />
+        {prompt && (
+          <div className="mt-4 bg-white p-6 rounded-2xl shadow-md border border-borderLight animate-slide-down">
+            {pendingTab === 'account-details' ? (
+              <AccountNumberInput
+                accountNo={accountInput}
+                onAccountNoChange={setAccountInput}
+                onFetchDetails={handleSubmitAccount}
+                isLoading={loading}
+                onDebugAuth={() => {}}
+              />
+            ) : (
+              <NICNumberInput
+                nicNumber={nicInput}
+                onNICNumberChange={setNicInput}
+                onFetchDetails={handleSubmitNIC}
+                isLoading={loading}
+              />
+            )}
           </div>
-        </div>
-      )}
-      {error && (
-        <div className="mt-6">
-          <Alert type="error">
-            <div className="flex justify-between items-center">
-              <div>
-                <h4 className="font-medium">Error</h4>
-                <p>{error}</p>
-              </div>
-              <button 
-                onClick={() => setError(null)}
-                className="text-red-500 hover:text-red-700"
-              >
-                ×
-              </button>
+        )}
+        {allAccounts && activeSubTab === 'all-accounts' && (
+          <div className="mt-6 w-full animate-slide-in-right">
+              <AllAccountsDisplay 
+                accounts={allAccounts} 
+                nic={queryValue ?? undefined}
+                onClose={() => {
+                  setAllAccounts(null);
+                  setQueryValue(null);
+                  setPendingTab('all-accounts');
+                  setPrompt({ type: 'nic', label: 'Enter NIC to search all accounts' });
+                }} 
+              />
+          </div>
+        )}
+        {loading && (
+          <div className="mt-6 p-4 bg-blue-50 border border-secondary rounded-xl animate-pulse">
+            <div className="flex items-center gap-3">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-secondary"></div>
+              <p className="text-textSecondary font-medium">Loading account details...</p>
             </div>
-          </Alert>
-        </div>
-      )}
-      {accountDetails && activeSubTab === 'account-details' && (
-        <div className="mt-6 w-full">
-          <AccountDetailsDisplay 
-            accountDetails={accountDetails}
-            accountNumber={queryValue ?? ''}
-            onClose={() => {
-              setAccountDetails(null);
-              setQueryValue(null);
-              setPendingTab('account-details');
-              setPrompt({ type: 'nic', label: 'Enter NIC to view account details' });
-            }}
-          />
-        </div>
-      )}
+          </div>
+        )}
+        {error && (
+          <div className="mt-6 animate-slide-down">
+            <Alert type="error">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h4 className="font-bold">Error</h4>
+                  <p>{error}</p>
+                </div>
+                <button 
+                  onClick={() => setError(null)}
+                  className="text-red-500 hover:text-red-700 font-bold text-xl"
+                >
+                  ×
+                </button>
+              </div>
+            </Alert>
+          </div>
+        )}
+        {accountDetails && activeSubTab === 'account-details' && (
+          <div className="mt-6 w-full animate-slide-in-right">
+            <AccountDetailsDisplay 
+              accountDetails={accountDetails}
+              accountNumber={queryValue ?? ''}
+              onClose={() => {
+                setAccountDetails(null);
+                setQueryValue(null);
+                setPendingTab('account-details');
+                setPrompt({ type: 'nic', label: 'Enter NIC to view account details' });
+              }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

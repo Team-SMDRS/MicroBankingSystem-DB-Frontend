@@ -36,32 +36,34 @@ const UpdateBranchForm: React.FC<UpdateBranchFormProps> = ({ branch, onSubmit, i
 
     if (success && updatedBranch) {
         return (
-            <div className="p-6 bg-gradient-to-br from-blue-50 to-green-50 rounded-lg border border-blue-200 shadow-sm">
+            <div className="p-6 bg-white rounded-2xl shadow-md border border-borderLight">
                 <div className="flex items-center gap-2 mb-4">
-                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <h3 className="text-lg font-semibold text-green-800">Branch Updated Successfully!</h3>
+                    <div className="w-10 h-10 bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl flex items-center justify-center">
+                        <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-emerald-800">Branch Updated Successfully!</h3>
                 </div>
 
-                <div className="space-y-3 mb-4 bg-white p-4 rounded border border-blue-100">
+                <div className="space-y-3 mb-4 bg-background p-4 rounded-2xl border border-borderLight">
                     <div className="grid grid-cols-2 gap-2">
-                        <div className="text-sm font-medium text-slate-600">Branch Name:</div>
-                        <div className="text-sm font-semibold text-slate-800">{updatedBranch.name}</div>
+                        <div className="text-sm font-medium text-primary">Branch Name:</div>
+                        <div className="text-sm font-semibold text-textSecondary">{updatedBranch.name}</div>
 
-                        <div className="text-sm font-medium text-slate-600">Address:</div>
-                        <div className="text-sm text-slate-800">{updatedBranch.address}</div>
+                        <div className="text-sm font-medium text-primary">Address:</div>
+                        <div className="text-sm text-textSecondary">{updatedBranch.address}</div>
 
-                        <div className="text-sm font-medium text-slate-600">Branch ID:</div>
-                        <div className="text-slate-700 font-mono text-xs">{updatedBranch.branch_id}</div>
+                        <div className="text-sm font-medium text-primary">Branch ID:</div>
+                        <div className="text-tertiary font-mono text-xs">{updatedBranch.branch_id}</div>
 
-                        <div className="text-sm font-medium text-slate-600">Created At:</div>
-                        <div className="text-sm text-slate-700">
+                        <div className="text-sm font-medium text-primary">Created At:</div>
+                        <div className="text-sm text-textSecondary">
                             {new Date(updatedBranch.created_at).toLocaleString()}
                         </div>
 
-                        <div className="text-sm font-medium text-slate-600">Updated At:</div>
-                        <div className="text-sm text-slate-700">
+                        <div className="text-sm font-medium text-primary">Updated At:</div>
+                        <div className="text-sm text-textSecondary">
                             {updatedBranch.updated_at ? new Date(updatedBranch.updated_at).toLocaleString() : 'N/A'}
                         </div>
                     </div>
@@ -73,7 +75,7 @@ const UpdateBranchForm: React.FC<UpdateBranchFormProps> = ({ branch, onSubmit, i
                         // Reset form to show branch selection/search again
                         window.location.reload();
                     }}
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                    className="button-secondary px-4 py-2"
                 >
                     Update Another Branch
                 </button>
@@ -82,34 +84,34 @@ const UpdateBranchForm: React.FC<UpdateBranchFormProps> = ({ branch, onSubmit, i
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6 bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
             <div>
-                <label htmlFor="name" className="block text-sm text-blue-700 font-medium mb-1">Branch Name</label>
+                <label htmlFor="name" className="label-text">Branch Name</label>
                 <input
                     type="text"
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white border-blue-200"
+                    className="input-field w-full"
                     placeholder="Enter branch name"
                 />
             </div>
 
             <div>
-                <label htmlFor="address" className="block text-sm text-blue-700 font-medium mb-1">Branch Address</label>
+                <label htmlFor="address" className="label-text">Branch Address</label>
                 <textarea
                     id="address"
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white border-blue-200"
+                    className="input-field w-full resize-none"
                     placeholder="Enter branch address"
                     rows={3}
                 />
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-end pt-4">
                 <SubmitButton isSubmitting={!!isLoading}>
                     Update Branch
                 </SubmitButton>

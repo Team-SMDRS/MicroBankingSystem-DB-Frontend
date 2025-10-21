@@ -54,7 +54,11 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
     }, [searchQuery, searchType, allBranches]);
 
     return (
-        <div className="space-y-4 flex flex-col min-h-full">
+        <div className="space-y-6 flex flex-col min-h-full bg-white rounded-2xl shadow-md border border-borderLight p-8 animate-slide-in-right">
+            <div>
+                <h3 className="text-2xl font-bold text-primary mb-2">Search Branches</h3>
+                <p className="text-sm text-textSecondary mb-6">Find and select a branch</p>
+            </div>
             <div className="space-y-4">
                 <div className="flex gap-4">
                     <div className="flex-1">
@@ -62,7 +66,7 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                            className="input-field w-full"
                             placeholder={searchType === 'name' ? "Search by branch name..." : "Search by branch ID..."}
                         />
                     </div>
@@ -70,7 +74,7 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
                         <select
                             value={searchType}
                             onChange={(e) => setSearchType(e.target.value as 'name' | 'id')}
-                            className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                            className="input-field"
                         >
                             <option value="name">Search by Name</option>
                             <option value="id">Search by ID</option>
@@ -81,19 +85,19 @@ const SearchBranchForm: React.FC<SearchBranchFormProps> = ({
 
             {filteredBranches && filteredBranches.length > 0 && (
                 <div className={`mt-4 ${pushResultsToBottom ? 'mt-auto' : ''}`}>
-                    <h3 className="text-lg font-semibold mb-2">
+                    <h3 className="text-lg font-semibold text-primary mb-4">
                         {searchQuery.trim() ? 'Search Results' : 'All Branches'} ({filteredBranches.length})
                     </h3>
                     <div className="space-y-2 max-h-96 overflow-y-auto">
                         {filteredBranches.map((branch: BranchDetails) => (
                             <div
                                 key={branch.branch_id}
-                                className="p-3 border rounded-lg hover:bg-blue-50 transition-colors duration-150 border-blue-100 flex items-center justify-between"
+                                className="p-4 border border-borderLight rounded-2xl hover:bg-background transition-colors duration-150 flex items-center justify-between"
                             >
                                 <div>
-                                    <div className="font-medium">{branch.name}</div>
-                                    <div className="text-sm text-gray-600">{branch.address}</div>
-                                    <div className="text-xs text-gray-400">ID: {branch.branch_id}</div>
+                                    <div className="font-semibold text-primary">{branch.name}</div>
+                                    <div className="text-sm text-textSecondary">{branch.address}</div>
+                                    <div className="text-xs text-tertiary">ID: {branch.branch_id}</div>
                                 </div>
                                 <div>
                                     <button

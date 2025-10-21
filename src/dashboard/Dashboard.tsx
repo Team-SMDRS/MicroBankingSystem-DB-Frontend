@@ -11,10 +11,11 @@ import CustomerDetailsSection from "./sections/CustomerDetailsSection";
 import BranchSection from "./sections/BranchSection";
 import SavingsPlansSection from "./sections/SavingsPlansSection";
 import MyProfileSection from "./sections/MyProfileSection";
+import OverviewSection from "./sections/OverviewSection";
 
 import FixedDepositSection from "./sections/FixedDepositSection";
 
-export type MainTab = 'transactions' | 'summary' | 'accounts' | 'create-account' | 'users' | 'customer-details' | 'branches' | 'savings-plans' | 'fixed-deposits'| 'my-profile';
+export type MainTab = 'overview' | 'transactions' | 'summary' | 'accounts' | 'create-account' | 'users' | 'customer-details' | 'branches' | 'savings-plans' | 'fixed-deposits'| 'my-profile';
 
 
 const Dashboard = () => {
@@ -36,6 +37,7 @@ const Dashboard = () => {
     setActiveMainTab(tabId);
     // Set default sub tab based on main tab, but none for customer-details
     const defaultSubTabs: Record<string, string> = {
+      'overview': 'my-branch',
       'transactions': 'bank-transfer',
       'summary': 'branch-summary',
       'accounts': 'fixed-deposit',
@@ -52,6 +54,8 @@ const Dashboard = () => {
 
   const renderContent = () => {
     switch (activeMainTab) {
+      case 'overview':
+        return <OverviewSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'transactions':
         return <TransactionSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'summary':

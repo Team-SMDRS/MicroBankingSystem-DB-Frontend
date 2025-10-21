@@ -13,6 +13,7 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }: MainLayoutProps) => {
   const mainTabs = [
+    { id: 'overview' as MainTab, label: 'Overview', icon: LayoutDashboard },
     { id: 'transactions' as MainTab, label: 'Transactions', icon: ArrowLeftRight },
     { id: 'summary' as MainTab, label: 'Summary', icon: LayoutDashboard },
     { id: 'accounts' as MainTab, label: 'Accounts Details', icon: Wallet },
@@ -25,13 +26,13 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex">
+    <div className="min-h-screen bg-background flex animate-fade-in">
       {/* Fixed Sidebar */}
-      <aside className="fixed left-0 top-0 w-72 h-screen bg-white shadow-xl border-r border-slate-200 flex flex-col">
-        <div className="p-6 border-b border-slate-200 flex-shrink-0">
+      <aside className="fixed left-0 top-0 w-72 h-screen bg-white shadow-lg border-r border-borderLight flex flex-col">
+        <div className="p-6 border-b border-borderLight flex-shrink-0 animate-slide-in-left">
           <div className="flex items-center gap-3">
             <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-white/0"
+              className="w-12 h-12 rounded-xl flex items-center justify-center shadow-md bg-white/0 transition-transform duration-300 hover:scale-105"
               style={{
                 backgroundImage: `url(${logo})`,
                 backgroundSize: 'cover',
@@ -40,28 +41,28 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
               }}
             />
             <div>
-              <h1 className="text-xl font-bold text-slate-800"><span className="text-blue-600">B</span>Trust Bank</h1>
-              <p className="text-xs text-slate-500">Management System</p>
+              <h1 className="text-xl font-bold text-primary"><span className="text-textSecondary">B</span>Trust Bank</h1>
+              <p className="text-xs text-tertiary font-medium">Management System</p>
             </div>
           </div>
         </div>
 
         <nav className="p-4 flex-1 overflow-y-auto">
           <ul className="space-y-2">
-            {mainTabs.map((tab) => {
+            {mainTabs.map((tab, index) => {
               const Icon = tab.icon;
               const isActive = activeMainTab === tab.id;
               return (
-                <li key={tab.id}>
+                <li key={tab.id} style={{ animation: `slide-in-left 0.4s ease-out ${index * 0.05}s both` }}>
                   <button
                     onClick={() => onMainTabChange(tab.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 ${isActive
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-600/30'
-                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                    className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 transform hover:scale-105 ${isActive
+                        ? 'bg-gradient-to-r from-secondary to-secondary/80 text-white shadow-lg shadow-secondary/30'
+                        : 'text-primary hover:bg-borderLight hover:text-textSecondary'
                       }`}
                   >
-                    <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-slate-500'}`} />
-                    <span className="font-medium">{tab.label}</span>
+                    <Icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'text-white scale-110' : 'text-textSecondary'}`} />
+                    <span className="font-semibold">{tab.label}</span>
                   </button>
                 </li>
               );
@@ -69,31 +70,31 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
           </ul>
         </nav>
 
-        <div className="p-4 border-t border-slate-200 bg-white flex-shrink-0">
+        <div className="p-4 border-t border-borderLight bg-background/50 flex-shrink-0">
           <button
             onClick={() => onMainTabChange('my-profile' as MainTab)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${activeMainTab === 'my-profile'
-              ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-600/30'
-              : 'bg-slate-50 hover:bg-slate-100 text-slate-800 hover:text-slate-900'
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 ${activeMainTab === 'my-profile'
+              ? 'bg-gradient-to-r from-secondary to-secondary/80 text-white shadow-lg shadow-secondary/30'
+              : 'bg-white hover:shadow-md text-primary hover:text-textSecondary border border-borderLight'
             }`}
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-slate-300 to-slate-400 rounded-full flex items-center justify-center text-slate-700 font-semibold flex-shrink-0">
+            <div className="w-10 h-10 bg-gradient-to-br from-highlight to-highlightHover rounded-full flex items-center justify-center text-primary font-semibold flex-shrink-0 shadow-md">
               {user?.username?.slice(0, 2).toUpperCase() || 'JD'}
             </div>
             <div className="flex-1 text-left">
-              <p className={`text-sm font-semibold ${activeMainTab === 'my-profile' ? 'text-white' : 'text-slate-800'}`}>
+              <p className={`text-sm font-semibold ${activeMainTab === 'my-profile' ? 'text-white' : 'text-primary'}`}>
                 {user?.username || 'John Doe'}
               </p>
-              <p className={`text-xs ${activeMainTab === 'my-profile' ? 'text-white/70' : 'text-slate-500'}`}>View Profile</p>
+              <p className={`text-xs font-medium ${activeMainTab === 'my-profile' ? 'text-white/70' : 'text-tertiary'}`}>View Profile</p>
             </div>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onLogout();
               }}
-              className={`p-2 rounded-lg transition-colors ${activeMainTab === 'my-profile'
+              className={`p-2 rounded-lg transition-all duration-300 ${activeMainTab === 'my-profile'
                 ? 'text-white/70 hover:text-white hover:bg-white/10'
-                : 'text-slate-500 hover:text-red-600 hover:bg-red-50'
+                : 'text-tertiary hover:text-red-600 hover:bg-red-50'
               }`}
               title="Logout"
             >
@@ -104,7 +105,7 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
       </aside>
 
       {/* Main Content with left margin to account for fixed sidebar */}
-      <main className="flex-1 ml-72 overflow-auto">
+      <main className="flex-1 ml-72 overflow-auto animate-slide-in-right">
         {children}
       </main>
     </div>
