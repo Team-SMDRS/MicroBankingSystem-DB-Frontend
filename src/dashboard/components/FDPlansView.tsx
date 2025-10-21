@@ -17,6 +17,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [duration, setDuration] = useState<number>(12);
   const [interestRate, setInterestRate] = useState<number>(5);
+  const [minAmount, setMinAmount] = useState<number>(1000);
   const [isCreating, setIsCreating] = useState(false);
 
   // Function to fetch FD plans
@@ -62,7 +63,8 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
       setIsCreating(true);
       const result = await createFDPlan({
         duration_months: duration,
-        interest_rate: interestRate
+        interest_rate: interestRate,
+        min_amount: minAmount
       });
       
       // Add the new plan to the state
@@ -169,6 +171,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Plan ID</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Duration</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Interest Rate</th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Min Amount</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Status</th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Actions</th>
                 </tr>
@@ -179,6 +182,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                     <td className="py-3 px-4 text-sm text-slate-800 font-mono">{plan.fd_plan_id.substring(0, 8)}...</td>
                     <td className="py-3 px-4 text-sm text-slate-800">{plan.duration} months</td>
                     <td className="py-3 px-4 text-sm text-slate-800">{plan.interest_rate}%</td>
+                    <td className="py-3 px-4 text-sm text-slate-800">Rs. {plan.min_amount.toLocaleString()}</td>
                     <td className="py-3 px-4">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         plan.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
@@ -211,7 +215,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                 ))}
                 {filteredPlans.length === 0 && !loadingPlans && (
                   <tr>
-                    <td colSpan={5} className="py-8 text-center text-slate-500">
+                    <td colSpan={6} className="py-8 text-center text-slate-500">
                       {fdPlans.length === 0 
                         ? 'No FD plans found.' 
                         : `No plans match your ${searchType === 'id' ? 'FD Plan ID' : 'duration'} search criteria.`
@@ -278,6 +282,20 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                 />
               </div>
               
+              <div>
+                <label htmlFor="minAmount" className="label-text">
+                  Minimum Amount (Rs.)
+                </label>
+                <input
+                  id="minAmount"
+                  type="number"
+                  min="0"
+                  value={minAmount}
+                  onChange={(e) => setMinAmount(parseInt(e.target.value, 10) || 0)}
+                  className="input-field w-full"
+                />
+              </div>
+              
               <div className="flex justify-end space-x-3 pt-5">
                 <button
                   onClick={() => setShowCreateModal(false)}
@@ -287,7 +305,7 @@ const FDPlansView = ({ onError }: FDPlansViewProps) => {
                 </button>
                 <button
                   onClick={handleCreateFDPlan}
-                  disabled={isCreating || duration <= 0 || interestRate <= 0}
+                  disabled={isCreating || duration <= 0 || interestRate <= 0 || minAmount <= 0}
                   className="button-primary disabled:opacity-50"
                 >
                   {isCreating ? 'Creating...' : 'Create FD Plan'}
