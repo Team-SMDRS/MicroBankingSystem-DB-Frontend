@@ -21,42 +21,36 @@ const TransactionSummary = () => {
   const [transactionData, setTransactionData] = useState<TransactionData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [startDate, setStartDate] = useState(() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 30);
+    return d.toISOString().slice(0, 10);
+  });
+  const [endDate, setEndDate] = useState(() => new Date().toISOString().slice(0, 10));
+
+  // Fetch function so it can be triggered by the Load button
+  const fetchTransactions = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await transactionApi.getAllTransactions({
+        start_date: startDate,
+        end_date: endDate,
+        per_page: 100
+      });
+
+      setTransactionData(response.transactions || []);
+    } catch (err: any) {
+      console.error('Error fetching transactions:', err);
+      setError(err.response?.data?.detail || 'Failed to load transactions');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        
-        // Calculate date 30 days ago
-        const endDate = new Date();
-        const startDate = new Date();
-        startDate.setDate(startDate.getDate() - 30);
-        
-        // Format dates as YYYY-MM-DD (local timezone)
-        const formatDate = (date: Date) => {
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const day = String(date.getDate()).padStart(2, '0');
-          return `${year}-${month}-${day}`;
-        };
-        
-        const response = await transactionApi.getAllTransactions({
-          start_date: formatDate(startDate),
-          end_date: formatDate(endDate),
-          per_page: 100
-        });
-        
-        setTransactionData(response.transactions || []);
-      } catch (err: any) {
-        console.error('Error fetching transactions:', err);
-        setError(err.response?.data?.detail || 'Failed to load transactions');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchTransactions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Show loading state
@@ -69,8 +63,25 @@ const TransactionSummary = () => {
           </div>
           <div>
             <h3 className="section-header text-primary">Transaction Summary</h3>
-            <p className="text-sm text-textSecondary">Recent transaction history (Last 30 Days)</p>
+            <p className="text-sm text-textSecondary">Recent transaction history ({startDate} - {endDate})</p>
           </div>
+        </div>
+        <div className="p-4 bg-background flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-textSecondary">From</label>
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="input-field" />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-textSecondary">To</label>
+            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="input-field" />
+          </div>
+          <button
+            onClick={fetchTransactions}
+            disabled={loading || new Date(startDate) > new Date(endDate)}
+            className="button-secondary ml-2"
+          >
+            {loading ? 'Loading...' : 'Load'}
+          </button>
         </div>
         <div className="flex items-center justify-center p-12">
           <Loader2 className="w-8 h-8 animate-spin text-textSecondary" />
@@ -90,8 +101,25 @@ const TransactionSummary = () => {
           </div>
           <div>
             <h3 className="section-header text-primary">Transaction Summary</h3>
-            <p className="text-sm text-textSecondary">Recent transaction history (Last 30 Days)</p>
+            <p className="text-sm text-textSecondary">Recent transaction history ({startDate} - {endDate})</p>
           </div>
+        </div>
+        <div className="p-4 bg-background flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-textSecondary">From</label>
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="input-field" />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-textSecondary">To</label>
+            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="input-field" />
+          </div>
+          <button
+            onClick={fetchTransactions}
+            disabled={loading || new Date(startDate) > new Date(endDate)}
+            className="button-secondary ml-2"
+          >
+            Load
+          </button>
         </div>
         <div className="flex items-center justify-center p-12 text-red-600 font-medium">
           <AlertCircle className="w-8 h-8" />
@@ -109,14 +137,57 @@ const TransactionSummary = () => {
         </div>
         <div>
           <h3 className="section-header text-primary">Transaction Summary</h3>
-          <p className="text-sm text-textSecondary">Recent transaction history (Last 30 Days)</p>
+          <p className="text-sm text-textSecondary">Recent transaction history ({startDate} - {endDate})</p>
         </div>
+      </div>
+
+      <div className="p-4 bg-background flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-textSecondary">From</label>
+          <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="input-field" />
+        </div>
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-textSecondary">To</label>
+          <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="input-field" />
+        </div>
+        <button
+          onClick={fetchTransactions}
+          disabled={loading || new Date(startDate) > new Date(endDate)}
+          className="button-secondary ml-2"
+        >
+          Load
+        </button>
+      </div>
+
+      <div className="p-4 flex justify-end">
+        <button
+          onClick={async () => {
+            if (!transactionData || transactionData.length === 0) return;
+            try {
+              const blob = await transactionApi.downloadAllTransactionsReport(startDate, endDate);
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', `transactions_${startDate}_to_${endDate}.pdf`);
+              document.body.appendChild(link);
+              link.click();
+              link.remove();
+              URL.revokeObjectURL(url);
+            } catch (err: any) {
+              console.error('Download error', err);
+              alert(err?.response?.data?.message || 'Failed to download PDF report');
+            }
+          }}
+          className="button-secondary"
+        >
+          Download PDF
+        </button>
       </div>
 
       <div className="overflow-x-auto">
         {transactionData.length === 0 ? (
           <div className="flex items-center justify-center p-12 text-textSecondary font-medium">
-            <p>No transactions found in the last 30 days</p>
+            <p>No transactions found in the selected date range</p>
           </div>
         ) : (
           <table className="w-full">
@@ -146,11 +217,10 @@ const TransactionSummary = () => {
                   <td className="px-6 py-4 text-sm text-textSecondary">
                     {transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out' ? '-' : transaction.account_no}
                   </td>
-                  <td className={`px-6 py-4 text-sm font-bold ${
-                    transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out' 
-                      ? 'text-red-700' 
+                  <td className={`px-6 py-4 text-sm font-bold ${transaction.type === 'Withdrawal' || transaction.type === 'BankTransfer-Out'
+                      ? 'text-red-700'
                       : 'text-emerald-700'
-                  }`}>
+                    }`}>
                     {formatCurrency(transaction.amount)}
                   </td>
                   <td className="px-6 py-4 text-sm text-textSecondary">

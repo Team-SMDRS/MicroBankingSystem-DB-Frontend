@@ -74,6 +74,19 @@ export const branchApi = {
     );
     return response.data;
   }
+  ,
+  // Download branch transaction report as PDF
+  downloadBranchTransactionReport: async (
+    branchId: string,
+    params: BranchReportParams
+  ): Promise<Blob> => {
+    // Backend route: /admin/daily_transactions_by_branch/report/pdf (returns 404 otherwise)
+    const response = await api.get(`/api/pdf-reports/admin/daily_transactions_by_branch/report/pdf`, {
+      params: { branch_id: branchId, start_date: params.start_date, end_date: params.end_date },
+      responseType: 'blob'
+    });
+    return response.data;
+  }
 };
 
 export default branchApi;

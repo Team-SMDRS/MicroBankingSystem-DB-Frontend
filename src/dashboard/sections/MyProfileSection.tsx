@@ -89,7 +89,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
       setLoading(true);
       const userData = await authApi.getUserData();
       setUserDetails(userData);
-      
+
       if (activeSubTab === 'transactions') {
         const txnData = await authApi.getUserTransactions();
         setTransactions(txnData.transactions || []);
@@ -143,7 +143,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
     try {
       setLoading(true);
       const blob = await authApi.downloadTodayTransactionReport();
-      
+
       // Create a blob URL and trigger download
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -151,11 +151,11 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
       link.setAttribute('download', 'today_report.pdf');
       document.body.appendChild(link);
       link.click();
-      
+
       // Cleanup
       link.parentNode?.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
+
       setAlert({
         type: 'success',
         message: 'Report downloaded successfully'
@@ -174,7 +174,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
     try {
       setLoading(true);
       const blob = await authApi.downloadAllTransactionsReport();
-      
+
       // Create a blob URL and trigger download
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -182,11 +182,11 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
       link.setAttribute('download', 'report.pdf');
       document.body.appendChild(link);
       link.click();
-      
+
       // Cleanup
       link.parentNode?.removeChild(link);
       window.URL.revokeObjectURL(url);
-      
+
       setAlert({
         type: 'success',
         message: 'Report downloaded successfully'
@@ -203,7 +203,7 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
 
   const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!changePasswordForm.old_password || !changePasswordForm.new_password || !changePasswordForm.confirm_password) {
       setAlert({ type: 'error', message: 'All fields are required' });
       return;
@@ -334,9 +334,8 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                       <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
                         <td className="px-6 py-3 text-sm text-textSecondary font-medium">{new Date(txn.created_at).toLocaleDateString()}</td>
                         <td className="px-6 py-3 text-sm">
-                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                            txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
-                          }`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+                            }`}>
                             {txn.type}
                           </span>
                         </td>
@@ -419,12 +418,11 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                         <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
                           <td className="px-6 py-3 text-sm text-textSecondary font-medium">{new Date(txn.created_at).toLocaleTimeString()}</td>
                           <td className="px-6 py-3 text-sm">
-                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                              txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' :
-                              txn.type === 'Withdrawal' ? 'bg-red-100 text-red-700' :
-                              txn.type === 'BankTransfer-In' ? 'bg-purple-100 text-purple-700' :
-                              'bg-orange-100 text-orange-700'
-                            }`}>
+                            <span className={`px-3 py-1 rounded-full text-xs font-bold ${txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' :
+                                txn.type === 'Withdrawal' ? 'bg-red-100 text-red-700' :
+                                  txn.type === 'BankTransfer-In' ? 'bg-purple-100 text-purple-700' :
+                                    'bg-orange-100 text-orange-700'
+                              }`}>
                               {txn.type}
                             </span>
                           </td>
@@ -471,13 +469,38 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                     disabled={loading}
                   />
                 </div>
-                <div className="flex items-end">
+                <div className="flex items-end gap-2">
                   <button
                     onClick={fetchTransactionsByDateRange}
                     disabled={loading}
                     className="button-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                   >
                     {loading ? 'Loading...' : 'Search'}
+                  </button>
+                  <button
+                    onClick={async () => {
+                      try {
+                        setLoading(true);
+                        const blob = await authApi.downloadTransactionsReportByDateRange(dateRangeForm.startDate, dateRangeForm.endDate);
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', `transaction_report_${dateRangeForm.startDate}_to_${dateRangeForm.endDate}.pdf`);
+                        document.body.appendChild(link);
+                        link.click();
+                        link.parentNode?.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                        setAlert({ type: 'success', message: 'Report downloaded successfully' });
+                      } catch (error: any) {
+                        setAlert({ type: 'error', message: error.response?.data?.message || 'Failed to download report' });
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    disabled={loading}
+                    className="button-secondary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  >
+                    {loading ? 'Downloading...' : 'Download Report'}
                   </button>
                 </div>
               </div>
@@ -500,12 +523,11 @@ const MyProfileSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: str
                       <tr key={txn.transaction_id} className="border-b border-borderLight hover:bg-background transition-colors">
                         <td className="px-6 py-3 text-sm text-textSecondary font-medium">{new Date(txn.created_at).toLocaleDateString()}</td>
                         <td className="px-6 py-3 text-sm">
-                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                            txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' :
-                            txn.type === 'Withdrawal' ? 'bg-red-100 text-red-700' :
-                            txn.type === 'BankTransfer-In' ? 'bg-purple-100 text-purple-700' :
-                            'bg-orange-100 text-orange-700'
-                          }`}>
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${txn.type === 'Deposit' ? 'bg-emerald-100 text-emerald-700' :
+                              txn.type === 'Withdrawal' ? 'bg-red-100 text-red-700' :
+                                txn.type === 'BankTransfer-In' ? 'bg-purple-100 text-purple-700' :
+                                  'bg-orange-100 text-orange-700'
+                            }`}>
                             {txn.type}
                           </span>
                         </td>
