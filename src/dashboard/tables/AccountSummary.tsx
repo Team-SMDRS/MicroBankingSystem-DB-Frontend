@@ -248,7 +248,7 @@ const AccountSummary = () => {
             <FileText className="w-6 h-6 text-highlight" />
           </div>
           <div>
-            <h3 className="section-header text-primary">Account Summary</h3>
+            <h3 className="section-header text-primary">Accountwise transaction Summary</h3>
             <p className="text-sm text-textSecondary">Enter account number to view details and transactions ({startDate} - {endDate})</p>
           </div>
         </div>

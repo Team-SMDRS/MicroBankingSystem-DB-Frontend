@@ -15,7 +15,7 @@ const SummarySection = ({ activeSubTab, setActiveSubTab }: SummarySectionProps) 
   const subTabs = [
     { id: 'branch-summary', label: 'Branch Summary', icon: Building2 },
     { id: 'transaction-summary', label: 'Transaction Summary', icon: TrendingUp },
-    { id: 'account-summary', label: 'Account Summary', icon: FileText },
+    { id: 'account-summary', label: 'Accountwise Transaction Summary', icon: FileText },
     { id: 'fd-summary', label: 'Fixed Deposit Summary', icon: Banknote },
   ];
 
