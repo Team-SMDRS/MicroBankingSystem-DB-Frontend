@@ -36,7 +36,7 @@ const UsersSection = ({ activeSubTab, setActiveSubTab }: UsersSectionProps) => {
           <GenericContentCard 
             activeSubTab={activeSubTab}
             subTabs={subTabs}
-            description="View and manage"
+            description=""
           >
             {activeSubTab === 'create-user' && <CreateUserForm />}
             {activeSubTab === 'user-management' && <UserManagement />}

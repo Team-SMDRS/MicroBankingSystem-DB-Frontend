@@ -26,6 +26,8 @@ export interface FixedDeposit {
   branch_name: string;
   plan_duration: number;
   plan_interest_rate: string;
+  status: string;
+  next_interest_day: string;
 }
 
 interface OpenFixedDepositRequest {
@@ -36,6 +38,11 @@ interface OpenFixedDepositRequest {
 
 export const getFDPlans = async (): Promise<FDPlan[]> => {
   const response = await api.get('/api/fd/fd-plans');
+  return response.data;
+};
+
+export const getAllFixedDeposits = async (): Promise<FixedDeposit[]> => {
+  const response = await api.get('/api/fd/fixed-deposits');
   return response.data;
 };
 

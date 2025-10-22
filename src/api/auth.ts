@@ -171,6 +171,12 @@ export const authApi = {
       responseType: 'blob'
     });
     return response.data;
+  },
+
+  // Get user transactions history by user ID
+  getUserTransactionsByUserId: async (userId: string): Promise<any> => {
+    const response = await api.get(`/api/auth/user/transactions_history_by_user/${userId}`);
+    return response.data;
   }
 };
 

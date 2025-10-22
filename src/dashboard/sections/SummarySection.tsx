@@ -1,9 +1,10 @@
-import { Building2, TrendingUp, FileText } from 'lucide-react';
+import { Building2, TrendingUp, FileText, Banknote } from 'lucide-react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import SubTabGrid from '../../components/layout/SubTabGrid';
 import BranchSummary from '../tables/BranchSummary';
 import TransactionSummary from '../tables/TransactionSummary';
 import AccountSummary from '../tables/AccountSummary';
+import FDSummary from '../tables/FDSummary';
 
 interface SummarySectionProps {
   activeSubTab: string;
@@ -15,6 +16,7 @@ const SummarySection = ({ activeSubTab, setActiveSubTab }: SummarySectionProps) 
     { id: 'branch-summary', label: 'Branch Summary', icon: Building2 },
     { id: 'transaction-summary', label: 'Transaction Summary', icon: TrendingUp },
     { id: 'account-summary', label: 'Account Summary', icon: FileText },
+    { id: 'fd-summary', label: 'Fixed Deposit Summary', icon: Banknote },
   ];
 
   const renderContent = () => {
@@ -25,6 +27,8 @@ const SummarySection = ({ activeSubTab, setActiveSubTab }: SummarySectionProps) 
         return <TransactionSummary />;
       case 'account-summary':
         return <AccountSummary />;
+      case 'fd-summary':
+        return <FDSummary />;
       default:
         return <BranchSummary />;
     }
