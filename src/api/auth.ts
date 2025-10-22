@@ -131,7 +131,7 @@ export const authApi = {
     });
     return response.data;
   },
-  
+
   // Get user's branch information
   getUserBranch: async (userId: string): Promise<{
     user_id: string;
@@ -173,11 +173,25 @@ export const authApi = {
     return response.data;
   },
 
+
   // Get user transactions history by user ID
   getUserTransactionsByUserId: async (userId: string): Promise<any> => {
     const response = await api.get(`/api/auth/user/transactions_history_by_user/${userId}`);
     return response.data;
-  }
+  },
+
+
+    downloadTransactionsReportByDateRange: async (startDate: string, endDate: string): Promise<Blob> => {
+    const response = await api.get('/api/pdf-reports/users/daily_branch_transactions/report/pdf', {
+      params: { start_date: startDate, end_date: endDate },
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+
 };
+
+
+
 
 export default authApi;

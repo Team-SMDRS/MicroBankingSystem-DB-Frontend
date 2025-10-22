@@ -38,15 +38,15 @@ export interface TransactionHistoryParams {
   offset?: number;
 }
 
-export type TransactionType = 
-  | 'Deposit' 
-  | 'Withdrawal' 
-  | 'Interest' 
-  | 'BankTransfer' 
-  | 'BankTransfer-In' 
+export type TransactionType =
+  | 'Deposit'
+  | 'Withdrawal'
+  | 'Interest'
+  | 'BankTransfer'
+  | 'BankTransfer-In'
   | 'BankTransfer-Out'
-  | 'withdrawal' 
-  | 'deposit' 
+  | 'withdrawal'
+  | 'deposit'
   | 'transfer';
 
 export interface Transaction {
@@ -106,7 +106,7 @@ export const transactionApi = {
     return response.data;
   },
 
-  // Get all transactions report (last 30 days by default)
+  // Get all transactions report (date range can be specified via start_date/end_date)
   getAllTransactions: async (params: {
     page?: number;
     per_page?: number;
@@ -116,6 +116,23 @@ export const transactionApi = {
     end_date?: string;
   } = {}) => {
     const response = await api.get('/api/transactions/report/all-transactions', { params });
+    return response.data;
+  }
+  ,
+  // Download all transactions report as PDF (by date range)
+  downloadAllTransactionsReport: async (startDate?: string, endDate?: string): Promise<Blob> => {
+    const response = await api.get('/api/pdf-reports/users/daily_branch_transactions/report/pdf', {
+      params: { start_date: startDate, end_date: endDate },
+      responseType: 'blob'
+    });
+    return response.data;
+  },
+  // Download account-wise transaction report as PDF
+  downloadAccountwiseTransactionReport: async (accountNumber: string | number, startDate: string, endDate: string): Promise<Blob> => {
+    const response = await api.get('/api/pdf-reports/admin/accountwise_transactions_report/pdf', {
+      params: { account_number: accountNumber, start_date: startDate, end_date: endDate },
+      responseType: 'blob'
+    });
     return response.data;
   }
 };
