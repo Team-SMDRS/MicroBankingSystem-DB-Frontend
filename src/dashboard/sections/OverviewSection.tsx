@@ -1,12 +1,13 @@
 import { Building2, Users, BarChart3, Loader2, Search } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import SectionHeader from '../../components/layout/SectionHeader';
 import SubTabGrid from '../../components/layout/SubTabGrid';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { overviewApi, type BranchOverviewResponse, type CustomerOverviewResponse } from '../../api/overview';
+import { AuthContext } from '../../context/AuthContext';
 
 interface SubTab {
   id: string;
@@ -15,6 +16,9 @@ interface SubTab {
 }
 
 const OverviewSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: string; setActiveSubTab: (tab: string) => void }) => {
+  const authContext = useContext(AuthContext);
+  const userPermissions = authContext?.user?.permissions || [];
+  
   const [branchData, setBranchData] = useState<BranchOverviewResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,19 +36,35 @@ const OverviewSection = ({ activeSubTab, setActiveSubTab }: { activeSubTab: stri
   const [loadingCustomer, setLoadingCustomer] = useState(false);
   const [customerError, setCustomerError] = useState<string | null>(null);
 
-  const subTabs: SubTab[] = [
+  // Determine which tabs to show based on permissions
+  const allSubTabs: SubTab[] = [
     { id: 'my-branch', label: 'My Branch', icon: Building2 },
     { id: 'customer-overview', label: 'Enter NIC', icon: Users },
     { id: 'all-bank-system', label: 'All Bank System', icon: BarChart3 },
   ];
 
+  // Filter tabs based on permissions
+  const subTabs = allSubTabs.filter((tab) => {
+    // Only show 'my-branch' tab if user has 'manager' permission
+    if (tab.id === 'my-branch') {
+      return userPermissions.includes('manager');
+    }
+    // Only show 'all-bank-system' tab if user has 'admin' permission
+    if (tab.id === 'all-bank-system') {
+      return userPermissions.includes('admin');
+    }
+    // Show all other tabs
+    return true;
+  });
+
   useEffect(() => {
-    if (activeSubTab === 'my-branch') {
+    // Only call API if user has manager permission and tab is 'my-branch'
+    if (activeSubTab === 'my-branch' && userPermissions.includes('manager')) {
       fetchUserBranchData();
-    } else if (activeSubTab === 'all-bank-system') {
+    } else if (activeSubTab === 'all-bank-system' && userPermissions.includes('admin')) {
       fetchBranchComparison();
     }
-  }, [activeSubTab]);
+  }, [activeSubTab, userPermissions]);
 
   const fetchUserBranchData = async () => {
     try {
