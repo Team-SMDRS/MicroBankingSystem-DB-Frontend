@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Loader2, AlertCircle } from 'lucide-react';
-import { getAllFixedDeposits, type FixedDeposit } from '../../api/fd';
+import { Loader2, AlertCircle, Download } from 'lucide-react';
+import { getAllFixedDeposits, downloadFDPdfReport, type FixedDeposit } from '../../api/fd';
 
 const FDSummary = () => {
   const [fixedDeposits, setFixedDeposits] = useState<FixedDeposit[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     const fetchFixedDeposits = async () => {
@@ -41,6 +42,27 @@ const FDSummary = () => {
     return numValue.toFixed(2);
   };
 
+  const handleDownloadPDF = async () => {
+    try {
+      setDownloading(true);
+      const blob = await downloadFDPdfReport();
+      
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'fixed_deposits_report.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error downloading PDF:', err);
+      alert('Failed to download PDF report');
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -72,6 +94,19 @@ const FDSummary = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-gray-50 border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+        <p className="text-sm text-gray-600">
+          Total Fixed Deposits: <span className="font-semibold text-gray-900">{fixedDeposits.length}</span>
+        </p>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={downloading}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+        >
+          <Download className="w-4 h-4" />
+          {downloading ? 'Downloading...' : 'Download PDF'}
+        </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
@@ -103,11 +138,6 @@ const FDSummary = () => {
             ))}
           </tbody>
         </table>
-      </div>
-      <div className="bg-gray-50 border-t border-gray-200 px-6 py-3">
-        <p className="text-sm text-gray-600">
-          Total Fixed Deposits: <span className="font-semibold text-gray-900">{fixedDeposits.length}</span>
-        </p>
       </div>
     </div>
   );

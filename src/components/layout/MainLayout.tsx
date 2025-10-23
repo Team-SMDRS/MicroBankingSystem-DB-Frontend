@@ -9,10 +9,11 @@ interface MainLayoutProps {
   activeMainTab: MainTab;
   onMainTabChange: (tabId: MainTab) => void;
   onLogout: () => void;
+  userPermissions?: string[];
 }
 
-const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }: MainLayoutProps) => {
-  const mainTabs = [
+const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout, userPermissions = [] }: MainLayoutProps) => {
+  const allMainTabs = [
     { id: 'overview' as MainTab, label: 'Overview', icon: LayoutDashboard },
     { id: 'transactions' as MainTab, label: 'Transactions', icon: ArrowLeftRight },
     { id: 'summary' as MainTab, label: 'Summary', icon: LayoutDashboard },
@@ -24,6 +25,24 @@ const MainLayout = ({ children, user, activeMainTab, onMainTabChange, onLogout }
     { id: 'branches' as MainTab, label: 'Branch Management', icon: Building2 },
     { id: 'savings-plans' as MainTab, label: 'Savings Plans', icon: PiggyBank },
   ];
+
+  // Filter tabs based on permissions
+  const mainTabs = allMainTabs.filter((tab) => {
+    // Only show 'users' tab if user has 'admin' permission
+    if (tab.id === 'users') {
+      return userPermissions.includes('admin');
+    }
+    // Only show 'savings-plans' tab if user has 'admin' permission
+    if (tab.id === 'savings-plans') {
+      return userPermissions.includes('admin');
+    }
+    // Only show 'branches' tab if user has 'admin' permission
+    if (tab.id === 'branches') {
+      return userPermissions.includes('admin');
+    }
+    // Show all other tabs
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-background flex animate-fade-in">

@@ -93,6 +93,7 @@ const Dashboard = () => {
         return <FixedDepositSection />;
       default:
         return <TransactionSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
+
     }
   };
 
