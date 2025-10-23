@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../features/auth/Login";
 import Register from "../features/auth/Register";
+import ForgotPassword from "../features/auth/ForgotPassword";
 import Dashboard from "../dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 
@@ -9,6 +10,7 @@ const AppRoutes = () => (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
 
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<Dashboard />} />

@@ -1,50 +1,46 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { useAuth } from "./useAuth";
-import api from "../../api/axios";
+import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/logo1.png";
+import axios from "axios";
 
-const Login = () => {
+const ForgotPassword = () => {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
+    setSuccess("");
 
     try {
-      const response = await api.post(
-        "api/auth/login",
-        { username, password },
-        { withCredentials: true } // allows storing HttpOnly cookie
+      // Send data to the API
+      await axios.post(
+        "https://api.sangeethnipun.cf/send-email",
+        {
+          to: "NOne",
+          subject: "None",
+          message: `${email}, ${username}`,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
-      const data = response.data;
-
-      // extract user and access token
-      const user = {
-        id: data.user.user_id,
-        username: data.user.username,
-        permissions: data.permissions,
-      };
-      const accessToken = data.access_token;
-
-      // store in React context; refresh token is handled by cookie
-      login(user, accessToken);
-
-      // Debug: Check if cookies are set
-      console.log("Cookies after login:", document.cookie);
-      console.log("Login response headers:", response.headers);
-
-      navigate("/"); // redirect to dashboard
+      setSuccess("Password reset instructions have been sent to your email!");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (err: any) {
-      setError(err.response?.data?.message || err.message || "Login failed");
+      setError(
+        err.response?.data?.message || err.message || "Failed to send reset email"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -53,7 +49,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-white to-tertiary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Login Card */}
+        {/* Forgot Password Card */}
         <div className="bg-white rounded-2xl shadow-xl border border-borderLight p-8 animate-slide-in-up">
           {/* Logo and Branding Section */}
           <div className="flex flex-col items-center mb-8">
@@ -61,15 +57,16 @@ const Login = () => {
               <img src={logo} alt="MicroBank Logo" className="h-20 w-20 object-contain" />
             </div>
             <h1 className="text-4xl font-bold text-primary text-center mb-2">MicroBank</h1>
-            <p className="text-textSecondary text-center text-sm font-medium mb-1">Professional Banking Solution</p>
-            <p className="text-highlight font-semibold text-xs tracking-wider text-center">Smart Banking, Built on Trust.</p>
+            <p className="text-textSecondary text-center text-sm font-medium mb-1">Reset Your Password</p>
           </div>
 
           {/* Divider */}
           <div className="h-0.5 bg-gradient-to-r from-transparent via-borderLight to-transparent mb-6"></div>
 
-          {/* Welcome Message */}
-          <p className="text-center text-primary font-semibold text-lg mb-6">Welcome</p>
+          {/* Info Message */}
+          <p className="text-center text-textSecondary text-sm mb-6">
+            Enter your username and email address to receive password reset instructions.
+          </p>
 
           {/* Error Message */}
           {error && (
@@ -77,6 +74,16 @@ const Login = () => {
               <div className="flex items-start gap-2">
                 <span className="text-lg">⚠️</span>
                 <p className="font-medium">{error}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {success && (
+            <div className="bg-green-50 border-2 border-green-200 text-green-700 px-4 py-3 rounded-xl mb-6 animate-slide-down">
+              <div className="flex items-start gap-2">
+                <span className="text-lg">✓</span>
+                <p className="font-medium">{success}</p>
               </div>
             </div>
           )}
@@ -99,24 +106,24 @@ const Login = () => {
               />
             </div>
 
-            {/* Password Input */}
+            {/* Email Input */}
             <div>
               <label className="label-text flex items-center gap-2">
-                <span>🔐</span>
-                Password
+                <span>📧</span>
+                Email Address
               </label>
               <input
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="email"
+                placeholder="Enter your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="input-field w-full transition-all duration-300 focus:ring-2 focus:ring-highlight"
                 required
                 disabled={isLoading}
               />
             </div>
 
-            {/* Login Button */}
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
@@ -128,35 +135,24 @@ const Login = () => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Signing In...
+                  Sending...
                 </>
               ) : (
                 <>
-                  <span className="mr-2">Sign In</span>
-                  <span>→</span>
+                  <span>Send Reset Instructions</span>
                 </>
               )}
             </button>
-
-            {/* Forgot Password Link */}
-            <div className="mt-4 text-center">
-              <Link to="/forgot-password" className="text-sm text-primary hover:text-highlight font-medium transition-colors duration-200">
-                Forgot Password?
-              </Link>
-            </div>
           </form>
 
-          {/* Security Info */}
-          <div className="mt-6 pt-6 border-t border-borderLight">
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="text-lg">🔒</span>
-              <p className="text-center text-xs text-textSecondary font-medium">
-                Secure Banking Portal
-              </p>
-            </div>
-            {/* <p className="text-center text-highlight font-semibold text-sm tracking-wide italic">
-              "Smart Banking, Built on Trust."
-            </p> */}
+          {/* Back to Login Link */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-textSecondary">
+              Remember your password?{" "}
+              <Link to="/login" className="text-primary hover:text-highlight font-medium transition-colors duration-200">
+                Back to Login
+              </Link>
+            </p>
           </div>
 
           {/* Footer Info */}
@@ -164,21 +160,11 @@ const Login = () => {
             <p className="text-center text-xs text-textSecondary">
               Powered by <span className="font-semibold text-primary">Team SMDRS</span>
             </p>
-            <p className="text-center text-xs text-tertiary mt-1">
-              Industry-standard encryption • 24/7 Security
-            </p>
           </div>
         </div>
-
-        {/* Security Notice Below Form
-        <div className="mt-6 text-center">
-          <p className="text-white text-sm font-medium opacity-90">
-            �️ Your credentials are encrypted with industry-standard SSL/TLS security
-          </p>
-        </div> */}
       </div>
     </div>
   );
 };
 
-export default Login;
+export default ForgotPassword;
