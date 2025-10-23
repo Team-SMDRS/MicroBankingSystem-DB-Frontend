@@ -78,3 +78,10 @@ export const closeFixedDeposit = async (fdAccountNo: string): Promise<CloseFDRes
   const response = await api.post(`/api/fd/close-fixed-deposit/${fdAccountNo}`);
   return response.data;
 };
+
+export const downloadFDPdfReport = async (): Promise<Blob> => {
+  const response = await api.get('/api/pdf-reports/admin/list_active_fd_with_next_payment_date/pdf', {
+    responseType: 'blob',
+  });
+  return response.data;
+};

@@ -1,8 +1,7 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useAuth } from "../features/auth/useAuth";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
-import { AuthContext } from "../context/AuthContext";
 import TransactionSection from "./sections/TransactionSection";
 import SummarySection from "./sections/SummarySection";
 import AccountsSection from "./sections/AccountsSection";
@@ -24,8 +23,6 @@ const Dashboard = () => {
   const [activeSubTab, setActiveSubTab] = useState<string>('bank-transfer');
   const { logout, user } = useAuth();
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
-  const userPermissions = authContext?.user?.permissions || [];
 
   const handleLogout = async () => {
     try {
@@ -68,31 +65,20 @@ const Dashboard = () => {
       case 'create-account':
         return <CreateAccountSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'users':
-        // Only show users if user has 'admin' permission
-        if (userPermissions.includes('admin')) {
-          return <UsersSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
-        }
-        return <div className="p-8 text-center text-slate-600">You do not have permission to access this section.</div>;
+        return <UsersSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'customer-details':
         return <CustomerDetailsSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'branches':
-        // Only show branches if user has 'admin' permission
-        if (userPermissions.includes('admin')) {
-          return <BranchSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
-        }
-        return <div className="p-8 text-center text-slate-600">You do not have permission to access this section.</div>;
+        return <BranchSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'savings-plans':
-        // Only show savings-plans if user has 'admin' permission
-        if (userPermissions.includes('admin')) {
-          return <SavingsPlansSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
-        }
-        return <div className="p-8 text-center text-slate-600">You do not have permission to access this section.</div>;
+        return <SavingsPlansSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'my-profile':
         return <MyProfileSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
       case 'fixed-deposits':
         return <FixedDepositSection />;
       default:
         return <TransactionSection activeSubTab={activeSubTab} setActiveSubTab={setActiveSubTab} />;
+
     }
   };
 
@@ -102,7 +88,6 @@ const Dashboard = () => {
       activeMainTab={activeMainTab}
       onMainTabChange={handleMainTabChange}
       onLogout={handleLogout}
-      userPermissions={userPermissions}
     >
       {renderContent()}
     </MainLayout>
