@@ -20,10 +20,16 @@ const BranchSummary = () => {
   const [branchId, setBranchId] = useState('');
   const [branchDetails, setBranchDetails] = useState<BranchDetails | null>(null);
   const [branchReport, setBranchReport] = useState<BranchTransactionReport | null>(null);
+  const [startDate, setStartDate] = useState(() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 30);
+    return d.toISOString().slice(0, 10);
+  });
+  const [endDate, setEndDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [loading, setLoading] = useState(false);
   const [loadingBranches, setLoadingBranches] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Modal state for transaction details
   const [selectedAccount, setSelectedAccount] = useState<{
     acc_id: string;
@@ -61,30 +67,17 @@ const BranchSummary = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       // Fetch branch details
       const details = await branchApi.getById(branchId);
       setBranchDetails(details);
-      
-      // Calculate date 30 days ago
-      const endDate = new Date();
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - 30);
-      
-      // Format dates as YYYY-MM-DD (local timezone)
-      const formatDate = (date: Date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      };
-      
-      // Fetch branch transaction report for last 30 days
+
+      // Fetch branch transaction report for selected date range
       const report = await branchApi.getBranchTransactionReport(branchId, {
-        start_date: formatDate(startDate),
-        end_date: formatDate(endDate)
+        start_date: startDate,
+        end_date: endDate
       });
-      
+
       setBranchReport(report);
     } catch (err: any) {
       console.error('Error fetching branch data:', err);
@@ -121,28 +114,15 @@ const BranchSummary = () => {
     try {
       setLoadingTransactions(true);
       setSelectedAccount({ acc_id: accId, acc_holder_name: accHolderName });
-      
-      // Calculate date 30 days ago
-      const endDate = new Date();
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - 30);
-      
-      // Format dates as YYYY-MM-DD (local timezone)
-      const formatDateStr = (date: Date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-      };
-      
-      // Fetch transactions for the account
+
+      // Fetch transactions for the account within the selected date range
       const response = await transactionApi.getAllTransactions({
         acc_id: accId,
-        start_date: formatDateStr(startDate),
-        end_date: formatDateStr(endDate),
+        start_date: startDate,
+        end_date: endDate,
         per_page: 100
       });
-      
+
       setAccountTransactions(response.transactions || []);
     } catch (err: any) {
       console.error('Error fetching account transactions:', err);
@@ -158,6 +138,90 @@ const BranchSummary = () => {
     setAccountTransactions([]);
   };
 
+  const handleDownloadBranchReport = async () => {
+    if (!branchDetails) {
+      setError('No branch selected');
+      return;
+    }
+    try {
+      setLoading(true);
+      const blob = await branchApi.downloadBranchTransactionReport(branchDetails.branch_id, { start_date: startDate, end_date: endDate });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `branch_${branchDetails.branch_id}_${startDate}_to_${endDate}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err: any) {
+      console.error('Download error', err);
+      // If backend PDF endpoint is not available (404), fallback to opening a printable HTML report
+      const status = err?.response?.status;
+      if (status === 404) {
+        if (!branchReport) {
+          setError('No branch report data available to generate printable report');
+        } else {
+          const html = `
+            <html>
+              <head>
+                <title>Branch Report - ${branchDetails.branch_name}</title>
+                <style>
+                  body { font-family: Arial, Helvetica, sans-serif; padding: 20px; color: #111; }
+                  h1,h2,h3 { margin: 0 0 8px 0 }
+                  table { width: 100%; border-collapse: collapse; margin-top: 16px }
+                  th,td { border: 1px solid #ddd; padding: 8px; text-align: left }
+                  th { background: #f3f4f6; }
+                </style>
+              </head>
+              <body>
+                <h1>Branch Report</h1>
+                <h3>${branchDetails.branch_name} (${branchDetails.branch_id})</h3>
+                <p>${branchReport.date_range.start_date} to ${branchReport.date_range.end_date}</p>
+                <h2>Summary</h2>
+                <ul>
+                  <li>Total Deposits: ${formatAmount(branchReport.total_deposits)}</li>
+                  <li>Total Withdrawals: ${formatAmount(branchReport.total_withdrawals)}</li>
+                  <li>Total Transfers: ${formatAmount(branchReport.total_transfers)}</li>
+                  <li>Transaction Count: ${branchReport.transaction_count}</li>
+                  <li>Net Amount: ${formatAmount(branchReport.net_amount)}</li>
+                </ul>
+                ${branchReport.all_accounts && branchReport.all_accounts.length > 0 ? `
+                  <h2>Accounts</h2>
+                  <table>
+                    <thead><tr><th>Account ID</th><th>Holder</th><th>Transactions</th><th>Total Volume</th></tr></thead>
+                    <tbody>
+                      ${branchReport.all_accounts.map(a => `
+                        <tr>
+                          <td>${a.acc_id}</td>
+                          <td>${a.acc_holder_name || ''}</td>
+                          <td>${a.transaction_count}</td>
+                          <td>${formatAmount(a.total_volume)}</td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                ` : ''}
+              </body>
+            </html>
+          `;
+          const w = window.open('', '_blank');
+          if (w) {
+            w.document.write(html);
+            w.document.close();
+            setTimeout(() => w.print(), 500);
+          } else {
+            setError('Unable to open printable report (popup blocked)');
+          }
+        }
+      } else {
+        setError(err.response?.data?.message || 'Failed to download branch report');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Search Section */}
@@ -168,7 +232,7 @@ const BranchSummary = () => {
           </div>
           <div>
             <h3 className="section-header text-primary">Branch Summary</h3>
-            <p className="text-sm text-textSecondary">Select a branch to view transaction statistics (Last 30 Days)</p>
+            <p className="text-sm text-textSecondary">Select a branch to view transaction statistics ({startDate} - {endDate})</p>
           </div>
         </div>
 
@@ -186,7 +250,7 @@ const BranchSummary = () => {
                   value={branchId}
                   onChange={(e) => setBranchId(e.target.value)}
                   className="w-full input-field text-base font-medium"
-                  style={{ 
+                  style={{
                     color: '#001F5B',
                     backgroundColor: '#fff',
                     fontSize: '16px',
@@ -197,8 +261,8 @@ const BranchSummary = () => {
                     -- Select a branch --
                   </option>
                   {branches.map((branch) => (
-                    <option 
-                      key={branch.branch_id} 
+                    <option
+                      key={branch.branch_id}
                       value={branch.branch_id}
                       style={{ color: '#001F5B', backgroundColor: '#fff', fontSize: '16px', fontWeight: '500', padding: '10px' }}
                     >
@@ -208,6 +272,15 @@ const BranchSummary = () => {
                 </select>
               )}
             </div>
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-textSecondary">From</label>
+              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="input-field" />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-textSecondary">To</label>
+              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="input-field" />
+            </div>
+
             <button
               onClick={handleSearch}
               disabled={loading || !branchId}
@@ -287,6 +360,7 @@ const BranchSummary = () => {
       {/* Transaction Statistics Section */}
       {branchReport && (
         <>
+          {/* Download button moved to the All Active Accounts header */}
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Total Deposits Card */}
@@ -355,21 +429,18 @@ const BranchSummary = () => {
           </div>
 
           {/* Net Amount Card */}
-          <div className={`rounded-2xl shadow-md border p-6 ${
-            (branchReport.net_amount ?? 0) >= 0 
-              ? 'bg-gradient-to-br from-emerald-50 to-emerald-100/50 border-emerald-200' 
-              : 'bg-gradient-to-br from-red-50 to-red-100/50 border-red-200'
-          }`}>
+          <div className={`rounded-2xl shadow-md border p-6 ${(branchReport.net_amount ?? 0) >= 0
+            ? 'bg-gradient-to-br from-emerald-50 to-emerald-100/50 border-emerald-200'
+            : 'bg-gradient-to-br from-red-50 to-red-100/50 border-red-200'
+            }`}>
             <div className="flex items-center justify-between">
               <div>
-                <p className={`text-sm font-bold mb-2 uppercase ${
-                  (branchReport.net_amount ?? 0) >= 0 ? 'text-emerald-700' : 'text-red-700'
-                }`}>
-                  Net Amount (Last 30 Days)
+                <p className={`text-sm font-bold mb-2 uppercase ${(branchReport.net_amount ?? 0) >= 0 ? 'text-emerald-700' : 'text-red-700'
+                  }`}>
+                  Net Amount ({branchReport.date_range.start_date} - {branchReport.date_range.end_date})
                 </p>
-                <p className={`text-3xl font-bold ${
-                  (branchReport.net_amount ?? 0) >= 0 ? 'text-emerald-900' : 'text-red-900'
-                }`}>
+                <p className={`text-3xl font-bold ${(branchReport.net_amount ?? 0) >= 0 ? 'text-emerald-900' : 'text-red-900'
+                  }`}>
                   {branchReport.net_amount !== null && branchReport.net_amount !== undefined && !isNaN(branchReport.net_amount)
                     ? formatAmount(branchReport.net_amount)
                     : formatAmount(0)
@@ -379,9 +450,8 @@ const BranchSummary = () => {
                   {branchReport.date_range.start_date} to {branchReport.date_range.end_date}
                 </p>
               </div>
-              <div className={`w-16 h-16 rounded-xl flex items-center justify-center ${
-                (branchReport.net_amount ?? 0) >= 0 ? 'bg-emerald-500' : 'bg-red-500'
-              }`}>
+              <div className={`w-16 h-16 rounded-xl flex items-center justify-center ${(branchReport.net_amount ?? 0) >= 0 ? 'bg-emerald-500' : 'bg-red-500'
+                }`}>
                 {(branchReport.net_amount ?? 0) >= 0 ? (
                   <TrendingUp className="w-8 h-8 text-white" />
                 ) : (
@@ -394,9 +464,16 @@ const BranchSummary = () => {
           {/* Top Accounts Section */}
           {branchReport.all_accounts && branchReport.all_accounts.length > 0 && (
             <div className="bg-white rounded-2xl shadow-md border border-borderLight overflow-hidden animate-slide-in-right">
-              <div className="p-6 border-b border-borderLight bg-gradient-to-r from-background to-white">
-                <h3 className="text-xl font-bold text-primary">All Active Accounts</h3>
-                <p className="text-sm text-textSecondary">All active accounts in this branch (Last 30 Days)</p>
+              <div className="p-6 border-b border-borderLight bg-gradient-to-r from-background to-white flex items-start justify-between">
+                <div>
+                  <h3 className="text-xl font-bold text-primary">All Active Accounts</h3>
+                  <p className="text-sm text-textSecondary">All active accounts in this branch ({branchReport.date_range.start_date} - {branchReport.date_range.end_date})</p>
+                </div>
+                <div>
+                  <button onClick={handleDownloadBranchReport} className="button-secondary">
+                    Download Report
+                  </button>
+                </div>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -470,7 +547,7 @@ const BranchSummary = () => {
                 </div>
               ) : accountTransactions.length === 0 ? (
                 <div className="flex items-center justify-center p-12 text-textSecondary font-medium">
-                  <p>No transactions found for this account in the last 30 days</p>
+                  <p>No transactions found for this account in the selected date range</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -521,19 +598,17 @@ const BranchSummary = () => {
                               {formatDate(transaction.created_at)}
                             </td>
                             <td className="px-4 py-3">
-                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-bold ${
-                                transaction.type === 'Deposit' 
-                                  ? 'bg-emerald-100 text-emerald-700' 
-                                  : transaction.type === 'Withdrawal'
+                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-bold ${transaction.type === 'Deposit'
+                                ? 'bg-emerald-100 text-emerald-700'
+                                : transaction.type === 'Withdrawal'
                                   ? 'bg-red-100 text-red-700'
                                   : 'bg-blue-100 text-blue-700'
-                              }`}>
+                                }`}>
                                 {transaction.type}
                               </span>
                             </td>
-                            <td className={`px-4 py-3 text-xs font-bold ${
-                              ['Deposit', 'Interest', 'BankTransfer-In'].includes(transaction.type) ? 'text-emerald-600' : 'text-red-600'
-                            }`}>
+                            <td className={`px-4 py-3 text-xs font-bold ${['Deposit', 'Interest', 'BankTransfer-In'].includes(transaction.type) ? 'text-emerald-600' : 'text-red-600'
+                              }`}>
                               {['Deposit', 'Interest', 'BankTransfer-In'].includes(transaction.type) ? '+' : '-'}
                               {formatAmount(transaction.amount)}
                             </td>
